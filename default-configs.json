@@ -1,0 +1,193 @@
+{
+  "config": {
+    "assets": [
+      {
+        "assetName": "Wrapped Bitcoin",
+        "assetSymbol": "WBTC",
+        "pairName": "WBTC/USDC",
+        "proxyAddress": "0xa6B2F52b35785F82875A547e8E70F86D05f02400"
+      },
+      {
+        "assetName": "Mock API3",
+        "assetSymbol": "API3",
+        "pairName": "API3/USDC",
+        "proxyAddress": "0xB83AB4ab91914bc240585265DeC559299971f331"
+      }
+    ],
+    "EthUsdProxyAddress": "0xa5FCEcf0B99777B04E8054845d5fEFEa95CeCE9d",
+    "UsdcUsdProxyAddress": "0x995364F8AC1D76abbd48f346B4E17f1537D32B37",
+    "network": {
+      "chainId": 11155111,
+      "name": "Sepolia",
+      "rpc": "https://rpc2.sepolia.org"
+    }
+  },
+  "deployed-contracts": {
+    "LendingPoolAddressesProviderRegistry": {
+      "sepolia": {
+        "address": "0x9613eAc9Ff66456D0fe7231A1d7a8399c1be6528",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "LendingPoolAddressesProvider": {
+      "sepolia": {
+        "address": "0xCAE3C70d7B966cC009954D71F228795f471A6d4f",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "ReserveLogic": {
+      "sepolia": {
+        "address": "0x20329C299070A2a2Ff6945Bd867B2638DD72D004",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "GenericLogic": {
+      "sepolia": {
+        "address": "0x61011C20512d8465C7F611a2C7D60EA96294e7E1",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "ValidationLogic": {
+      "sepolia": {
+        "address": "0x9afb3dB9A448Aaa86bd14C375F2957FF1B02Df1F",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "LendingPoolImpl": {
+      "sepolia": {
+        "address": "0x2D630A0b40457E1274a9BFEc7079EFdf375A14b6"
+      }
+    },
+    "LendingPool": {
+      "sepolia": {
+        "address": "0x733078f41A94Ca7d3659E494935Da7937EC96F02"
+      }
+    },
+    "LendingPoolConfiguratorImpl": {
+      "sepolia": {
+        "address": "0x277F1B7710b203C51675dFFA437B1E801b46Ed88"
+      }
+    },
+    "LendingPoolConfigurator": {
+      "sepolia": {
+        "address": "0x35375eD6d8bcf17CA8A38b23B085A4Fd06176a5b"
+      }
+    },
+    "StableAndVariableTokensHelper": {
+      "sepolia": {
+        "address": "0xCD3eC80EdcAAF1c3e7a350852AEB6eCF7DaD803D",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "ATokensAndRatesHelper": {
+      "sepolia": {
+        "address": "0x4DE24Ba2126B0C18A1c5c88F5Cb563414436841a",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "AToken": {
+      "sepolia": {
+        "address": "0xFEb6bd1F233400bb385c05aD4b4e1B12C9A44B2c",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "DelegationAwareAToken": {
+      "sepolia": {
+        "address": "0x4f7589C0bF654921970b2114D67e526452452bCf",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "StableDebtToken": {
+      "sepolia": {
+        "address": "0x98d946Ad5BC0aE8bB3aFe8d2188d8375C72EB26e",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "VariableDebtToken": {
+      "sepolia": {
+        "address": "0xd8ac4bdaA3b5798d718A9199E6A4319F14aaB9D4",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "AaveOracle": {
+      "sepolia": {
+        "address": "0x910B73787c26D10bbc5ac5171BfA6846c57BEA00",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "LendingRateOracle": {
+      "sepolia": {
+        "address": "0x4Bb05434cBA976d8eCA751fab7Bf942dE46781e4",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "AaveProtocolDataProvider": {
+      "sepolia": {
+        "address": "0x44048c9C70792c06993ADd1F4363516FEDdD7776",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "WETHMocked": {
+      "sepolia": {
+        "address": "0x87599EF69f1CB9E52dA8d3B93201cE66D78C35ac",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "WETHGateway": {
+      "sepolia": {
+        "address": "0xB80722598cA9b5d9b817DF3B3503a62Ea4Ad2743",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "DefaultReserveInterestRateStrategy": {
+      "sepolia": {
+        "address": "0x459acddb3B145A0774c5D05dD41bA1a959F7b9d0",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "rateStrategyStableThree": {
+      "sepolia": {
+        "address": "0x727c849065E692B341d9608d0e9549325A9e8a89"
+      }
+    },
+    "rateStrategyVolatileTwo": {
+      "sepolia": {
+        "address": "0x459acddb3B145A0774c5D05dD41bA1a959F7b9d0"
+      }
+    },
+    "rateStrategyWETH": {
+      "sepolia": {
+        "address": "0x39ee5D73869677541300581b0a19E65C87eC0dC0"
+      }
+    },
+    "LendingPoolCollateralManagerImpl": {
+      "sepolia": {
+        "address": "0x81C7111976134D4Bc89328Da680e3E7AfE1eAbE1"
+      }
+    },
+    "LendingPoolCollateralManager": {
+      "sepolia": {
+        "address": "0x81C7111976134D4Bc89328Da680e3E7AfE1eAbE1",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "WalletBalanceProvider": {
+      "sepolia": {
+        "address": "0xEe90fdF4642f94c2f53ED7c1E9B24E59263c80D9",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "UiPoolDataProvider": {
+      "sepolia": {
+        "address": "0x3879CE700DD33Bf226D444f7c2Bcc34C15DB4A91",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    },
+    "UiIncentiveDataProviderV2V3": {
+      "sepolia": {
+        "address": "0xbdb73508EE5472Fbc83E7dC6b0675D7F1674a28b",
+        "deployer": "0x8BD0e959E9a7273D465ac74d427Ecc8AAaCa55D8"
+      }
+    }
+  }
+}

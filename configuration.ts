@@ -1,16 +1,26 @@
-import { MarketDataType } from "src/ui-config/marketsConfig";
-import deployedContracts from "../deployed-contracts.json";
-import config from "../deploy-adaptors/config.json";
+import defaultConfig from "default-configs.json";
+
 import { zeroAddress } from "viem";
+import { existsSync, readFileSync } from "fs";
 
 export const populateChainsToConfiure = () => {
   try {
-    // const config = deployedContracts;
-    const configuredChains = config.network.name;
+    let chainId;
 
-    console.log({ configuredChains });
+    if (existsSync("generated-config/config.json")) {
+      console.log("using cli chains");
+      // read config from cli
+      const configRaw = readFileSync("generated-config/config.json", "utf-8");
+      const config = JSON.parse(configRaw);
+      chainId = config.network.chainId;
+    } else {
+      console.log("using default chains");
+      chainId = defaultConfig.config.network.chainId;
+    }
 
-    return [configuredChains];
+    console.log({ chainId });
+
+    return [chainId];
   } catch (error) {
     console.log("Failed to read deploye contracts file", error);
     return [];
@@ -18,21 +28,33 @@ export const populateChainsToConfiure = () => {
 };
 
 export const populateMarket = () => {
-  const configuredChains = populateChainsToConfiure();
+  let contracts;
 
-  const config = deployedContracts;
+  if (existsSync("generated-config/deployed-contracts.json")) {
+    console.log("using cli contracts");
 
-  const chain: string = configuredChains[0];
+    // read config from cli
+    const raw = readFileSync(
+      "generated-config/deployed-contracts.json",
+      "utf-8",
+    );
+    contracts = JSON.parse(raw);
+    // chainId = config.network.chainId;
+  } else {
+    console.log("using default contracts");
+    contracts = defaultConfig["deployed-contracts"];
+  }
+
   const market = {
     POOL_ADDRESSES_PROVIDER:
-      config.LendingPoolAddressesProvider.sepolia.address,
-    POOL: config.LendingPool.sepolia.address,
-    WETH_GATEWAY: config.WETHGateway.sepolia.address,
+      contracts.LendingPoolAddressesProvider.sepolia.address,
+    POOL: contracts.LendingPool.sepolia.address,
+    WETH_GATEWAY: contracts.WETHGateway.sepolia.address,
     FAUCET: zeroAddress,
-    WALLET_BALANCE_PROVIDER: config.WalletBalanceProvider.sepolia.address,
-    UI_POOL_DATA_PROVIDER: config.UiPoolDataProvider.sepolia.address,
+    WALLET_BALANCE_PROVIDER: contracts.WalletBalanceProvider.sepolia.address,
+    UI_POOL_DATA_PROVIDER: contracts.UiPoolDataProvider.sepolia.address,
     UI_INCENTIVE_DATA_PROVIDER:
-      config.UiIncentiveDataProviderV2V3.sepolia.address,
+      contracts.UiIncentiveDataProviderV2V3.sepolia.address,
   };
 
   return market;

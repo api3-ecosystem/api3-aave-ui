@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { sepolia } from "wagmi/chains";
 
 import { publicProvider } from "wagmi/providers/public";
 
@@ -16,11 +15,11 @@ import { populateChainsToConfiure } from "configuration";
 import { AllChains } from "./chains";
 
 const populateWagmiChains = () => {
-  const chainNames: string[] = populateChainsToConfiure();
+  const chainIds: number[] = populateChainsToConfiure();
 
-  console.log(chainNames);
+  console.log(chainIds);
   const filteredChainConfigs = AllChains.filter((el) =>
-    chainNames.includes(el.name.toLowerCase()),
+    chainIds.includes(el.id),
   );
   console.log({ filteredChainConfigs });
   return filteredChainConfigs;
