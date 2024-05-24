@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Ether",
+    "ticker": "ETH",
+    "contractAddress": "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+    "oraclePrice": 1800,
+
+    "utilisation": 80.5,
+    "supplied": "3.5M",
+    "netSupplyApr": 2.3,
+    "borrowed": "3.52M",
+    "netBorrowApr": 3.4,
+    "availableLiquidity": "2.72M",
+    "reserveSize": "5.02M"
+  },
+  {
+    "name": "USD Coin",
+    "ticker": "USDC",
+    "contractAddress": "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    "oraclePrice": 1,
+
+    "utilisation": 80.5,
+    "supplied": "3.5M",
+    "netSupplyApr": 2.3,
+    "borrowed": "3.52M",
+    "netBorrowApr": 3.4,
+    "availableLiquidity": "2.72M",
+    "reserveSize": "5.02M"
+  },
+  {
+    "name": "Polygon",
+    "ticker": "POL",
+    "contractAddress": "0xa2036f0538221a77a3937f1379699f44945018d0",
+    "oraclePrice": 0.42,
+
+    "utilisation": 80.5,
+    "supplied": "3.5M",
+    "netSupplyApr": 2.3,
+    "borrowed": "3.52M",
+    "netBorrowApr": 3.4,
+    "availableLiquidity": "2.72M",
+    "reserveSize": "5.02M"
+  },
+  {
+    "name": "Dovish",
+    "ticker": "DOV",
+    "contractAddress": "0x696c0bA235444607A1c4b93E6b34Ba14928c1B60",
+    "oraclePrice": 0.04,
+
+    "utilisation": 80.5,
+    "supplied": "3.5M",
+    "netSupplyApr": 2.3,
+    "borrowed": "3.52M",
+    "netBorrowApr": 3.4,
+    "availableLiquidity": "2.72M",
+    "reserveSize": "5.02M"
+  }
+]
