@@ -42,14 +42,14 @@ export const populateMarket = () => {
 
   const market = {
     POOL_ADDRESSES_PROVIDER:
-      contracts.LendingPoolAddressesProvider.sepolia.address,
-    POOL: contracts.LendingPool.sepolia.address,
-    WETH_GATEWAY: contracts.WETHGateway.sepolia.address,
+      contracts?.LendingPoolAddressesProvider?.custom?.address,
+    POOL: contracts?.LendingPool?.custom?.address,
+    WETH_GATEWAY: contracts?.WETHGateway?.custom?.address,
     FAUCET: zeroAddress,
-    WALLET_BALANCE_PROVIDER: contracts.WalletBalanceProvider.sepolia.address,
-    UI_POOL_DATA_PROVIDER: contracts.UiPoolDataProvider.sepolia.address,
+    WALLET_BALANCE_PROVIDER: contracts?.WalletBalanceProvider?.custom?.address,
+    UI_POOL_DATA_PROVIDER: contracts?.UiPoolDataProvider?.custom?.address,
     UI_INCENTIVE_DATA_PROVIDER:
-      contracts.UiIncentiveDataProviderV2V3.sepolia.address,
+      contracts?.UiIncentiveDataProviderV2V3?.custom?.address,
   };
 
   return market;
