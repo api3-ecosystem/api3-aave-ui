@@ -4,25 +4,29 @@ import { zeroAddress } from "viem";
 
 const deploymentConfig: any = config;
 
-export const populateChainsToConfiure = () => {
+export const populateChainConfigs = () => {
   try {
-    let chainId;
+    let config: any = {};
 
     if (!deploymentConfig?.generated?.config) {
       console.log("using default chains");
-      chainId = deploymentConfig.default.config.network.chainId;
+      config.chainId = deploymentConfig.default.config.network.chainId;
+      config.name = deploymentConfig.default.config.network.name;
+      config.rpc = deploymentConfig.default.config.network.rpc;
     } else {
       console.log("using generated chains");
-      // read config from cli
-      chainId = deploymentConfig.generated.config.network.chainId;
+      // read generated configs
+      config.chainId = deploymentConfig.generated.config.network.chainId;
+      config.name = deploymentConfig.generated.config.network.name;
+      config.rpc = deploymentConfig.generated.config.network.rpc;
     }
 
-    console.log({ chainId });
+    console.log({ config });
 
-    return [chainId];
+    return config;
   } catch (error) {
     console.log("Failed to read deploye contracts file", error);
-    return [];
+    return {};
   }
 };
 

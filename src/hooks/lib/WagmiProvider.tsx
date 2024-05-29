@@ -11,18 +11,35 @@ import {
   RainbowKitProvider,
   darkTheme,
 } from "@rainbow-me/rainbowkit";
-import { populateChainsToConfiure } from "configuration";
-import { AllChains } from "./chains";
+import { populateChainConfigs } from "configuration";
 
 const populateWagmiChains = () => {
-  const chainIds: number[] = populateChainsToConfiure();
+  const config: any = populateChainConfigs();
 
-  console.log(chainIds);
-  const filteredChainConfigs = AllChains.filter((el) =>
-    chainIds.includes(el.id),
-  );
-  console.log({ filteredChainConfigs });
-  return filteredChainConfigs;
+  const chainConfig: any = {
+    /** ID in number form */
+    id: config.chainId,
+    /** Human-readable name */
+    name: config.name,
+    /** Internal network name */
+    // network: "auroratest",
+    /** Currency used by chain */
+    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+    /** Collection of RPC endpoints */
+    rpcUrls: {
+      default: {
+        http: config.rpc,
+      },
+      public: {
+        http: config.rpc,
+      },
+      alchemy: { http: "" },
+      infura: { http: "" },
+    },
+    testnet: true,
+  };
+
+  return [chainConfig];
 };
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
