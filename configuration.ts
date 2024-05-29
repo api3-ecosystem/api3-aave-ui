@@ -13,12 +13,16 @@ export const populateChainConfigs = () => {
       config.chainId = deploymentConfig.default.config.network.chainId;
       config.name = deploymentConfig.default.config.network.name;
       config.rpc = deploymentConfig.default.config.network.rpc;
+      config.nativeCurrency =
+        deploymentConfig.default.config.network.nativeCurrency;
     } else {
       console.log("using generated chains");
       // read generated configs
       config.chainId = deploymentConfig.generated.config.network.chainId;
       config.name = deploymentConfig.generated.config.network.name;
       config.rpc = deploymentConfig.generated.config.network.rpc;
+      config.nativeCurrency =
+        deploymentConfig.generated.config.network.nativeCurrency;
     }
 
     console.log({ config });

@@ -24,7 +24,7 @@ const populateWagmiChains = () => {
     /** Internal network name */
     // network: "auroratest",
     /** Currency used by chain */
-    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+    nativeCurrency: config.nativeCurrency,
     /** Collection of RPC endpoints */
     rpcUrls: {
       default: {
