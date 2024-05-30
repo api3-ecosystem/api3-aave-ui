@@ -6,6 +6,7 @@ import { ComputedReserveData } from "src/hooks/app-data-provider/useAppDataProvi
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import Pane from "components/pane";
 import { Box, Grid, Typography } from "@mui/material";
+import { populateAssetIcon } from "configuration";
 
 type MarketAssetsListProps = {
   reserves: ComputedReserveData[];
@@ -51,7 +52,7 @@ export default function MarketAssetsList({
               <div className="flex min-w-[200px] items-center gap-2">
                 <picture className="max-w-[50px]">
                   <Image
-                    src={`/logos/${reserve?.symbol}.png`}
+                    src={populateAssetIcon(reserve?.symbol)}
                     width={50}
                     height={50}
                     alt={reserve?.symbol}

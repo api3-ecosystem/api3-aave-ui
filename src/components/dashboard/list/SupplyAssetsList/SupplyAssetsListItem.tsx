@@ -10,6 +10,7 @@ import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { Box, Grid, Typography } from "@mui/material";
 import Image from "next/image";
+import { populateAssetIcon } from "configuration";
 
 export const SupplyAssetsListItem = ({
   symbol,
@@ -45,7 +46,7 @@ export const SupplyAssetsListItem = ({
       <div className="col-span-all flex items-center gap-2">
         <picture className="w-[100px] max-w-[80px]">
           <Image
-            src={`/logos/${iconSymbol}.png`}
+            src={populateAssetIcon(symbol)}
             width={30}
             height={30}
             alt={symbol}

@@ -39,6 +39,7 @@ import { GENERAL } from "src/utils/mixPanelEvents";
 import { WalletIcon } from "src/components/icons/WalletIcon";
 import { useModalContext } from "src/hooks/useModal";
 import { useWeb3Context } from "src/hooks/lib/hooks/useWeb3Context";
+import { populateAssetIcon } from "configuration";
 
 interface ValueWithSymbolProps {
   value: string;
@@ -336,7 +337,7 @@ export default function AssetDetail() {
           <div className="flex items-center gap-4 justify-self-center">
             <picture className="max-w-[48px]">
               <Image
-                src={`/logos/${reserve?.symbol}.png`}
+                src={populateAssetIcon(reserve?.symbol)}
                 height={48}
                 width={48}
                 alt="logo"

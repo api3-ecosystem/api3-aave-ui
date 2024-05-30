@@ -34,6 +34,30 @@ export const populateChainConfigs = () => {
   }
 };
 
+export const populateAssetIcon = (symbol: string): string => {
+  try {
+    let icon: string = "default_uri";
+
+    if (!deploymentConfig?.generated?.config) {
+      console.log("using default chains");
+      icon = deploymentConfig?.default?.config?.assets?.find(
+        (el: any) => el?.assetSymbol === symbol,
+      )?.icon;
+    } else {
+      console.log("using generated chains");
+      // read generated configs
+      icon = deploymentConfig?.generated?.config?.assets?.find(
+        (el: any) => el?.assetSymbol === symbol,
+      )?.icon;
+    }
+
+    return icon;
+  } catch (error) {
+    console.log("Failed to read deploye contracts file", error);
+    return "";
+  }
+};
+
 export const populateMarket = () => {
   let contracts;
 

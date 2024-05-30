@@ -10,6 +10,7 @@ import { isFeatureEnabled } from "../../../../utils/marketsAndNetworksConfig";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { useEffect } from "react";
+import { populateAssetIcon } from "configuration";
 
 export const SuppliedPositionsListItem = ({
   reserve,
@@ -45,7 +46,7 @@ export const SuppliedPositionsListItem = ({
       <div className="col-span-all flex items-center gap-2">
         <picture className="w-[100px] max-w-[80px]">
           <Image
-            src={`/logos/${reserve?.symbol}.png`}
+            src={populateAssetIcon(reserve?.symbol)}
             width={30}
             height={30}
             alt={reserve?.symbol}

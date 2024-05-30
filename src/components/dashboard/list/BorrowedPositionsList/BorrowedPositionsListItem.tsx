@@ -9,6 +9,7 @@ import { isFeatureEnabled } from "src/utils/marketsAndNetworksConfig";
 import { GENERAL } from "src/utils/mixPanelEvents";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
+import { populateAssetIcon } from "configuration";
 
 export const BorrowedPositionsListItem = ({
   reserve,
@@ -47,7 +48,7 @@ export const BorrowedPositionsListItem = ({
       <div className="col-span-all flex items-center gap-2">
         <picture className="w-[100px] max-w-[80px]">
           <Image
-            src={`/logos/${reserve?.symbol}.png`}
+            src={populateAssetIcon(reserve?.symbol)}
             width={30}
             height={30}
             alt={reserve?.symbol}

@@ -16,6 +16,7 @@ import { populateChainConfigs } from "configuration";
 const populateWagmiChains = () => {
   const config: any = populateChainConfigs();
 
+  console.log("rpc ", config.rpc);
   const chainConfig: any = {
     /** ID in number form */
     id: config.chainId,

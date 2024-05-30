@@ -1,6 +1,7 @@
 import { CheckBoxOutlined } from "@mui/icons-material";
 import { Box, Grid, Typography } from "@mui/material";
 import Row from "components/row";
+import { populateAssetIcon } from "configuration";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { useModalContext } from "src/hooks/useModal";
@@ -34,7 +35,7 @@ export const BorrowAssetsListItem = ({
       <div className="col-span-all flex items-center gap-2">
         <picture className="w-[100px] max-w-[80px]">
           <Image
-            src={`/logos/${iconSymbol}.png`}
+            src={populateAssetIcon(symbol)}
             width={30}
             height={30}
             alt={symbol}
