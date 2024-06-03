@@ -21,6 +21,8 @@ export default function ConnectWallet() {
           account &&
           chain &&
           (!authenticationStatus || authenticationStatus === "authenticated");
+
+        console.log("chain", chain);
         return (
           <div
             {...(!ready && {
@@ -41,6 +43,7 @@ export default function ConnectWallet() {
                     className="button outline"
                     style={{ borderRadius: 10 }}
                   >
+                    <Wallet />
                     Connect Wallet
                   </button>
                 );
@@ -63,7 +66,10 @@ export default function ConnectWallet() {
                   type="button"
                   className="button flex items-center gap-2 border-0 outline "
                 >
-                  <Wallet />
+                  <picture>
+                    <img src={chain?.iconUrl} alt="" />
+                  </picture>
+
                   <span>
                     {account.displayName}
                     <mark className="highlight">
