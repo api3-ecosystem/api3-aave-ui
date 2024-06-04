@@ -15,6 +15,9 @@ export const populateChainConfigs = () => {
       config.rpc = deploymentConfig.default.config.network.rpc;
       config.nativeCurrency =
         deploymentConfig.default.config.network.nativeCurrency;
+
+      config.explorerLink =
+        deploymentConfig.default.config.network.explorerLink;
     } else {
       console.log("using generated chains");
       // read generated configs
@@ -23,6 +26,8 @@ export const populateChainConfigs = () => {
       config.rpc = deploymentConfig.generated.config.network.rpc;
       config.nativeCurrency =
         deploymentConfig.generated.config.network.nativeCurrency;
+      config.explorerLink =
+        deploymentConfig.generated.config.network.explorerLink;
     }
 
     console.log({ config });

@@ -15,6 +15,7 @@ import { ModalWrapper } from "../FlowCommons/ModalWrapper";
 import { CollateralRepayModalContent } from "./CollateralRepayModalContent";
 import { RepayModalContent } from "./RepayModalContent";
 import { RepayType, RepayTypeSelector } from "./RepayTypeSelector";
+import { useChainId } from "wagmi";
 
 export const RepayModal = () => {
   const { type, close, args, mainTxState } =
@@ -26,6 +27,7 @@ export const RepayModal = () => {
   const { userReserves, reserves } = useAppDataContext();
   const { currentMarketData } = useProtocolDataContext();
   const [repayType, setRepayType] = useState(RepayType.BALANCE);
+  const chainId = useChainId();
 
   const stETHAddress = reserves.find((reserve) => reserve.symbol === "stETH")
     ?.underlyingAsset;
@@ -57,7 +59,7 @@ export const RepayModal = () => {
         title={<span>Repay</span>}
         underlyingAsset={args.underlyingAsset}
         requiredPermission={PERMISSION.BORROWER}
-        requiredChainId={ChainId.sepolia}
+        requiredChainId={chainId}
       >
         {(params) => {
           return (

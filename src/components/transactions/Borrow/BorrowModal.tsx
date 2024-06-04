@@ -14,12 +14,14 @@ import { BasicModal } from "../../primitives/BasicModal";
 import { ModalWrapper } from "../FlowCommons/ModalWrapper";
 import { BorrowModalContent } from "./BorrowModalContent";
 import { GhoBorrowModalContent } from "./GhoBorrowModalContent";
+import { useChainId } from "wagmi";
 
 export const BorrowModal = () => {
   const { type, close, args } = useModalContext() as ModalContextType<{
     underlyingAsset: string;
   }>;
   const { currentMarket } = useProtocolDataContext();
+  const chainId = useChainId();
 
   const [borrowUnWrapped, setBorrowUnWrapped] = useState(true);
   const [displayGho] = useRootStore((store) => [store.displayGho]);
@@ -40,7 +42,7 @@ export const BorrowModal = () => {
         title={<span>Borrow</span>}
         underlyingAsset={args.underlyingAsset}
         keepWrappedSymbol={!borrowUnWrapped}
-        requiredChainId={ChainId.sepolia}
+        requiredChainId={chainId}
         requiredPermission={PERMISSION.BORROWER}
       >
         {(params) =>
