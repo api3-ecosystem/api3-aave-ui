@@ -62,8 +62,8 @@ export const useRootStore = create<RootStore>()(
         ...createTransactionsSlice(...args),
         ...createLayoutSlice(...args),
       };
-    })
-  )
+    }),
+  ),
 );
 
 // hydrate state from localeStorage to not break on ssr issues
@@ -109,7 +109,7 @@ useRootStore.subscribe(
     const { setIsFaucetPermissioned: setFaucetPermissioned, jsonRpcProvider } =
       useRootStore.getState();
     if (ENABLE_TESTNET || STAGING_ENV) {
-      if (!selected.v3) {
+      if (!selected?.v3) {
         setFaucetPermissioned(false);
         return;
       }
@@ -119,7 +119,7 @@ useRootStore.subscribe(
       // everytime this subscription fires.
       const service = new V3FaucetService(
         jsonRpcProvider(),
-        selected.addresses.FAUCET
+        selected.addresses.FAUCET,
       );
       latest = service;
       service
@@ -137,7 +137,7 @@ useRootStore.subscribe(
       setFaucetPermissioned(false);
     }
   },
-  { fireImmediately: true }
+  { fireImmediately: true },
 );
 
 useRootStore.subscribe(
@@ -149,5 +149,5 @@ useRootStore.subscribe(
       useRootStore.getState().clearWalletDomains();
     }
   },
-  { fireImmediately: true }
+  { fireImmediately: true },
 );

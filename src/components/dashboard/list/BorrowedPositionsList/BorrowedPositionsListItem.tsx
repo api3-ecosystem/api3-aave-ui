@@ -1,15 +1,14 @@
 import { InterestRate } from "contract-helpers";
-import { Button, Grid } from "@mui/material";
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
-import { useRootStore } from "src/store/root";
 import { DashboardReserve } from "src/utils/dashboardSortUtils";
 import { isFeatureEnabled } from "src/utils/marketsAndNetworksConfig";
-import { GENERAL } from "src/utils/mixPanelEvents";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { populateAssetIcon } from "configuration";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 export const BorrowedPositionsListItem = ({
   reserve,
@@ -24,7 +23,6 @@ export const BorrowedPositionsListItem = ({
     useModalContext();
   const { currentMarket, currentMarketData } = useProtocolDataContext();
   const { borrowCap } = useAssetCaps();
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   const {
     isActive,
@@ -42,6 +40,9 @@ export const BorrowedPositionsListItem = ({
 
   const showSwitchButton = isFeatureEnabled.debtSwitch(currentMarketData);
   const disableSwitch = !isActive || reserve.symbol == "stETH";
+
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
 
   return (
     <li className="dashboard-list-item">
@@ -113,14 +114,18 @@ export const BorrowedPositionsListItem = ({
         <button
           // disabled={disableSupply}
           onClick={() => {
-            openRepay(
-              reserve.underlyingAsset,
-              borrowRateMode,
-              isFrozen,
-              currentMarket,
-              name,
-              "dashboard",
-            );
+            if (isConnected) {
+              openConnectModal?.();
+            } else {
+              openRepay(
+                reserve.underlyingAsset,
+                borrowRateMode,
+                isFrozen,
+                currentMarket,
+                name,
+                "dashboard",
+              );
+            }
           }}
           className="button whisper-voice outline"
         >

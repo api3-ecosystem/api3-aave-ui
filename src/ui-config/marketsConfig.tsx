@@ -8,7 +8,7 @@ import {
   GiestV2ScrollSepolia,
   GiestV2zkEvm,
 } from "./localMarketConfigs";
-import { populateMarket } from "configuration";
+import { populateChainConfigs, populateMarket } from "configuration";
 
 export type MarketDataType = {
   v3?: boolean;
@@ -93,6 +93,7 @@ export enum CustomMarket {
 }
 
 const currentMarket = populateMarket();
+const currentNetwork = populateChainConfigs();
 // @ts-ignore
 export const marketsData: {
   [key in keyof typeof CustomMarket]: MarketDataType;
@@ -137,8 +138,8 @@ export const marketsData: {
   // },
 
   [CustomMarket.proto_sepolia]: {
-    marketTitle: "Sepolia Testnet",
-    chainId: 11155111,
+    marketTitle: currentNetwork.name,
+    chainId: currentNetwork.chainId,
     enabledFeatures: {
       incentives: true,
       faucet: true,

@@ -11,6 +11,8 @@ import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { useEffect } from "react";
 import { populateAssetIcon } from "configuration";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 export const SuppliedPositionsListItem = ({
   reserve,
@@ -40,6 +42,9 @@ export const SuppliedPositionsListItem = ({
   const disableSupply = !isActive || isFrozen;
 
   const isEnabled = usageAsCollateralEnabledOnUser && canBeEnabledAsCollateral;
+
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
 
   return (
     <li className="dashboard-list-item">
@@ -92,13 +97,17 @@ export const SuppliedPositionsListItem = ({
         <button
           // disabled={disableSupply}
           onClick={() => {
-            openSupply(
-              underlyingAsset,
-              currentMarket,
-              reserve?.name,
-              "dashboard",
-            );
-            console.log("opening ");
+            if (isConnected) {
+              openConnectModal?.();
+            } else {
+              openSupply(
+                underlyingAsset,
+                currentMarket,
+                reserve?.name,
+                "dashboard",
+              );
+              console.log("opening ");
+            }
           }}
           className="button whisper-voice"
         >

@@ -15,6 +15,7 @@ import {
   networkConfigs as _networkConfigs,
 } from "../ui-config/networksConfig";
 import { RotationProvider } from "./rotationProvider";
+import { populateChainConfigs } from "configuration";
 
 export type Pool = {
   address: string;
@@ -73,6 +74,36 @@ export const networkConfigs = Object.keys(_networkConfigs).reduce(
   {} as { [key: string]: BaseNetworkConfig },
 );
 
+const getUpdatedNetworkConfigd = () => {
+  const populatedConfig = populateChainConfigs();
+
+  console.log("network config populates ", populatedConfig);
+  const config = {
+    name: populatedConfig.name,
+    privateJsonRPCUrl: populatedConfig.rpc,
+    publicJsonRPCUrl: [populatedConfig.rpc],
+    publicJsonRPCWSUrl: "",
+    baseUniswapAdapter: "",
+    bridge: {
+      icon: "",
+      name: "",
+      url: "",
+    },
+    isTestnet: true,
+    baseAssetSymbol: populatedConfig.nativeCurrency.symbol,
+    wrappedBaseAssetSymbol: populatedConfig.nativeCurrency.wrapped,
+    baseAssetDecimals: populatedConfig.nativeCurrency.decimals,
+    explorerLink: populatedConfig.explorerLink,
+    ratesHistoryApiUrl: "",
+    networkLogoPath: "/icons/networks/ethereum.svg",
+  };
+
+  const updatedNetworkConfigs = { ...networkConfigs };
+  updatedNetworkConfigs[`${populatedConfig.chainId}`] = config;
+
+  return updatedNetworkConfigs;
+};
+
 /**
  * Generates network configs based on marketsData & fork settings.
  * Fork markets are generated for all markets on the underlying base chain.
@@ -98,25 +129,30 @@ export const marketsData = Object.keys(_marketsData).reduce(
 );
 
 export function getDefaultChainId() {
+  console.log({ availableMarkets });
   return marketsData[availableMarkets[0]].chainId;
 }
 
 export function getSupportedChainIds(): number[] {
+  // console.log("getSupportedChainIds ", {
+  //   networkConfigs: updatedNetworkConfigs,
+  //   marketsData,
+  // });
   return Array.from(
     Object.keys(marketsData)
-      .filter((value) => {
-        const isTestnet =
-          networkConfigs[
-            marketsData[value as keyof typeof CustomMarket].chainId
-          ]?.isTestnet;
+      // .filter((value) => {
+      //   const isTestnet =
+      //     networkConfigs[
+      //       marketsData[value as keyof typeof CustomMarket].chainId
+      //     ]?.isTestnet;
 
-        // If this is a staging environment, or the testnet toggle is on, only show testnets
-        if (STAGING_ENV || ENABLE_TESTNET) {
-          return isTestnet;
-        }
+      //   // If this is a staging environment, or the testnet toggle is on, only show testnets
+      //   if (STAGING_ENV || ENABLE_TESTNET) {
+      //     return isTestnet;
+      //   }
 
-        return !isTestnet;
-      })
+      //   return !isTestnet;
+      // })
       .reduce(
         (acc, value) =>
           acc.add(marketsData[value as keyof typeof CustomMarket].chainId),
@@ -129,11 +165,11 @@ export function getSupportedChainIds(): number[] {
  * selectable markets (markets in a available network + forks when enabled)
  */
 
-export const availableMarkets = Object.keys(marketsData).filter((key) =>
-  getSupportedChainIds().includes(
+export const availableMarkets = Object.keys(marketsData).filter((key) => {
+  return getSupportedChainIds().includes(
     marketsData[key as keyof typeof CustomMarket].chainId,
-  ),
-) as CustomMarket[];
+  );
+}) as CustomMarket[];
 
 const linkBuilder =
   ({
@@ -152,7 +188,8 @@ const linkBuilder =
   };
 
 export function getNetworkConfig(chainId: ChainId): NetworkConfig {
-  const config = networkConfigs[chainId];
+  const config = getUpdatedNetworkConfigd()[chainId];
+
   if (!config) {
     // this case can only ever occure when a wallet is connected with a unknown chainId which will not allow interaction
     const name = ChainIdToNetwork[chainId];
@@ -186,17 +223,20 @@ const providers: { [network: string]: ethersProviders.Provider } = {};
  */
 export const getProvider = (chainId: ChainId): ethersProviders.Provider => {
   if (!providers[chainId]) {
-    const config = getNetworkConfig(chainId);
+    // const config = getNetworkConfig(chainId);
+
+    const populatedConfig = populateChainConfigs();
+
     const chainProviders: string[] = [];
-    if (config.privateJsonRPCUrl) {
-      chainProviders.push(config.privateJsonRPCUrl);
+    if (populatedConfig.rpc) {
+      chainProviders.push(populatedConfig.rpc);
     }
-    if (config.publicJsonRPCUrl?.length) {
-      config.publicJsonRPCUrl?.map((rpc) => chainProviders.push(rpc));
-    }
-    if (!chainProviders.length) {
-      // throw new Error(`${chainId} has no jsonRPCUrl configured`);
-    }
+    // if (config.publicJsonRPCUrl?.length) {
+    //   config.publicJsonRPCUrl?.map((rpc) => chainProviders.push(rpc));
+    // }
+    // if (!chainProviders.length) {
+    //   // throw new Error(`${chainId} has no jsonRPCUrl configured`);
+    // }
     if (chainProviders.length === 1) {
       providers[chainId] = new StaticJsonRpcProvider(
         chainProviders[0],
@@ -206,6 +246,8 @@ export const getProvider = (chainId: ChainId): ethersProviders.Provider => {
       providers[chainId] = new RotationProvider(chainProviders, chainId);
     }
   }
+
+  console.log("fetch pool data providers ", providers);
   return providers[chainId];
 };
 
