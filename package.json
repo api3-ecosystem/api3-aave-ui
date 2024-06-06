@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aave/math-utils": "1.18.2",
+    "@api3/logos": "^0.1.28",
     "@emotion/cache": "11.10.3",
     "@emotion/react": "11.10.4",
     "@emotion/server": "latest",
