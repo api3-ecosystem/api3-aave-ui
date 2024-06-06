@@ -19,7 +19,6 @@ export const populateChainConfigs = () => {
       config.explorerLink =
         deploymentConfig.default.config.network.explorerLink;
     } else {
-      console.log("using generated chains");
       // read generated configs
       config.chainId = deploymentConfig.generated.config.network.chainId;
       config.name = deploymentConfig.generated.config.network.name;
@@ -49,7 +48,6 @@ export const populateAssetIcon = (symbol: string): string => {
         (el: any) => el?.assetSymbol === symbol,
       )?.icon;
     } else {
-      console.log("using generated chains");
       // read generated configs
       icon = deploymentConfig?.generated?.config?.assets?.find(
         (el: any) => el?.assetSymbol === symbol,

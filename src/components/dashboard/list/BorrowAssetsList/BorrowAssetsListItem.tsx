@@ -1,6 +1,4 @@
-import { CheckBoxOutlined } from "@mui/icons-material";
-import { Box, Grid, Typography } from "@mui/material";
-import Row from "components/row";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { populateAssetIcon } from "configuration";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
@@ -9,6 +7,7 @@ import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 
 import { DashboardReserve } from "src/utils/dashboardSortUtils";
+import { useAccount } from "wagmi";
 
 export const BorrowAssetsListItem = ({
   symbol,
@@ -29,6 +28,8 @@ export const BorrowAssetsListItem = ({
   const { currentMarket } = useProtocolDataContext();
 
   const disableBorrow = isFreezed || Number(availableBorrows) <= 0;
+  const { openConnectModal } = useConnectModal();
+  const { isConnected } = useAccount();
 
   return (
     <div className="dashboard-list-item">
@@ -80,7 +81,11 @@ export const BorrowAssetsListItem = ({
         <button
           //  disabled={disableSupply}
           onClick={() => {
-            openBorrow(underlyingAsset, currentMarket, name, "dashboard");
+            if (!isConnected) {
+              openConnectModal?.();
+            } else {
+              openBorrow(underlyingAsset, currentMarket, name, "dashboard");
+            }
             console.log("opening ");
           }}
           className="button whisper-voice"
@@ -89,55 +94,5 @@ export const BorrowAssetsListItem = ({
         </button>
       </div>
     </div>
-    // <Row
-    //   key={name}
-    //   ticker={symbol}
-    //   name={name}
-    //   subtitle={
-    //     <>
-    //       <p className="text-xs">
-    //         <span style={{ fontSize: 14, fontWeight: 600, marginRight: 5 }}>
-    //           {" "}
-    //           Wallet:
-    //         </span>
-    //         <FormattedNumber
-    //           data-cy={`walletBalance`}
-    //           value={0}
-    //           variant={"main16"}
-    //           symbolsVariant={"main16"}
-    //         />
-    //       </p>
-
-    //       <p className="text-xs">
-    //         <span style={{ fontSize: 14, fontWeight: 600, marginRight: 5 }}>
-    //           {" "}
-    //           Supplied:
-    //         </span>
-    //         <FormattedNumber
-    //           data-cy={`walletBalance`}
-    //           value={0}
-    //           variant={"main16"}
-    //           symbolsVariant={"main16"}
-    //         />
-    //       </p>
-    //     </>
-    //   }
-    // >
-    //   <div className="flex gap-2 w-full sm:w-fit">
-    //     <button
-    //       // disabled={disableSupply}
-    //       onClick={() => {
-    //         openBorrow(underlyingAsset, currentMarket, name, "dashboard");
-    //         console.log("opening ");
-    //       }}
-    //       className="px-4 py-2 text-sm rounded-sm bg-accent  w-1/2 "
-    //     >
-    //       Borrow
-    //     </button>
-    //     <button className="px-4 py-2 text-sm rounded-sm bg-accent opacity-30 w-1/2 ">
-    //       Details
-    //     </button>
-    //   </div>
-    // </Row>
   );
 };
