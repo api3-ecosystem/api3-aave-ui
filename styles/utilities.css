@@ -168,7 +168,7 @@
 
 .dashboard-list-item {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
   gap: var(--space-m);
   padding: var(--space-m);
@@ -179,13 +179,13 @@
 
   @media (min-width: 768px) {
     /* grid-template-columns: 0.7fr 0.5fr 0.5fr 0.5fr 1fr 1fr; */
-    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr 1fr; */
   }
 
   .actions {
-    grid-column: 1 / -1;
+    /* grid-column: 1 / -1; */
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
   }
 }
 

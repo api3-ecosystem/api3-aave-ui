@@ -44,7 +44,7 @@ a {
 
 .button.outline {
   background: none;
-  border: var(--border-light);
+  border: var(--border-dark);
 }
 
 .button.outline:is(:hover, :focus-visible, .hover) {
@@ -62,8 +62,16 @@ a {
 }
 
 .button.outline.border-0 {
-  border-width: 0px;
+  border: unset !important;
+  outline: unset !important;
+
+  background: var(--icon-down);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  padding-right: 2rem;
 }
+
 /* button icon */
 
 :is(button, a).icon {

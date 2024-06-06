@@ -40,7 +40,7 @@ export default function ConnectWallet() {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="button outline"
+                    className="button flex items-center gap-2"
                     style={{ borderRadius: 10 }}
                   >
                     <Wallet />
@@ -53,7 +53,7 @@ export default function ConnectWallet() {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className="button"
+                    className="button outline"
                     style={{ borderRadius: 14 }}
                   >
                     Wrong network
