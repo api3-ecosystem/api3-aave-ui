@@ -218,7 +218,7 @@ export const SupplyAssetsList = () => {
 
   return (
     <>
-      <h2 className="attention-voice mb-5 text-center">Supply</h2>
+      <h2 className="firm-voice mb-5">Supply</h2>
       <ul className="dashboard-list-items">
         {sortedReserves.map((item: any) => (
           <Fragment key={item.underlyingAsset}>

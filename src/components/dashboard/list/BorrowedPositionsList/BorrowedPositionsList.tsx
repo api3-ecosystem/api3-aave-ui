@@ -111,37 +111,42 @@ export const BorrowedPositionsList = () => {
   return (
     <>
       <div className="mb-5 grid gap-6">
-        <h2 className="attention-voice text-center">Your Borrows</h2>
-        <div className="flex flex-wrap justify-center gap-12 p-2">
-          <div className="text-center">
-            <h3 className="teaser-voice ">Balance</h3>
-            <p className="firm-voice  text-primary">
+        <h2 className="attention-voice ">Your Borrows</h2>
+        <div className="flex flex-wrap gap-12 p-2">
+          <div className="">
+            <h3 className="teaser-voice ">
+              Balance /
+              <strong className="whisper-voice text-primary"> $</strong>
+            </h3>
+            <p className="firm-voice  ">
               <FormattedNumber
                 value={user?.totalBorrowsUSD || 0}
-                symbol="USD"
                 visibleDecimals={2}
-                symbolsColor="#A5A8B6"
+                symbolsColor="#ffffff"
                 // symbolsVariant={noDataTypographyVariant}
               />
             </p>
           </div>
-          <div className="text-center">
-            <h3 className="teaser-voice ">APY</h3>
-            <p className="firm-voice  text-primary">
+          <div className="">
+            <h3 className="teaser-voice ">
+              APY /<strong className="whisper-voice text-primary"> %</strong>
+            </h3>
+            <p className="firm-voice  ">
               <FormattedNumber
                 value={user?.debtAPY || 0}
-                percent
                 visibleDecimals={2}
                 symbolsColor="#A5A8B6"
               />
             </p>
           </div>
-          <div className="text-center">
-            <h3 className="teaser-voice ">Borrow power used</h3>
-            <p className="firm-voice  text-primary">
+          <div className="">
+            <h3 className="teaser-voice ">
+              Borrow power used /
+              <strong className="whisper-voice text-primary"> %</strong>
+            </h3>
+            <p className="firm-voice  ">
               <FormattedNumber
                 value={collateralUsagePercent || 0}
-                percent
                 visibleDecimals={2}
                 symbolsColor="#A5A8B6"
                 // symbolsVariant={noDataTypographyVariant}

@@ -168,14 +168,16 @@
 
 .dashboard-list-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+  /* align-items: center; */
 
   gap: var(--space-m);
   padding: var(--space-m);
   border-radius: var(--corners);
   background: var(--paper);
   border: var(--border-dark);
-  min-width: fit-content;
+  /* min-width: fit-content; */
 
   @media (min-width: 768px) {
     /* grid-template-columns: 0.7fr 0.5fr 0.5fr 0.5fr 1fr 1fr; */
@@ -184,7 +186,7 @@
 
   .actions {
     /* grid-column: 1 / -1; */
-    display: grid;
+    /* display: grid; */
     /* grid-template-columns: 1fr 1fr; */
   }
 }

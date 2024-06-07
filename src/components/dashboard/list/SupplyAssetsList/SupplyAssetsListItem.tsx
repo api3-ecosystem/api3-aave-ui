@@ -54,10 +54,12 @@ export const SupplyAssetsListItem = ({
         <p className="firm-voice">{name}</p>
       </div>
       <div>
-        <h3 className="teaser-voice">apy</h3>
+        <h3 className="teaser-voice">
+          apy /<strong className="whisper-voice text-primary"> %</strong>
+        </h3>
 
         <p className="firm-voice">
-          <FormattedNumber data-cy={`apy`} value={supplyAPY} percent />
+          <FormattedNumber data-cy={`apy`} value={supplyAPY} />
         </p>
       </div>
       <div>
@@ -71,8 +73,8 @@ export const SupplyAssetsListItem = ({
           )}
         </p>
       </div>
-      <div></div>
       <div className="actions items-center">
+        <button className="button whisper-voice outline">Add Token?</button>
         <button
           onClick={() => {
             if (!isConnected) {

@@ -46,26 +46,23 @@ export const BorrowAssetsListItem = ({
       </div>
 
       <div>
-        <h3 className="teaser-voice">apy, variable</h3>
+        <h3 className="teaser-voice">
+          apy, variable /
+          <strong className="whisper-voice text-primary"> %</strong>
+        </h3>
         <p className="firm-voice">
-          <FormattedNumber
-            data-cy={`apy`}
-            value={Number(stableBorrowRate)}
-            percent
-          />
+          <FormattedNumber data-cy={`apy`} value={Number(stableBorrowRate)} />
         </p>
       </div>
 
       <div>
-        <h3 className="teaser-voice">variabiltiy</h3>
+        <h3 className="teaser-voice">
+          variabiltiy /
+          <strong className="whisper-voice text-primary"> ±%</strong>
+        </h3>
 
         <p className="firm-voice">
-          <span className="plus-minus">±</span>{" "}
-          <FormattedNumber
-            data-cy={`apy`}
-            value={Number(variableBorrowRate)}
-            percent
-          />
+          <FormattedNumber data-cy={`apy`} value={Number(variableBorrowRate)} />
         </p>
       </div>
 

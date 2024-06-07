@@ -203,7 +203,7 @@ export default function Dashboard() {
             <SuppliedPositionsList />
           </div>{" "}
           <div>
-            <BorrowedPositionsList />
+            <SupplyAssetsList />
           </div>
         </div>
       </section>
@@ -211,7 +211,7 @@ export default function Dashboard() {
       <section>
         <div className="inner-column wide  grid gap-6 md:grid-cols-2">
           <div className="">
-            <SupplyAssetsList />
+            <BorrowedPositionsList />
           </div>
           <div>
             <BorrowAssetsList />
