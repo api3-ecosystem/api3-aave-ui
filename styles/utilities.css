@@ -160,6 +160,10 @@
 
 /*  */
 
+.symbol-icon {
+  max-width: 50px;
+  margin-right: var(--space-3xs);
+}
 .dashboard-list-items {
   display: grid;
   grid-template-columns: 1fr;
@@ -168,7 +172,7 @@
 
 .dashboard-list-item {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
 
   /* align-items: center; */
 
@@ -188,6 +192,7 @@
     /* grid-column: 1 / -1; */
     /* display: grid; */
     /* grid-template-columns: 1fr 1fr; */
+    gap: var(--space-m);
   }
 }
 

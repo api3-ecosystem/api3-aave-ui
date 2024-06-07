@@ -1,9 +1,36 @@
-import { SymbolLogo } from "@api3/logos";
+import React, { useEffect, useState } from "react";
 
-export default function SymbolIcon({ symbol }: { symbol: string }) {
+interface SymbolIconProps {
+  symbol: string;
+}
+
+const SymbolIcon: React.FC<SymbolIconProps> = ({ symbol }) => {
+  const [iconSrc, setIconSrc] = useState<string>("/images/logo-icon.svg"); // Default placeholder
+
+  useEffect(() => {
+    async function loadIcon() {
+      try {
+        // Adjust the symbol name to match the file naming scheme
+        const formattedSymbol =
+          symbol.charAt(0).toUpperCase() + symbol.slice(1).toLowerCase();
+        const iconModule = await import(
+          `@api3/logos/dist/logos/symbol/${formattedSymbol}.svg`
+        );
+        console.log("iconModule", iconModule);
+        setIconSrc(iconModule.default.src); // Access the default export
+      } catch (error) {
+        console.error(`Error importing icon for symbol: ${symbol}`, error);
+      }
+    }
+
+    loadIcon();
+  }, [symbol]);
+
   return (
-    <picture className={`symbol-icon ${symbol}`}>
-      {/* <img src={SymbolLogo(symbol)} width={50} height={50} alt={symbol} /> */}
+    <picture className={`symbol-icon ${symbol.toLowerCase()}`}>
+      <img src={iconSrc} width={50} height={50} alt={symbol} />
     </picture>
   );
-}
+};
+
+export default SymbolIcon;

@@ -10,6 +10,7 @@ import Image from "next/image";
 import { populateAssetIcon } from "configuration";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import SymbolIcon from "src/components/SymbolIcon";
 
 export const SupplyAssetsListItem = ({
   symbol,
@@ -43,14 +44,7 @@ export const SupplyAssetsListItem = ({
   return (
     <div className="dashboard-list-item">
       <div className="col-span-all flex items-center gap-2">
-        <picture className="w-[100px] max-w-[80px]">
-          <Image
-            src={populateAssetIcon(symbol)}
-            width={30}
-            height={30}
-            alt={symbol}
-          />
-        </picture>
+        <SymbolIcon symbol={symbol} />
         <p className="firm-voice">{name}</p>
       </div>
       <div>
@@ -83,7 +77,7 @@ export const SupplyAssetsListItem = ({
               openSupply(underlyingAsset, currentMarket, name, "dashboard");
             }
           }}
-          className="button whisper-voice"
+          className="button whisper-voice justify-self-end"
         >
           Supply
         </button>

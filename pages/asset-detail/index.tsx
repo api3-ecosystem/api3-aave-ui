@@ -40,6 +40,7 @@ import { WalletIcon } from "src/components/icons/WalletIcon";
 import { useModalContext } from "src/hooks/useModal";
 import { useWeb3Context } from "src/hooks/lib/hooks/useWeb3Context";
 import { populateAssetIcon } from "configuration";
+import SymbolIcon from "src/components/SymbolIcon";
 
 interface ValueWithSymbolProps {
   value: string;
@@ -335,14 +336,7 @@ export default function AssetDetail() {
       <section>
         <div className="inner-column  grid gap-4">
           <div className="flex items-center gap-4 justify-self-center">
-            <picture className="max-w-[48px]">
-              <Image
-                src={populateAssetIcon(reserve?.symbol)}
-                height={48}
-                width={48}
-                alt="logo"
-              />
-            </picture>
+            <SymbolIcon symbol={reserve?.symbol} />
 
             <div className="flex flex-col">
               <p className="solid-voice">{reserve?.symbol}</p>
@@ -491,26 +485,27 @@ export default function AssetDetail() {
             <div className="content-wrapper grid gap-6 ">
               <div className="flex gap-6">
                 <div>
-                  <h3 className="teaser-voice">Total Supplied</h3>
+                  <h3 className="teaser-voice">
+                    Total Supplied /
+                    <strong className="whisper-voice text-primary"> $</strong>
+                  </h3>
                   <p className="firm-voice text-primary">
-                    <FormattedNumber
-                      value={Number(reserve?.totalLiquidity)}
-                      symbol="USD"
-                    />
+                    <FormattedNumber value={Number(reserve?.totalLiquidity)} />
                   </p>
                   <p className="solid-voice text-secondary">
                     <FormattedNumber
                       value={Number(reserve?.totalLiquidityUSD)}
-                      symbol="USD"
                     />
                   </p>
                 </div>
                 <div>
-                  <h3 className="teaser-voice">APY</h3>
+                  <h3 className="teaser-voice">
+                    APY /
+                    <strong className="whisper-voice text-primary"> %</strong>
+                  </h3>
                   <p className="firm-voice text-primary">
                     <FormattedNumber
                       value={Number(reserve?.supplyAPY)}
-                      percent
                       symbolsColor="#A5A8B6"
                     />
                   </p>
@@ -551,36 +546,37 @@ export default function AssetDetail() {
             <div className="content-wrapper  gap-6 ">
               <div className="flex flex-wrap gap-6">
                 <div>
-                  <h3 className="teaser-voice">Total Borrowed</h3>
+                  <h3 className="teaser-voice">
+                    Total Borrowed /
+                    <strong className="whisper-voice text-primary"> $</strong>
+                  </h3>
                   <p className="firm-voice text-primary">
-                    <FormattedNumber
-                      value={Number(reserve?.totalDebt)}
-                      symbol="USD"
-                    />
+                    <FormattedNumber value={Number(reserve?.totalDebt)} />
                   </p>
                   <p className="solid-voice text-secondary">
-                    <FormattedNumber
-                      value={Number(reserve?.totalDebtUSD)}
-                      symbol="USD"
-                    />
+                    <FormattedNumber value={Number(reserve?.totalDebtUSD)} />
                   </p>
                 </div>
                 <div>
-                  <h3 className="teaser-voice">APY, variable</h3>
+                  <h3 className="teaser-voice">
+                    APY, variable /
+                    <strong className="whisper-voice text-primary"> ±%</strong>
+                  </h3>
                   <p className="firm-voice text-primary">
                     <FormattedNumber
                       value={Number(reserve?.variableBorrowAPY)}
-                      percent
                       symbolsColor="#A5A8B6"
                     />
                   </p>
                 </div>
                 <div>
-                  <h3 className="teaser-voice">APY, stable</h3>
+                  <h3 className="teaser-voice">
+                    APY, stable /
+                    <strong className="whisper-voice text-primary"> %</strong>
+                  </h3>
                   <p className="firm-voice text-primary">
                     <FormattedNumber
                       value={Number(reserve?.stableBorrowAPY)}
-                      percent
                       symbolsColor="#A5A8B6"
                     />
                   </p>
