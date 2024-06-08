@@ -108,7 +108,7 @@ export const BorrowedPositionsListItem = ({
         <button
           // disabled={disableSupply}
           onClick={() => {
-            if (isConnected) {
+            if (!isConnected) {
               openConnectModal?.();
             } else {
               openRepay(
