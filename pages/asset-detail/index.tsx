@@ -4,14 +4,9 @@ import {
   ComputedReserveData,
   useAppDataContext,
 } from "src/hooks/app-data-provider/useAppDataProvider";
-
-import Nav from "components/nav";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-import { market, utilization } from "../../data/chart-options";
 import ExternalLinkIcon from "components/ExternalLinkIcon";
 import { useWalletBalances } from "src/hooks/app-data-provider/useWalletBalances";
 import { useRootStore } from "src/store/root";
@@ -25,14 +20,7 @@ import BigNumber from "bignumber.js";
 import { API_ETH_MOCK_ADDRESS, InterestRate } from "contract-helpers";
 import { getMaxAmountAvailableToSupply } from "src/utils/getMaxAmountAvailableToSupply";
 import { amountToUsd } from "src/utils/utils";
-import {
-  Box,
-  Button,
-  Divider,
-  Stack,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { AvailableTooltip } from "src/components/infoTooltips/AvailableTooltip";
 import { CapType } from "src/components/caps/helper";
 import { GENERAL } from "src/utils/mixPanelEvents";
@@ -141,13 +129,6 @@ const SupplyAction = ({
           <p className="solid-voice">
             <ValueWithSymbol value={value} symbol={symbol} />
           </p>
-          {/* <FormattedNumber
-            value={usdValue}
-            variant="subheader2"
-            color="text.muted"
-            symbolsColor="text.muted"
-            symbol="USD"
-          /> */}
         </Box>
         <button
           onClick={onActionClicked}
@@ -195,13 +176,6 @@ const BorrowAction = ({
           <p className="solid-voice">
             <ValueWithSymbol value={value} symbol={symbol} />
           </p>
-          {/* <FormattedNumber
-            value={usdValue}
-            variant="subheader2"
-            color="text.muted"
-            symbolsColor="text.muted"
-            symbol="USD"
-          /> */}
         </Box>
         <button
           onClick={onActionClicked}
@@ -249,9 +223,6 @@ export default function AssetDetail() {
   ]);
   const { baseAssetSymbol } = currentNetworkConfig;
   let balance = walletBalances?.[reserve?.underlyingAsset];
-  // if (reserve.isWrappedBaseAsset && selectedAsset === baseAssetSymbol) {
-  //   balance = walletBalances[API_ETH_MOCK_ADDRESS.toLowerCase()];
-  // }
 
   let maxAmountToBorrow = "0";
   let maxAmountToSupply = "0";
@@ -405,7 +376,7 @@ export default function AssetDetail() {
                 <WalletBalance
                   balance={balance?.amount}
                   symbol={reserve?.symbol}
-                  marketTitle={market.marketTitle}
+                  marketTitle={currentMarket}
                 />
                 {reserve?.isFrozen || reserve?.isPaused ? (
                   <Box sx={{ mt: 3 }}>
@@ -452,39 +423,6 @@ export default function AssetDetail() {
                 )}
               </>
             )}
-
-            {/* <h2 className="attention-voice">Your Info</h2>
-            <div className="flex flex-wrap gap-10 lg:grid lg:gap-6">
-              <div className="mb-5">
-                <h3 className="teaser-voice"></h3>
-                <p className="firm-voice text-secondary">0 WETH</p>
-              </div>
-
-              <div className="grid justify-between gap-4 lg:grid-cols-2">
-                <div>
-                  <h3 className="teaser-voice">available to supply</h3>
-
-                  <div className="firm-voice text-primary">
-                    <FormattedNumber
-                      value={Number(user?.userReservesData)}
-                      symbol="USD"
-                    />
-                    0 WETH
-                  </div>
-                  <p className="whisper-voice">$ 0</p>
-                </div>
-                <button className="button outline">Supply</button>
-              </div>
-              <div className="grid justify-between gap-4 lg:grid-cols-2">
-                <div>
-                  <h3 className="teaser-voice">available to borrow</h3>
-                  <p className="firm-voice text-primary">0 WETH</p>
-
-                  <p className="whisper-voice">$ 0</p>
-                </div>
-                <button className="button outline">Borrow</button>
-              </div>
-            </div> */}
           </div>
           <div className="supply-info  ">
             <h2 className="attention-voice">Supply Info</h2>
@@ -516,34 +454,6 @@ export default function AssetDetail() {
                   </p>
                 </div>
               </div>
-              {/* <div className="chart">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <h3 className="teaser-voice">Supply APY</h3>
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => setSupplyAprTimeframe(1)}
-                      className={
-                        supplyAprTimeframe === 1
-                          ? "button outline"
-                          : "button opacity-50 outline"
-                      }
-                    >
-                      1m
-                    </button>
-                    <button
-                      onClick={() => setSupplyAprTimeframe(3)}
-                      className={
-                        supplyAprTimeframe === 3
-                          ? "button outline"
-                          : "button opacity-50 outline"
-                      }
-                    >
-                      3m
-                    </button>
-                  </div>
-                </div>
-                <Chart options={market} series={sampleData} type="line" />
-              </div> */}
             </div>
           </div>
           <div className="borrow-info  ">
@@ -586,34 +496,6 @@ export default function AssetDetail() {
                   </p>
                 </div>
               </div>
-              {/* <div className="chart">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <h3 className="teaser-voice">Borrow APY</h3>
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => setBorrowAprTimeframe(1)}
-                      className={
-                        borrowAprTimeframe === 1
-                          ? "button outline"
-                          : "button opacity-50 outline"
-                      }
-                    >
-                      1m
-                    </button>
-                    <button
-                      onClick={() => setBorrowAprTimeframe(3)}
-                      className={
-                        borrowAprTimeframe === 3
-                          ? "button outline"
-                          : "button opacity-50 outline"
-                      }
-                    >
-                      3m
-                    </button>
-                  </div>
-                </div>
-                <Chart options={market} series={sampleData} type="line" />
-              </div> */}
             </div>
           </div>
         </div>
