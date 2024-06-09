@@ -10,6 +10,7 @@ import Image from "next/image";
 import { populateAssetIcon } from "configuration";
 import { useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import SymbolIcon from "src/components/SymbolIcon";
 
 export const SupplyAssetsListItem = ({
   symbol,
@@ -43,21 +44,16 @@ export const SupplyAssetsListItem = ({
   return (
     <div className="dashboard-list-item">
       <div className="col-span-all flex items-center gap-2">
-        <picture className="w-[100px] max-w-[80px]">
-          <Image
-            src={populateAssetIcon(symbol)}
-            width={30}
-            height={30}
-            alt={symbol}
-          />
-        </picture>
+        <SymbolIcon symbol={symbol} />
         <p className="firm-voice">{name}</p>
       </div>
       <div>
-        <h3 className="teaser-voice">apy</h3>
+        <h3 className="teaser-voice">
+          apy /<strong className="whisper-voice text-primary"> %</strong>
+        </h3>
 
         <p className="firm-voice">
-          <FormattedNumber data-cy={`apy`} value={supplyAPY} percent />
+          <FormattedNumber data-cy={`apy`} value={supplyAPY} />
         </p>
       </div>
       <div>
@@ -71,8 +67,8 @@ export const SupplyAssetsListItem = ({
           )}
         </p>
       </div>
-      <div></div>
       <div className="actions items-center">
+        <button className="button whisper-voice outline">Add Token?</button>
         <button
           onClick={() => {
             if (!isConnected) {
@@ -81,7 +77,7 @@ export const SupplyAssetsListItem = ({
               openSupply(underlyingAsset, currentMarket, name, "dashboard");
             }
           }}
-          className="button whisper-voice"
+          className="button whisper-voice justify-self-end"
         >
           Supply
         </button>

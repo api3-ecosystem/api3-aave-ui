@@ -9,6 +9,7 @@ import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { populateAssetIcon } from "configuration";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import SymbolIcon from "src/components/SymbolIcon";
 
 export const BorrowedPositionsListItem = ({
   reserve,
@@ -46,15 +47,8 @@ export const BorrowedPositionsListItem = ({
 
   return (
     <li className="dashboard-list-item">
-      <div className="col-span-all flex items-center gap-2">
-        <picture className="w-[100px] max-w-[80px]">
-          <Image
-            src={populateAssetIcon(reserve?.symbol)}
-            width={30}
-            height={30}
-            alt={reserve?.symbol}
-          />
-        </picture>
+      <div className="flex items-center gap-2">
+		<SymbolIcon symbol={reserve?.symbol} />
         <p className="firm-voice">{reserve?.name}</p>
       </div>
 

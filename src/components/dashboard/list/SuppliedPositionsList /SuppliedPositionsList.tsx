@@ -59,38 +59,43 @@ export const SuppliedPositionsList = () => {
   return (
     <>
       <div className="mb-5 grid gap-6">
-        <h2 className="attention-voice text-center">Your Supplies</h2>
+        <h2 className="attention-voice">Your Supplies</h2>
 
-        <div className="flex flex-wrap justify-center gap-12 p-2">
-          <div className="gap-2 text-center">
-            <h3 className="teaser-voice ">Balance</h3>
+        <div className="flex flex-wrap gap-12 p-2">
+          <div className="gap-2 ">
+            <h3 className="teaser-voice ">
+              Balance /
+              <strong className="whisper-voice text-primary"> $</strong>
+            </h3>
             <p className="firm-voice  text-primary">
               <FormattedNumber
                 value={user?.totalLiquidityUSD || 0}
-                symbol="USD"
                 visibleDecimals={2}
                 symbolsColor="#A5A8B6"
                 // symbolsVariant={noDataTypographyVariant}
               />
             </p>
           </div>
-          <div className="gap-2 text-center">
-            <h3 className="teaser-voice ">APY</h3>
+          <div className="gap-2 ">
+            <h3 className="teaser-voice ">
+              APY /<strong className="whisper-voice text-primary"> %</strong>
+            </h3>
             <p className="firm-voice  text-primary">
               <FormattedNumber
                 value={user?.earnedAPY || 0}
-                percent
                 visibleDecimals={2}
                 symbolsColor="#A5A8B6"
               />
             </p>
           </div>
-          <div className="gap-2 text-center">
-            <h3 className="teaser-voice ">Collateral</h3>
+          <div className="gap-2 ">
+            <h3 className="teaser-voice ">
+              Collateral /
+              <strong className="whisper-voice text-primary"> $</strong>
+            </h3>
             <p className="firm-voice  text-primary">
               <FormattedNumber
                 value={user?.totalCollateralUSD || 0}
-                symbol="USD"
                 visibleDecimals={2}
                 symbolsColor="#A5A8B6"
                 // symbolsVariant={noDataTypographyVariant}

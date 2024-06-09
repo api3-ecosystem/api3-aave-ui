@@ -44,10 +44,6 @@ export default function Markets() {
                 <FormattedNumber
                   value={aggregatedStats.totalLiquidity.toString()}
                   symbol="USD"
-                  variant={valueTypographyVariant}
-                  visibleDecimals={2}
-                  compact
-                  symbolsVariant={symbolsVariant}
                 />
               </p>
             </div>
@@ -60,10 +56,7 @@ export default function Markets() {
                     .minus(aggregatedStats.totalDebt)
                     .toString()}
                   symbol="USD"
-                  variant={valueTypographyVariant}
                   visibleDecimals={2}
-                  compact
-                  symbolsVariant={symbolsVariant}
                 />
               </p>
             </div>
@@ -74,10 +67,7 @@ export default function Markets() {
                 <FormattedNumber
                   value={aggregatedStats.totalDebt.toString()}
                   symbol="USD"
-                  variant={valueTypographyVariant}
                   visibleDecimals={2}
-                  compact
-                  symbolsVariant={symbolsVariant}
                 />
               </p>
             </div>

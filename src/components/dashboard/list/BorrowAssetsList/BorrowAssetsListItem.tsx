@@ -1,6 +1,7 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { populateAssetIcon } from "configuration";
 import Image from "next/image";
+import SymbolIcon from "src/components/SymbolIcon";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { useModalContext } from "src/hooks/useModal";
 
@@ -34,38 +35,29 @@ export const BorrowAssetsListItem = ({
   return (
     <div className="dashboard-list-item">
       <div className="col-span-all flex items-center gap-2">
-        <picture className="w-[100px] max-w-[80px]">
-          <Image
-            src={populateAssetIcon(symbol)}
-            width={30}
-            height={30}
-            alt={symbol}
-          />
-        </picture>
+        <SymbolIcon symbol={symbol} />
+
         <p className="firm-voice">{name}</p>
       </div>
 
       <div>
-        <h3 className="teaser-voice">apy, variable</h3>
+        <h3 className="teaser-voice">
+          apy, variable /
+          <strong className="whisper-voice text-primary"> %</strong>
+        </h3>
         <p className="firm-voice">
-          <FormattedNumber
-            data-cy={`apy`}
-            value={Number(stableBorrowRate)}
-            percent
-          />
+          <FormattedNumber data-cy={`apy`} value={Number(stableBorrowRate)} />
         </p>
       </div>
 
       <div>
-        <h3 className="teaser-voice">variabiltiy</h3>
+        <h3 className="teaser-voice">
+          variabiltiy /
+          <strong className="whisper-voice text-primary"> ±%</strong>
+        </h3>
 
         <p className="firm-voice">
-          <span className="plus-minus">±</span>{" "}
-          <FormattedNumber
-            data-cy={`apy`}
-            value={Number(variableBorrowRate)}
-            percent
-          />
+          <FormattedNumber data-cy={`apy`} value={Number(variableBorrowRate)} />
         </p>
       </div>
 

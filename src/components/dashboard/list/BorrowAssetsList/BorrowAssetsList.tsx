@@ -112,7 +112,7 @@ export const BorrowAssetsList = () => {
 
   return (
     <>
-      <h2 className="attention-voice mb-5 text-center">Borrow</h2>
+      <h2 className="firm-voice mb-5 ">Borrow</h2>
 
       <ul className="dashboard-list-items">
         {sortedReserves?.map((item: any) => (

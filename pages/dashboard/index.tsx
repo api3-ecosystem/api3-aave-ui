@@ -105,11 +105,7 @@ export default function Dashboard() {
                     <FormattedNumber
                       value={Number(user?.netWorthUSD || 0)}
                       symbol="USD"
-                      variant={valueTypographyVariant}
                       visibleDecimals={2}
-                      compact
-                      symbolsColor="#A5A8B6"
-                      symbolsVariant={noDataTypographyVariant}
                     />
                   ) : (
                     <NoData
@@ -126,11 +122,8 @@ export default function Dashboard() {
                   {currentAccount && Number(user?.netWorthUSD) > 0 ? (
                     <FormattedNumber
                       value={user.netAPY}
-                      variant={valueTypographyVariant}
                       visibleDecimals={2}
                       percent
-                      symbolsColor="#A5A8B6"
-                      symbolsVariant={noDataTypographyVariant}
                     />
                   ) : (
                     <NoData
@@ -170,12 +163,8 @@ export default function Dashboard() {
                     >
                       <FormattedNumber
                         value={claimableRewardsUsd}
-                        variant={valueTypographyVariant}
                         visibleDecimals={2}
-                        compact
                         symbol="USD"
-                        symbolsColor="#A5A8B6"
-                        symbolsVariant={noDataTypographyVariant}
                         data-cy={"Claim_Value"}
                       />
                     </Box>
@@ -203,7 +192,7 @@ export default function Dashboard() {
             <SuppliedPositionsList />
           </div>{" "}
           <div>
-            <BorrowedPositionsList />
+            <SupplyAssetsList />
           </div>
         </div>
       </section>
@@ -211,7 +200,7 @@ export default function Dashboard() {
       <section>
         <div className="inner-column wide  grid gap-6 md:grid-cols-2">
           <div className="">
-            <SupplyAssetsList />
+            <BorrowedPositionsList />
           </div>
           <div>
             <BorrowAssetsList />
