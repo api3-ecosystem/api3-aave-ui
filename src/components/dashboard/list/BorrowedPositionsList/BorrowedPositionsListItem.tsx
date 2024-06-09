@@ -47,8 +47,8 @@ export const BorrowedPositionsListItem = ({
 
   return (
     <li className="dashboard-list-item">
-      <div className="flex items-center gap-2">
-		<SymbolIcon symbol={reserve?.symbol} />
+      <div className="col-span-all flex items-center gap-2">
+        <SymbolIcon symbol={reserve?.symbol} />
         <p className="firm-voice">{reserve?.name}</p>
       </div>
 
@@ -68,16 +68,13 @@ export const BorrowedPositionsListItem = ({
 
       <div>
         <h3 className="teaser-voice">
-          apy
-          <span className=" whisper-voice font-bold text-primary">
-            {" "}
-            {borrowRateMode}
-          </span>
+          apy, {borrowRateMode} /
+          <strong className="whisper-voice text-primary"> ±%</strong>
         </h3>
         <p className="firm-voice ">
           <FormattedNumber
             data-cy={`apy`}
-            percent
+            visibleDecimals={2}
             value={Number(
               borrowRateMode === InterestRate.Variable
                 ? variableBorrowAPY
@@ -86,8 +83,6 @@ export const BorrowedPositionsListItem = ({
           />
         </p>
       </div>
-
-      <div></div>
 
       <div className="actions items-center">
         <button

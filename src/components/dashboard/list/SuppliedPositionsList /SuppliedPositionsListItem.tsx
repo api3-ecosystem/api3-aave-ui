@@ -49,7 +49,7 @@ export const SuppliedPositionsListItem = ({
 
   return (
     <li className="dashboard-list-item">
-      <div className="flex items-center gap-2">
+      <div className="col-span-all flex items-center gap-2">
         <SymbolIcon symbol={reserve?.symbol} />
         <p className="firm-voice">{reserve?.name}</p>
       </div>
@@ -62,32 +62,37 @@ export const SuppliedPositionsListItem = ({
       </div>
 
       <div>
-        <h3 className="teaser-voice">APY</h3>
+        <h3 className="teaser-voice">
+          APY/<strong className="whisper-voice text-primary"> %</strong>
+        </h3>
 
         <p className="firm-voice ">
-          <FormattedNumber data-cy={`apy`} value={reserve?.supplyAPY} percent />
+          <FormattedNumber
+            data-cy={`apy`}
+            value={reserve?.supplyAPY}
+            visibleDecimals={3}
+          />
         </p>
       </div>
 
-      <div>
-        <p className="teaser-voice">Collateral</p>
-        <Switch
-          onClick={() => {
-            openCollateralChange(
-              underlyingAsset,
-              currentMarket,
-              reserve.name,
-              "dashboard",
-              usageAsCollateralEnabledOnUser,
-            );
-          }}
-          disableRipple
-          checked={isEnabled}
-          disabled={!canBeEnabledAsCollateral}
-        />
-      </div>
-
       <div className="actions items-center ">
+        <div>
+          <p className="teaser-voice">Collateral</p>
+          <Switch
+            onClick={() => {
+              openCollateralChange(
+                underlyingAsset,
+                currentMarket,
+                reserve.name,
+                "dashboard",
+                usageAsCollateralEnabledOnUser,
+              );
+            }}
+            disableRipple
+            checked={isEnabled}
+            disabled={!canBeEnabledAsCollateral}
+          />
+        </div>
         <button
           // disabled={disableSupply}
           onClick={() => {
