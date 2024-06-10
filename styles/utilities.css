@@ -1,3 +1,8 @@
+.grid.items-start {
+  /* align-items: start !important; */
+  align-self: start;
+}
+
 .hide {
   display: none;
 }
@@ -192,7 +197,7 @@
     /* grid-column: 1 / -1; */
     /* display: grid; */
     /* grid-template-columns: 1fr 1fr; */
-    gap: var(--space-m);
+    gap: var(--space-xs);
   }
 }
 

@@ -103,7 +103,7 @@ export function FormattedNumber({
 }: FormattedNumberProps) {
   const number = percent ? Number(value) * 100 : Number(value);
 
-  let decimals: number = visibleDecimals ?? 0;
+  let decimals: number = visibleDecimals ?? 3;
   if (number === 0) {
     decimals = 0;
   } else if (visibleDecimals === undefined) {

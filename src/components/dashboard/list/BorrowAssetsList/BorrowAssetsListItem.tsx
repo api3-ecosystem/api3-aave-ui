@@ -46,7 +46,11 @@ export const BorrowAssetsListItem = ({
           <strong className="whisper-voice text-primary"> %</strong>
         </h3>
         <p className="firm-voice">
-          <FormattedNumber data-cy={`apy`} value={Number(stableBorrowRate)} />
+          <FormattedNumber
+            data-cy={`apy`}
+            value={Number(stableBorrowRate)}
+            visibleDecimals={3}
+          />
         </p>
       </div>
 
@@ -57,7 +61,11 @@ export const BorrowAssetsListItem = ({
         </h3>
 
         <p className="firm-voice">
-          <FormattedNumber data-cy={`apy`} value={Number(variableBorrowRate)} />
+          <FormattedNumber
+            visibleDecimals={3}
+            data-cy={`apy`}
+            value={Number(variableBorrowRate)}
+          />
         </p>
       </div>
 
@@ -65,7 +73,10 @@ export const BorrowAssetsListItem = ({
         <h3 className="teaser-voice">collaterral</h3>
 
         <p className="firm-voice">
-          <FormattedNumber value={Number(availableBorrows)} />
+          <FormattedNumber
+            visibleDecimals={3}
+            value={Number(availableBorrows)}
+          />
         </p>
       </div>
 

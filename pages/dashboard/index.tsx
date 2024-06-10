@@ -187,23 +187,23 @@ export default function Dashboard() {
         </div>
       </section>
       <section>
-        <div className="inner-column wide  grid gap-6 md:grid-cols-2">
-          <div>
-            <SuppliedPositionsList />
-          </div>{" "}
-          <div>
-            <SupplyAssetsList />
+        <div className="inner-column wide  grid gap-6 lg:grid-cols-2">
+          <div className="grid items-start gap-6">
+            <div>
+              <SuppliedPositionsList />
+            </div>
+            <div>
+              <SupplyAssetsList />
+            </div>
           </div>
-        </div>
-      </section>
+          <div className="grid items-start gap-6">
+            <div className="">
+              <BorrowedPositionsList />
+            </div>
 
-      <section>
-        <div className="inner-column wide  grid gap-6 md:grid-cols-2">
-          <div className="">
-            <BorrowedPositionsList />
-          </div>
-          <div>
-            <BorrowAssetsList />
+            <div>
+              <BorrowAssetsList />
+            </div>
           </div>
         </div>
       </section>
