@@ -16,7 +16,7 @@ API3 is building secure first-party oracles and OEV-enabled data feeds for DeFi 
 
 ## Setup
 
-The repository uses `deployment-configs.json` to load market configs. By default it uses predefined default configs, and generated configs if started from [Aave Protocol V2 Fork](https://github.com/api3-ecosystem/aave-protocol-v2-fork).
+The repository uses `deployment-configs.json` to load market configs. By default it uses default configs, and it uses defined configs if started from [Aave Protocol V2 Fork](https://github.com/api3-ecosystem/aave-protocol-v2-fork).
 
 ### Spinning up the frontend locally with defaults
 
