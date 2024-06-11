@@ -7,7 +7,6 @@ import Head from "next/head";
 
 import { BackgroundDataProvider } from "src/hooks/app-data-provider/BackgroundDataProvider";
 import { AppDataProvider } from "src/hooks/app-data-provider/useAppDataProvider";
-import { AppGlobalStyles } from "src/layouts/AppGlobalStyles";
 import { SharedDependenciesProvider } from "src/ui-config/SharedDependenciesProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalContextProvider } from "src/hooks/useModal";
@@ -33,14 +32,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiProvider>
       <Head>
-        <title>API3-OEV Playground</title>
-        <meta content="OEV - Playground" name="description" />
+        <title>API3 Aave-V2 Market</title>
+        <meta content="API3 Aave-v2" name="description" />
 
         {/* TODO: Fix the favicon */}
-        <link
-          href="https://phantazm.vercel.app/phantazm_transparent.png"
-          rel="icon"
-        />
+        <link href="images/favicon.png" rel="icon" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -59,7 +55,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <ModalContextProvider>
             <BackgroundDataProvider>
               <AppDataProvider>
-                {/* <AppGlobalStyles> */}
                 <GasStationProvider>
                   <SharedDependenciesProvider>
                     <Layout>
@@ -72,9 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <WithdrawModal />
                     <CollateralChangeModal />
                     <ClaimRewardsModal />
-                    {/* <RateSwitchModal />
-                      <DebtSwitchModal />
-                      {/* stake modals  */}
+
                     <StakeModal />
                     <StakeCooldownModal />
                     <UnStakeModal />
@@ -82,7 +75,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <StakeRewardClaimRestakeModal />
                   </SharedDependenciesProvider>
                 </GasStationProvider>
-                {/* </AppGlobalStyles> */}
               </AppDataProvider>
             </BackgroundDataProvider>
           </ModalContextProvider>

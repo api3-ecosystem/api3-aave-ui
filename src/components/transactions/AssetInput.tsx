@@ -1,12 +1,8 @@
-// import { XCircleIcon } from '@heroicons/react/solid';
-// import { Trans } from '@lingui/macro';
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   Box,
-  Button,
   CircularProgress,
   FormControl,
-  IconButton,
   InputBase,
   ListItemText,
   MenuItem,
@@ -17,11 +13,7 @@ import {
 } from "@mui/material";
 import React, { ReactNode } from "react";
 import NumberFormat, { NumberFormatProps } from "react-number-format";
-// import { TrackEventProps } from "src/store/analyticsSlice";
-import { useRootStore } from "src/store/root";
-
 import { CapType } from "../caps/helper";
-import { AvailableTooltip } from "../infoTooltips/AvailableTooltip";
 import { FormattedNumber } from "../primitives/FormattedNumber";
 import { TokenIcon } from "../primitives/TokenIcon";
 
@@ -107,7 +99,7 @@ export const AssetInput = <T extends Asset = Asset>({
   selectOption,
 }: AssetInputProps<T>) => {
   const theme = useTheme();
-  // const trackEvent = useRootStore((store) => store.trackEvent);
+
   const handleSelect = (event: SelectChangeEvent) => {
     const newAsset = assets.find(
       (asset) => asset.symbol === event.target.value,

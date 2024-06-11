@@ -1,17 +1,6 @@
-// import { CheckIcon } from '@heroicons/react/solid';
-// import { Trans } from '@lingui/macro';
-import {
-  Box,
-  BoxProps,
-  Button,
-  CircularProgress,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
+import { Box, BoxProps, CircularProgress, SvgIcon } from "@mui/material";
 import { ReactNode } from "react";
 import { TxStateType, useModalContext } from "src/hooks/useModal";
-// import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-// import { TrackEventProps } from 'src/store/analyticsSlice';
 import { TxAction } from "src/ui-config/errorMapping";
 
 import { ApprovalTooltip } from "../infoTooltips/ApprovalTooltip";
@@ -65,7 +54,7 @@ export const TxActionsWrapper = ({
   ...rest
 }: TxActionsWrapperProps) => {
   const { txError } = useModalContext();
-  // const { readOnlyModeAddress } = useWeb3Context();
+
   const hasApprovalError =
     requiresApproval &&
     txError?.txAction === TxAction.APPROVAL &&
@@ -90,8 +79,7 @@ export const TxActionsWrapper = ({
     if (isAmountMissing)
       return { disabled: true, content: <span>Enter an amount</span> };
     if (preparingTransactions) return { disabled: true, loading: true };
-    // if (hasApprovalError && handleRetry)
-    //   return { content: <Trans>Retry with approval</Trans>, handleClick: handleRetry };
+
     if (mainTxState?.loading)
       return { loading: true, disabled: true, content: actionInProgressText };
     if (requiresApproval && !approvalTxState?.success)
@@ -186,17 +174,6 @@ export const TxActionsWrapper = ({
         )}
         {content}
       </button>
-      {/* {readOnlyModeAddress && (
-        <Typography
-          variant="helperText"
-          color="warning.main"
-          sx={{ textAlign: "center", mt: 2 }}
-        >
-          <Trans>
-            Read-only mode. Connect to a wallet to perform transactions.
-          </Trans>
-        </Typography>
-      )} */}
     </Box>
   );
 };

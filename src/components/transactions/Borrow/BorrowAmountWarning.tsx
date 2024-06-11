@@ -1,8 +1,5 @@
-// import { Trans } from '@lingui/macro';
 import { Box, Checkbox, Typography } from "@mui/material";
 import { Warning } from "src/components/primitives/Warning";
-// import { useRootStore } from "src/store/root";
-// import { GENERAL } from "src/utils/mixPanelEvents";
 
 interface BorrowAmountWarningProps {
   riskCheckboxAccepted: boolean;
@@ -13,8 +10,6 @@ export const BorrowAmountWarning = ({
   riskCheckboxAccepted,
   onRiskCheckboxChange,
 }: BorrowAmountWarningProps) => {
-  // const trackEvent = useRootStore((store) => store.trackEvent);
-
   return (
     <>
       <Warning severity="error" sx={{ my: 6 }}>
@@ -36,11 +31,6 @@ export const BorrowAmountWarning = ({
         <Checkbox
           checked={riskCheckboxAccepted}
           onChange={(event) => {
-            // trackEvent(GENERAL.ACCEPT_RISK, {
-            //   modal: "Borrow",
-            //   riskCheckboxAccepted: event.target.checked,
-            // });
-
             onRiskCheckboxChange();
           }}
           style={{ color: "#ffffff" }}

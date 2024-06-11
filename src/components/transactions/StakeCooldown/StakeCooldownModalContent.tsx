@@ -15,10 +15,9 @@ import { useGeneralStakeUiData } from "src/hooks/stake/useGeneralStakeUiData";
 import { useUserStakeUiData } from "src/hooks/stake/useUserStakeUiData";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
-// import { useRootStore } from "src/store/root";
+
 import { stakeConfig } from "src/ui-config/stakeConfig";
 import { getNetworkConfig } from "src/utils/marketsAndNetworksConfig";
-import { GENERAL } from "src/utils/mixPanelEvents";
 
 import { formattedTime, timeText } from "../../../helpers/timeHelper";
 import { Link } from "../../primitives/Link";
@@ -49,7 +48,6 @@ export const StakeCooldownModalContent = ({
   const { chainId: connectedChainId, readOnlyModeAddress } = useWeb3Context();
   const { gasLimit, mainTxState: txState, txError } = useModalContext();
   const { currentNetworkConfig, currentChainId } = useProtocolDataContext();
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   const { data: stakeUserResult } = useUserStakeUiData();
   const { data: stakeGeneralResult } = useGeneralStakeUiData();
@@ -121,10 +119,6 @@ export const StakeCooldownModalContent = ({
   };
 
   const handleOnCoolDownCheckBox = () => {
-    // trackEvent(GENERAL.ACCEPT_RISK, {
-    //   asset: stakeAssetName,
-    //   modal: "Cooldown",
-    // });
     setCooldownCheck(!cooldownCheck);
   };
   const amountToCooldown = formatEther(
@@ -147,12 +141,6 @@ export const StakeCooldownModalContent = ({
           receiving rewards during cooldown and unstake window.
         </div>{" "}
         <Link
-          // onClick={() =>
-          //   trackEvent(GENERAL.EXTERNAL_LINK, {
-          //     assetName: "ABPT",
-          //     link: "Cooldown Learn More",
-          //   })
-          // }
           variant="description"
           href="https://docs.aave.com/faq/migration-and-staking"
           sx={{ textDecoration: "underline" }}

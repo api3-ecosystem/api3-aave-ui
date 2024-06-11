@@ -1,9 +1,9 @@
 import { InterestRate } from "contract-helpers";
-// import { ExternalLinkIcon } from "@heroicons/react/outline";
+
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-// import { CheckIcon } from "@heroicons/react/solid";
+
 import CheckIcon from "@mui/icons-material/Check";
-// import { Trans } from "@lingui/macro";
+
 import { ContentCopyOutlined, Download, Twitter } from "@mui/icons-material";
 import {
   Box,
@@ -17,9 +17,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import dynamic from "next/dynamic.js";
 import { ReactNode, useRef, useState } from "react";
-// import { LensterIcon } from "src/components/icons/LensterIcon";
 import LensIcon from "@mui/icons-material/Lens";
 import {
   compactNumber,
@@ -27,10 +25,6 @@ import {
 } from "src/components/primitives/FormattedNumber";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
-import { useRootStore } from "src/store/root";
-import { GHO_SUCCESS_MODAL } from "src/utils/mixPanelEvents";
-
-// const GhoSuccessImage = dynamic(() => import("./GhoSuccessImage"));
 
 const CopyImageButton = styled(Button)(() => ({
   minWidth: 139,
@@ -122,7 +116,6 @@ export const GhoBorrowSuccessView = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
   const downToXSM = useMediaQuery(theme.breakpoints.down("xsm"));
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   const compactedNumber = compactNumber({
     value: amount,
@@ -141,7 +134,6 @@ export const GhoBorrowSuccessView = ({
           }),
         ])
         .then(() => {
-          // trackEvent(GHO_SUCCESS_MODAL.GHO_COPY_IMAGE);
           setClickedCopyImage(true);
           setTimeout(() => {
             setClickedCopyImage(false);
@@ -149,7 +141,6 @@ export const GhoBorrowSuccessView = ({
         })
         .catch((error) => {
           console.log("copy to clipboard failed ", error);
-          // trackEvent(GHO_SUCCESS_MODAL.GHO_FAIL_COPY_IMAGE);
         });
     }
   };
@@ -168,7 +159,7 @@ export const GhoBorrowSuccessView = ({
           });
         };
         img.src = `data:image/svg+xml;utf8,${encodeURIComponent(
-          svg.outerHTML
+          svg.outerHTML,
         )}`;
       }
     }
@@ -234,9 +225,6 @@ export const GhoBorrowSuccessView = ({
           variant="outlined"
           size="small"
           endIcon={<ExtLinkIcon style={{ fontSize: 12 }} />}
-          // onClick={() =>
-          //   trackEvent(GHO_SUCCESS_MODAL.GHO_BORROW_VIEW_TX_DETAILS)
-          // }
           href={currentNetworkConfig.explorerLinkBuilder({
             tx: txHash ? txHash : mainTxState.txHash,
           })}
@@ -296,9 +284,6 @@ export const GhoBorrowSuccessView = ({
                 <CopyImageButton
                   download={"minted_gho.png"}
                   href={URL.createObjectURL(generatedBlob)}
-                  // onClick={() =>
-                  //   trackEvent(GHO_SUCCESS_MODAL.GHO_DOWNLOAD_IMAGE)
-                  // }
                   sx={{
                     display: "flex",
                   }}
@@ -326,7 +311,6 @@ export const GhoBorrowSuccessView = ({
                 }&text=${`I just minted ${finalNumber} GHO`}&hashtags=Aave&preview=true`}
                 size="small"
                 sx={{ ml: "auto" }}
-                // onClick={() => trackEvent(GHO_SUCCESS_MODAL.GHO_SHARE_LENSTER)}
               >
                 <LensIcon sx={{ fill: "#845EEE" }} fontSize="small" />
               </IconButtonCustom>
@@ -334,7 +318,6 @@ export const GhoBorrowSuccessView = ({
                 target="_blank"
                 href={`https://twitter.com/intent/tweet?text=I Just minted ${finalNumber} GHO`}
                 sx={{ ml: 2 }}
-                // onClick={() => trackEvent(GHO_SUCCESS_MODAL.GHO_SHARE_TWITTER)}
               >
                 <Twitter fontSize="small" sx={{ fill: "#33CEFF" }} />
               </IconButtonCustom>
@@ -347,10 +330,6 @@ export const GhoBorrowSuccessView = ({
               sx={{ borderRadius: 4, width: "100%" }}
             />
             <div style={{ visibility: "hidden", position: "absolute" }}>
-              {/* <GhoSuccessImage
-                onSuccessEditing={transformImage}
-                text={finalNumber}
-              /> */}
               <div>Add success image here</div>
             </div>
           </>
