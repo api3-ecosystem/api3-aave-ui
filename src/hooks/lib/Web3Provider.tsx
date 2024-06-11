@@ -1,28 +1,13 @@
 import { API_ETH_MOCK_ADDRESS, transactionType } from "contract-helpers";
 import { SignatureLike } from "@ethersproject/bytes";
-import {
-  JsonRpcProvider,
-  TransactionResponse,
-  // Web3Provider,
-} from "@ethersproject/providers";
-// import { AbstractConnector } from "@web3-react/abstract-connector";
-// import { useWeb3React } from "@web3-react/core";
-// import { TorusConnector } from "@web3-react/torus-connector";
-// import { WalletLinkConnector } from "@web3-react/walletlink-connector";
-// import { BigNumber, PopulatedTransaction, providers } from "ethers";
+import { JsonRpcProvider, TransactionResponse } from "@ethersproject/providers";
+
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
 import { useRootStore } from "src/store/root";
-// import { getNetworkConfig } from "src/utils/marketsAndNetworksConfig";
-// import { hexToAscii } from "src/utils/utils";
-// import { isLedgerDappBrowserProvider } from "web3-ledgerhq-frame-connector";
-
 import { Web3Context } from "./hooks/useWeb3Context";
-// import { WalletConnectConnector } from "./WalletConnectConnector";
+
 import { WalletType } from "./WalletOptions";
 import { useWeb3 } from "./useWeb3";
-// import { waitForTransaction } from "@wagmi/core";
-// import { TransactionReceipt } from "viem";
-// import { getEthersSigner } from "./ethers";
 
 export type ERC20TokenType = {
   address: string;
@@ -63,22 +48,14 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({
     chainId,
     signer,
     provider,
-    // activate,
-    // active,
+
     switchNetworkError: error,
-    // deactivate,
-    // setError,
   } = useWeb3();
 
-  // const [provider, setProvider] = useState<JsonRpcProvider>();
-  // const [connector, setConnector] = useState<AbstractConnector>();
-  // const [loading, setLoading] = useState(false);
   const [tried, setTried] = useState(false);
-  // const [deactivated, setDeactivated] = useState(false);
-  // const [triedGnosisSafe, setTriedGnosisSafe] = useState(false);
-  // const [triedCoinbase, setTriedCoinbase] = useState(false);
+
   const [readOnlyMode, setReadOnlyMode] = useState(false);
-  // const [triedLedger, setTriedLedger] = useState(false);
+
   const [switchNetworkError, setSwitchNetworkError] = useState<Error>();
   const [setAccount, currentChainId] = useRootStore((store) => [
     store.setAccount,
@@ -180,11 +157,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({
       //   setLoading(false);
       // }
     },
-    [disconnectWallet, currentChainId]
+    [disconnectWallet, currentChainId],
   );
 
   const activateInjectedProvider = (
-    providerName: string | "MetaMask" | "CoinBase"
+    providerName: string | "MetaMask" | "CoinBase",
   ) => {
     // const { ethereum } = window;
 

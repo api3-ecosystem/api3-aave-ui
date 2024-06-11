@@ -1,10 +1,7 @@
 import { InterestRate } from "contract-helpers";
 import { createContext, useContext, useState } from "react";
 import { EmodeModalType } from "src/components/transactions/Emode/EmodeModalContent";
-// import { useWeb3Context } from 'src/libs/hooks/useWeb3Context';
-import { useRootStore } from "src/store/root";
 import { TxErrorType } from "src/ui-config/errorMapping";
-// import { GENERAL } from "src/utils/mixPanelEvents";
 
 export enum ModalType {
   Supply,
@@ -136,7 +133,6 @@ export const ModalContextProvider: React.FC = ({ children }) => {
   const [gasLimit, setGasLimit] = useState<string>("");
   const [loadingTxns, setLoadingTxns] = useState(false);
   const [txError, setTxError] = useState<TxErrorType>();
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   return (
     <ModalContext.Provider
@@ -151,36 +147,10 @@ export const ModalContextProvider: React.FC = ({ children }) => {
           console.log("openSupply");
           setType(ModalType.Supply);
           setArgs({ underlyingAsset });
-
-          // if (isReserve) {
-          //   trackEvent(GENERAL.OPEN_MODAL, {
-          //     modal: "Supply",
-          //     market: currentMarket,
-          //     assetName: name,
-          //     asset: underlyingAsset,
-          //     funnel,
-          //   });
-          // } else {
-          //   trackEvent(GENERAL.OPEN_MODAL, {
-          //     modal: "Supply",
-          //     market: currentMarket,
-          //     assetName: name,
-          //     asset: underlyingAsset,
-          //     funnel,
-          //   });
-          // }
         },
         openWithdraw: (underlyingAsset, currentMarket, name, funnel) => {
           setType(ModalType.Withdraw);
           setArgs({ underlyingAsset });
-
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Withdraw",
-          //   market: currentMarket,
-          //   assetName: name,
-          //   asset: underlyingAsset,
-          //   funnel: funnel,
-          // });
         },
         openBorrow: (
           underlyingAsset,
@@ -191,23 +161,6 @@ export const ModalContextProvider: React.FC = ({ children }) => {
         ) => {
           setType(ModalType.Borrow);
           setArgs({ underlyingAsset });
-          // if (isReserve) {
-          //   trackEvent(GENERAL.OPEN_MODAL, {
-          //     modal: "Borrow",
-          //     market: currentMarket,
-          //     assetName: name,
-          //     asset: underlyingAsset,
-          //     funnel,
-          //   });
-          // } else {
-          //   trackEvent(GENERAL.OPEN_MODAL, {
-          //     modal: "Borrow",
-          //     market: currentMarket,
-          //     assetName: name,
-          //     asset: underlyingAsset,
-          //     funnel,
-          //   });
-          // }
         },
         openRepay: (
           underlyingAsset,
@@ -219,14 +172,6 @@ export const ModalContextProvider: React.FC = ({ children }) => {
         ) => {
           setType(ModalType.Repay);
           setArgs({ underlyingAsset, currentRateMode, isFrozen });
-
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Repay",
-          //   asset: underlyingAsset,
-          //   assetName: name,
-          //   market: currentMarket,
-          //   funnel,
-          // });
         },
         openCollateralChange: (
           underlyingAsset,
@@ -237,106 +182,62 @@ export const ModalContextProvider: React.FC = ({ children }) => {
         ) => {
           setType(ModalType.CollateralChange);
           setArgs({ underlyingAsset });
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Toggle Collateral",
-          //   market: currentMarket,
-          //   assetName: name,
-          //   asset: underlyingAsset,
-          //   usageAsCollateralEnabledOnUser: usageAsCollateralEnabledOnUser,
-          //   funnel,
-          // });
         },
         openRateSwitch: (underlyingAsset, currentRateMode) => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Rate Switch" });
           setType(ModalType.RateSwitch);
           setArgs({ underlyingAsset, currentRateMode });
         },
         openStake: (stakeAssetName, icon) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Stake",
-          //   assetName: stakeAssetName,
-          // });
           console.log("opening stake modal");
           setType(ModalType.Stake);
           setArgs({ stakeAssetName, icon });
         },
         openUnstake: (stakeAssetName, icon) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Untake",
-          //   assetName: stakeAssetName,
-          // });
           setType(ModalType.Unstake);
           setArgs({ stakeAssetName, icon });
         },
         openStakeCooldown: (stakeAssetName) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Cooldown",
-          //   assetName: stakeAssetName,
-          // });
           setType(ModalType.StakeCooldown);
           setArgs({ stakeAssetName });
         },
         openStakeRewardsClaim: (stakeAssetName, icon) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Stake Rewards",
-          //   assetName: stakeAssetName,
-          // });
           setType(ModalType.StakeRewardClaim);
           setArgs({ stakeAssetName, icon });
         },
         openStakeRewardsRestakeClaim: (stakeAssetName, icon) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Restatke Stake Rewards",
-          //   assetName: stakeAssetName,
-          // });
           setType(ModalType.StakeRewardsClaimRestake);
           setArgs({ stakeAssetName, icon });
         },
         openClaimRewards: () => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Claim" });
           setType(ModalType.ClaimRewards);
         },
         openEmode: (mode) => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "eMode" });
           setType(ModalType.Emode);
           setArgs({ emode: mode });
         },
         openFaucet: (underlyingAsset) => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Faucet" });
           setType(ModalType.Faucet);
           setArgs({ underlyingAsset });
         },
         openSwap: (underlyingAsset) => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Swap" });
           setType(ModalType.Swap);
           setArgs({ underlyingAsset });
         },
         openDebtSwitch: (underlyingAsset, currentRateMode) => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Debt Switch" });
           setType(ModalType.DebtSwitch);
           setArgs({ underlyingAsset, currentRateMode });
         },
         openGovDelegation: () => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "Governance Delegation" });
           setType(ModalType.GovDelegation);
         },
         openRevokeGovDelegation: () => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Revoke Governance Delegation",
-          // });
           setType(ModalType.RevokeGovDelegation);
         },
         openGovVote: (proposalId, support, power) => {
-          // trackEvent(GENERAL.OPEN_MODAL, {
-          //   modal: "Vote",
-          //   proposalId: proposalId,
-          //   voteSide: support,
-          // });
           setType(ModalType.GovVote);
           setArgs({ proposalId, support, power });
         },
         openV3Migration: () => {
-          // trackEvent(GENERAL.OPEN_MODAL, { modal: "V2->V3 Migration" });
           setType(ModalType.V3Migration);
         },
         close: () => {

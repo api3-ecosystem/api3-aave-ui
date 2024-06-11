@@ -32,11 +32,6 @@ export function RepayTypeSelector({
         <StyledTxModalToggleButton
           value={RepayType.BALANCE}
           disabled={repayType === RepayType.BALANCE}
-          // onClick={() =>
-          //   trackEvent(REPAY_MODAL.SWITCH_REPAY_TYPE, {
-          //     repayType: "Wallet Balance",
-          //   })
-          // }
         >
           <Typography variant="buttonM">
             <div>Wallet balance</div>
@@ -46,11 +41,6 @@ export function RepayTypeSelector({
         <StyledTxModalToggleButton
           value={RepayType.COLLATERAL}
           disabled={repayType === RepayType.COLLATERAL}
-          // onClick={() =>
-          //   trackEvent(REPAY_MODAL.SWITCH_REPAY_TYPE, {
-          //     repayType: "Collateral",
-          //   })
-          // }
         >
           <Typography variant="buttonM">
             <div>Collateral</div>

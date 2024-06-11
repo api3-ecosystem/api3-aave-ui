@@ -25,7 +25,7 @@ export const makeCancelable = <T>(promise: Promise<T>) => {
   const wrappedPromise = new Promise<T>((resolve, reject) => {
     promise.then(
       (val) => (hasCanceled_ ? reject({ isCanceled: true }) : resolve(val)),
-      (error) => (hasCanceled_ ? reject({ isCanceled: true }) : reject(error))
+      (error) => (hasCanceled_ ? reject({ isCanceled: true }) : reject(error)),
     );
   });
 
@@ -56,7 +56,7 @@ export const minBaseTokenRemainingByNetwork: Record<number, string> = {
 export const amountToUsd = (
   amount: BigNumberValue,
   formattedPriceInMarketReferenceCurrency: string,
-  marketReferencePriceInUsd: string
+  marketReferencePriceInUsd: string,
 ) => {
   return valueToBigNumber(amount)
     .multipliedBy(formattedPriceInMarketReferenceCurrency)
@@ -66,7 +66,7 @@ export const amountToUsd = (
 
 export const roundToTokenDecimals = (
   inputValue: string,
-  tokenDecimals: number
+  tokenDecimals: number,
 ) => {
   const [whole, decimals] = inputValue.split(".");
 

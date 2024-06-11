@@ -98,7 +98,7 @@ export const ListSlippageButton = ({
               value={slippageValue}
               onClick={() => {
                 setSlippage(slippageValue);
-                // trackEvent(GENERAL.SET_SLIPPAGE, { amount: slippageValue });
+
                 handleClose();
               }}
             >

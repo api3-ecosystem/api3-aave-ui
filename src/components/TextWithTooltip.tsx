@@ -1,4 +1,3 @@
-// import { InformationCircleIcon } from '@heroicons/react/outline';
 import { Box, BoxProps, IconButton, SvgIcon, Typography } from "@mui/material";
 import { TypographyProps } from "@mui/material/Typography";
 import {
@@ -7,8 +6,6 @@ import {
   ReactNode,
   useState,
 } from "react";
-// import { TrackEventProps } from 'src/store/analyticsSlice';
-import { useRootStore } from "src/store/root";
 
 import { ContentWithTooltip } from "./ContentWithTooltip";
 import { InfoOutlined } from "@mui/icons-material";
@@ -42,7 +39,6 @@ export const TextWithTooltip = ({
   ...rest
 }: TextWithTooltipProps) => {
   const [open, setOpen] = useState(openProp);
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   const toggleOpen = () => {
     if (setOpenProp) setOpenProp(!open);
@@ -70,11 +66,7 @@ export const TextWithTooltip = ({
             minWidth: 0,
             ml: iconMargin || 0.5,
           }}
-          onClick={() => {
-            // if (event) {
-            //   trackEvent(event.eventName, { ...event.eventParams });
-            // }
-          }}
+          onClick={() => {}}
         >
           <SvgIcon
             sx={{

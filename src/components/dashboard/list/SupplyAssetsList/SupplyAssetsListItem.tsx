@@ -8,10 +8,10 @@ import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import Image from "next/image";
 import { populateAssetIcon } from "configuration";
-import { useAccount } from "wagmi";
+import { useAccount, useWalletClient, useToken, Address } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import SymbolIcon from "src/components/SymbolIcon";
-
+import { watchAsset } from "viem/actions";
 export const SupplyAssetsListItem = ({
   symbol,
   iconSymbol,
@@ -33,6 +33,8 @@ export const SupplyAssetsListItem = ({
   const { currentMarket } = useProtocolDataContext();
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
+
+  const { data: walletClient } = useWalletClient();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage, debtCeiling } = useAssetCaps();
@@ -84,7 +86,27 @@ export const SupplyAssetsListItem = ({
         >
           Supply
         </button>
-        <button className="button whisper-voice outline">Add Token?</button>
+        <button
+          className="button whisper-voice outline"
+          onClick={() => {
+            const image = "";
+            if (!underlyingAsset || !symbol || !walletClient) return;
+            try {
+              watchAsset(walletClient, {
+                // TODO: Add more types
+                type: "ERC20",
+                options: {
+                  address: underlyingAsset as Address,
+                  symbol: symbol,
+                  image,
+                  decimals: 18,
+                },
+              });
+            } catch (error) {}
+          }}
+        >
+          Add Token?
+        </button>
       </div>
     </div>
   );

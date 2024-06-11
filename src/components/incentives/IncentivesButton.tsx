@@ -1,11 +1,8 @@
 import { valueToBigNumber } from "@aave/math-utils";
 import { ReserveIncentiveResponse } from "@aave/math-utils/dist/esm/formatters/incentive/calculate-reserve-incentives";
-// import { DotsHorizontalIcon } from '@heroicons/react/solid';
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Box, SvgIcon, Typography } from "@mui/material";
 import { useState } from "react";
-// import { useRootStore } from "src/store/root";
-// import { DASHBOARD } from "src/utils/mixPanelEvents";
 
 import { ContentWithTooltip } from "../ContentWithTooltip";
 import { FormattedNumber } from "../primitives/FormattedNumber";
@@ -41,7 +38,6 @@ export const IncentivesButton = ({
   displayBlank,
 }: IncentivesButtonProps) => {
   const [open, setOpen] = useState(false);
-  // const trackEvent = useRootStore((store) => store.trackEvent);
 
   if (!(incentives && incentives.length > 0)) {
     if (displayBlank) {
@@ -139,8 +135,6 @@ export const IncentivesButton = ({
           },
         })}
         onClick={() => {
-          // TODO: How to handle this for event props?
-          // trackEvent(DASHBOARD.VIEW_LM_DETAILS_DASHBOARD, {});
           setOpen(!open);
         }}
       >

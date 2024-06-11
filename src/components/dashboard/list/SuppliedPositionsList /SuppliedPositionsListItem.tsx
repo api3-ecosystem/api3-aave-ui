@@ -1,5 +1,4 @@
-// import { Trans } from '@lingui/macro';
-import { Button, Grid, Switch } from "@mui/material";
+import { Switch } from "@mui/material";
 import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvider";
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { useModalContext } from "src/hooks/useModal";
@@ -7,10 +6,8 @@ import { DashboardReserve } from "src/utils/dashboardSortUtils";
 
 import { useProtocolDataContext } from "../../../../hooks/useProtocolDataContext";
 import { isFeatureEnabled } from "../../../../utils/marketsAndNetworksConfig";
-import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
-import { useEffect } from "react";
-import { populateAssetIcon } from "configuration";
+
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import SymbolIcon from "src/components/SymbolIcon";
