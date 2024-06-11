@@ -2,18 +2,18 @@ import { DashboardReserve } from "src/utils/dashboardSortUtils";
 
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { CheckBoxOutlined } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { useAssetCaps } from "src/hooks/useAssetCaps";
-import Image from "next/image";
-import { populateAssetIcon } from "configuration";
 import { useAccount, useWalletClient, useToken, Address } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import SymbolIcon from "src/components/SymbolIcon";
-import { watchAsset } from "viem/actions";
+import { useWeb3 } from "src/hooks/lib/useWeb3";
+
 export const SupplyAssetsListItem = ({
   symbol,
+  decimals,
   iconSymbol,
   name,
   walletBalance,
@@ -34,11 +34,18 @@ export const SupplyAssetsListItem = ({
   const { openConnectModal } = useConnectModal();
   const { isConnected } = useAccount();
 
-  const { data: walletClient } = useWalletClient();
+  const { addTokenToMetamask } = useWeb3();
 
   // Disable the asset to prevent it from being supplied if supply cap has been reached
   const { supplyCap: supplyCapUsage, debtCeiling } = useAssetCaps();
   const isMaxCapReached = supplyCapUsage?.isMaxed;
+  const [isTokenAdded, setTokenAdded] = useState(false);
+
+  useEffect(() => {
+    setTokenAdded(
+      localStorage.getItem(underlyingAsset) === "watching" ? true : false,
+    );
+  }, [underlyingAsset]);
 
   const disableSupply =
     !isActive || isFreezed || Number(walletBalance) <= 0 || isMaxCapReached;
@@ -88,24 +95,21 @@ export const SupplyAssetsListItem = ({
         </button>
         <button
           className="button whisper-voice outline"
-          onClick={() => {
-            const image = "";
-            if (!underlyingAsset || !symbol || !walletClient) return;
-            try {
-              watchAsset(walletClient, {
-                // TODO: Add more types
-                type: "ERC20",
-                options: {
-                  address: underlyingAsset as Address,
-                  symbol: symbol,
-                  image,
-                  decimals: 18,
-                },
-              });
-            } catch (error) {}
+          disabled={isTokenAdded}
+          onClick={async () => {
+            const success = await addTokenToMetamask({
+              address: underlyingAsset,
+              symbol: symbol,
+              decimals: decimals,
+              logo: "",
+            });
+
+            if (success) {
+              setTokenAdded(true);
+            }
           }}
         >
-          Add Token?
+          {isTokenAdded ? "Token added" : "Add Token?"}
         </button>
       </div>
     </div>
