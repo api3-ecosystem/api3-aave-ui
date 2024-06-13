@@ -13,12 +13,12 @@ import { GENERAL } from "src/utils/mixPanelEvents";
 import {
   ComputedUserReserveData,
   useAppDataContext,
-} from "../../../../hooks/app-data-provider/useAppDataProvider";
+} from "../../../hooks/app-data-provider/useAppDataProvider";
 import {
   DASHBOARD_LIST_COLUMN_WIDTHS,
   DashboardReserve,
   handleSortDashboardReserves,
-} from "../../../../utils/dashboardSortUtils";
+} from "../../../utils/dashboardSortUtils";
 
 import { BorrowedPositionsListItem } from "./BorrowedPositionsListItem";
 import { BorrowedPositionsListMobileItem } from "./BorrowedPositionsListMobileItem";

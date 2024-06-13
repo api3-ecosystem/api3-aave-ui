@@ -12,13 +12,13 @@ import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { ChainId } from "contract-helpers";
 import { useAccount } from "wagmi";
 import { NoData } from "src/components/primitives/NoData";
-import { BorrowAssetsList } from "src/components/dashboard/list/BorrowAssetsList/BorrowAssetsList";
-import { SupplyAssetsList } from "src/components/dashboard/list/SupplyAssetsList/SupplyAssetsList";
+import { BorrowAssetsList } from "src/components/dashboard/BorrowAssetsList/BorrowAssetsList";
+import { SupplyAssetsList } from "src/components/dashboard/SupplyAssetsList/SupplyAssetsList";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import { HealthFactorNumber } from "src/components/HealthFactorNumber";
 import { useModalContext } from "src/hooks/useModal";
-import { SuppliedPositionsList } from "src/components/dashboard/list/SuppliedPositionsList /SuppliedPositionsList";
-import { BorrowedPositionsList } from "src/components/dashboard/list/BorrowedPositionsList/BorrowedPositionsList";
+import { SuppliedPositionsList } from "src/components/dashboard/SuppliedPositionsList /SuppliedPositionsList";
+import { BorrowedPositionsList } from "src/components/dashboard/BorrowedPositionsList/BorrowedPositionsList";
 
 export default function Dashboard() {
   const { user, reserves, loading } = useAppDataContext();

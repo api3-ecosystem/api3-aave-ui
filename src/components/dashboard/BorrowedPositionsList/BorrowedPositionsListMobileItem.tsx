@@ -7,10 +7,10 @@ import { DashboardReserve } from "src/utils/dashboardSortUtils";
 import { isFeatureEnabled } from "src/utils/marketsAndNetworksConfig";
 import { GENERAL } from "src/utils/mixPanelEvents";
 
-import { IncentivesCard } from "../../../../components/incentives/IncentivesCard";
-import { APYTypeTooltip } from "../../../../components/infoTooltips/APYTypeTooltip";
-import { Row } from "../../../../components/primitives/Row";
-import { useModalContext } from "../../../../hooks/useModal";
+import { IncentivesCard } from "../../incentives/IncentivesCard";
+import { APYTypeTooltip } from "../../infoTooltips/APYTypeTooltip";
+import { Row } from "../../primitives/Row";
+import { useModalContext } from "../../../hooks/useModal";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 

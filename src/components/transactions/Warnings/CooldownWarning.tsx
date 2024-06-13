@@ -18,12 +18,6 @@ export const CooldownWarning = () => {
           <Link
             target="_blank"
             href="https://phantazm.gitbook.io/phantazm-1/v2/staking-mechanism-soon"
-            // // fontWeight={500}
-            // onClick={() =>
-            //   trackEvent(GENERAL.EXTERNAL_LINK, {
-            //     Link: 'Cooldown Period Warning',
-            //   })
-            // }
           >
             <div>Learn more</div>
           </Link>

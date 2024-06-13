@@ -5,8 +5,8 @@ import {
   ComputedReserveData,
   ComputedUserReserveData,
 } from "../hooks/app-data-provider/useAppDataProvider";
-import { BorrowAssetsItem } from "src/components/dashboard/list/BorrowAssetsList/types";
-import { SupplyAssetsItem } from "src/components/dashboard/list/SupplyAssetsList/types";
+import { BorrowAssetsItem } from "src/components/dashboard/BorrowAssetsList/types";
+import { SupplyAssetsItem } from "src/components/dashboard/SupplyAssetsList/types";
 
 // Helpers
 export const DASHBOARD_LIST_COLUMN_WIDTHS = {
@@ -34,21 +34,21 @@ export const handleSortDashboardReserves = (
   sortName: string,
   sortPosition: string,
   positions: DashboardReserve[],
-  isBorrowedPosition?: boolean
+  isBorrowedPosition?: boolean,
 ): DashboardReserve[] => {
   if (sortDesc) {
     return handleSortDesc(
       sortName,
       sortPosition,
       positions,
-      isBorrowedPosition || false
+      isBorrowedPosition || false,
     );
   } else {
     return sortAsc(
       sortName,
       sortPosition,
       positions,
-      isBorrowedPosition || false
+      isBorrowedPosition || false,
     );
   }
 };
@@ -57,7 +57,7 @@ const handleSortDesc = (
   sortName: string,
   sortPosition: string,
   positions: DashboardReserve[],
-  isBorrowedPosition: boolean
+  isBorrowedPosition: boolean,
 ) => {
   if (sortName === "symbol") {
     return handleSymbolSort(true, sortPosition, positions);
@@ -74,7 +74,7 @@ const handleSortDesc = (
           ? Number(b.reserve.variableBorrowAPY) -
             Number(a.reserve.variableBorrowAPY)
           : Number(b.reserve.stableBorrowAPY) -
-            Number(a.reserve.stableBorrowAPY)
+            Number(a.reserve.stableBorrowAPY),
       );
     }
 
@@ -87,7 +87,7 @@ const sortAsc = (
   sortName: string,
   sortPosition: string,
   positions: DashboardReserve[],
-  isBorrowedPosition: boolean
+  isBorrowedPosition: boolean,
 ) => {
   if (sortName === "symbol") {
     return handleSymbolSort(false, sortPosition, positions);
@@ -107,7 +107,7 @@ const sortAsc = (
           ? Number(a.reserve.variableBorrowAPY) -
             Number(b.reserve.variableBorrowAPY)
           : Number(a.reserve.stableBorrowAPY) -
-            Number(b.reserve.stableBorrowAPY)
+            Number(b.reserve.stableBorrowAPY),
       );
     }
 
@@ -119,31 +119,33 @@ const sortAsc = (
 const handleSymbolSort = (
   sortDesc: boolean,
   sortPosition: string,
-  positions: DashboardReserve[]
+  positions: DashboardReserve[],
 ) => {
   // NOTE because the data structure is different we need to check for positions(supplied|borrowed)
   // if position then a.reserve.symbol otherwise a.symbol
   if (sortDesc) {
     if (sortPosition === "position") {
       return positions.sort((a, b) =>
-        a.reserve.symbol.toUpperCase() < b.reserve.symbol.toUpperCase() ? -1 : 1
+        a.reserve.symbol.toUpperCase() < b.reserve.symbol.toUpperCase()
+          ? -1
+          : 1,
       );
     }
 
     // @ts-ignore
     return positions.sort((a, b) =>
-      a.symbol.toUpperCase() < b.symbol.toUpperCase() ? -1 : 1
+      a.symbol.toUpperCase() < b.symbol.toUpperCase() ? -1 : 1,
     );
   }
 
   if (sortPosition === "position") {
     return positions.sort((a, b) =>
-      b.reserve.symbol.toUpperCase() < a.reserve.symbol.toUpperCase() ? -1 : 1
+      b.reserve.symbol.toUpperCase() < a.reserve.symbol.toUpperCase() ? -1 : 1,
     );
   }
 
   // @ts-ignore
   return positions.sort((a, b) =>
-    b.symbol.toUpperCase() < a.symbol.toUpperCase() ? -1 : 1
+    b.symbol.toUpperCase() < a.symbol.toUpperCase() ? -1 : 1,
   );
 };
