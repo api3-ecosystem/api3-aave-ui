@@ -4,8 +4,8 @@ import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { useModalContext } from "src/hooks/useModal";
 import { DashboardReserve } from "src/utils/dashboardSortUtils";
 
-import { useProtocolDataContext } from "../../../../hooks/useProtocolDataContext";
-import { isFeatureEnabled } from "../../../../utils/marketsAndNetworksConfig";
+import { useProtocolDataContext } from "../../../hooks/useProtocolDataContext";
+import { isFeatureEnabled } from "../../../utils/marketsAndNetworksConfig";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 
 import { useConnectModal } from "@rainbow-me/rainbowkit";

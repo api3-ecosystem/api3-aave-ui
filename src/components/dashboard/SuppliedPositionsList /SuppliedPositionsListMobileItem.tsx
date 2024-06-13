@@ -3,9 +3,9 @@ import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvide
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { DashboardReserve } from "src/utils/dashboardSortUtils";
 
-import { useModalContext } from "../../../../hooks/useModal";
-import { useProtocolDataContext } from "../../../../hooks/useProtocolDataContext";
-import { isFeatureEnabled } from "../../../../utils/marketsAndNetworksConfig";
+import { useModalContext } from "../../../hooks/useModal";
+import { useProtocolDataContext } from "../../../hooks/useProtocolDataContext";
+import { isFeatureEnabled } from "../../../utils/marketsAndNetworksConfig";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { CheckBoxOutlined } from "@mui/icons-material";

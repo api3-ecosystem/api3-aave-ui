@@ -7,12 +7,12 @@ import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { fetchIconSymbolAndName } from "src/ui-config/reservePatches";
 import { GENERAL } from "src/utils/mixPanelEvents";
 
-import { useAppDataContext } from "../../../../hooks/app-data-provider/useAppDataProvider";
+import { useAppDataContext } from "../../../hooks/app-data-provider/useAppDataProvider";
 import {
   DASHBOARD_LIST_COLUMN_WIDTHS,
   DashboardReserve,
   handleSortDashboardReserves,
-} from "../../../../utils/dashboardSortUtils";
+} from "../../../utils/dashboardSortUtils";
 
 import { SuppliedPositionsListItem } from "./SuppliedPositionsListItem";
 import { SuppliedPositionsListMobileItem } from "./SuppliedPositionsListMobileItem";

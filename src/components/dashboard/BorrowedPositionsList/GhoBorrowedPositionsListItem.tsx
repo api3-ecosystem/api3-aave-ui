@@ -1,5 +1,4 @@
 import { InterestRate } from "contract-helpers";
-// import { InformationCircleIcon } from '@heroicons/react/outline';
 import {
   Box,
   Button,
@@ -8,11 +7,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { ContentWithTooltip } from "src/components/ContentWithTooltip";
-import { GhoIncentivesCard } from "src/components/incentives/GhoIncentivesCard";
-import { FixedAPYTooltipText } from "src/components/infoTooltips/FixedAPYTooltip";
-import { ROUTES } from "src/components/primitives/Link";
-import { Row } from "src/components/primitives/Row";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { useRootStore } from "src/store/root";
@@ -24,7 +18,7 @@ import {
   ComputedReserveData,
   ComputedUserReserveData,
   useAppDataContext,
-} from "../../../../hooks/app-data-provider/useAppDataProvider";
+} from "../../../hooks/app-data-provider/useAppDataProvider";
 import Image from "next/image";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 
@@ -202,58 +196,6 @@ const GhoBorrowedPositionsListItemDesktop = ({
       </Grid>
     </div>
   );
-  // return (
-  //   <ListItemWrapper
-  //     symbol={symbol}
-  //     iconSymbol={iconSymbol}
-  //     name={name}
-  //     detailsAddress={underlyingAsset}
-  //     currentMarket={currentMarket}
-  //     frozen={isFrozen}
-  //     data-cy={`dashboardBorrowedListItem_${symbol.toUpperCase()}_${borrowRateMode}`}
-  //     showBorrowCapTooltips
-  //   >
-  //     <ListValueColumn
-  //       symbol={symbol}
-  //       value={userGhoBorrowBalance}
-  //       subValue={userGhoBorrowBalance}
-  //     />
-  //     <ListColumn>
-  //       <GhoIncentivesCard
-  //         withTokenIcon={hasDiscount}
-  //         value={ghoLoadingData || !ghoUserDataFetched ? -1 : borrowRateAfterDiscount}
-  //         data-cy={`apyType`}
-  //         stkAaveBalance={userDiscountTokenBalance}
-  //         ghoRoute={ROUTES.reserveOverview(underlyingAsset, currentMarket) + '/#discount'}
-  //         userQualifiesForDiscount={hasDiscount}
-  //       />
-  //     </ListColumn>
-  //     <ListColumn>
-  //       <ContentWithTooltip tooltipContent={FixedAPYTooltipText} offset={[0, -4]} withoutHover>
-  //         <Button
-  //           variant="outlined"
-  //           size="small"
-  //           color="primary"
-  //           disabled
-  //           data-cy={`apyButton_fixed`}
-  //         >
-  //           FIXED RATE
-  //           <SvgIcon sx={{ marginLeft: '2px', fontSize: '14px' }}>
-  //             <InformationCircleIcon />
-  //           </SvgIcon>
-  //         </Button>
-  //       </ContentWithTooltip>
-  //     </ListColumn>
-  //     <ListButtonsColumn>
-  //       <Button disabled={!isActive} variant="contained" onClick={onRepayClick}>
-  //         <Trans>Repay</Trans>
-  //       </Button>
-  //       <Button disabled={borrowDisabled} variant="outlined" onClick={onBorrowClick}>
-  //         <Trans>Borrow</Trans>
-  //       </Button>
-  //     </ListButtonsColumn>
-  //   </ListItemWrapper>
-  // );
 };
 
 const GhoBorrowedPositionsListItemMobile = ({
@@ -338,56 +280,4 @@ const GhoBorrowedPositionsListItemMobile = ({
       </Grid>
     </div>
   );
-  // return (
-  //   <ListMobileItemWrapper
-  //     symbol={symbol}
-  //     iconSymbol={iconSymbol}
-  //     name={name}
-  //     underlyingAsset={reserve.underlyingAsset}
-  //     currentMarket={currentMarket}
-  //     frozen={reserve.isFrozen}
-  //     showBorrowCapTooltips
-  //   >
-  //     <ListValueRow
-  //       title={<Trans>Debt</Trans>}
-  //       value={userGhoBorrowBalance}
-  //       subValue={userGhoBorrowBalance}
-  //       disabled={userGhoBorrowBalance === 0}
-  //     />
-  //     <Row caption={<Trans>APY</Trans>} align="flex-start" captionVariant="description" mb={2}>
-  //       <GhoIncentivesCard
-  //         withTokenIcon={hasDiscount}
-  //         value={ghoLoadingData ? -1 : borrowRateAfterDiscount}
-  //         data-cy={`apyType`}
-  //         stkAaveBalance={userDiscountTokenBalance}
-  //         ghoRoute={ROUTES.reserveOverview(reserve.underlyingAsset, currentMarket) + '/#discount'}
-  //         userQualifiesForDiscount={hasDiscount}
-  //       />
-  //     </Row>
-  //     <Row caption={<Trans>APY type</Trans>} captionVariant="description" mb={2}>
-  //       <ContentWithTooltip tooltipContent={FixedAPYTooltipText} offset={[0, -4]} withoutHover>
-  //         <Button variant="outlined" size="small" color="primary">
-  //           FIXED RATE
-  //           <SvgIcon sx={{ marginLeft: '2px', fontSize: '14px' }}>
-  //             <InformationCircleIcon />
-  //           </SvgIcon>
-  //         </Button>
-  //       </ContentWithTooltip>
-  //     </Row>
-  //     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 5 }}>
-  //       <Button
-  //         disabled={!isActive}
-  //         variant="contained"
-  //         onClick={onRepayClick}
-  //         sx={{ mr: 1.5 }}
-  //         fullWidth
-  //       >
-  //         <Trans>Repay</Trans>
-  //       </Button>
-  //       <Button disabled={borrowDisabled} variant="outlined" onClick={onBorrowClick} fullWidth>
-  //         <Trans>Borrow</Trans>
-  //       </Button>
-  //     </Box>
-  //   </ListMobileItemWrapper>
-  // );
 };
