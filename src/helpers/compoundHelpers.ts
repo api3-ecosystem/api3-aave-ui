@@ -11,10 +11,10 @@ export async function getPrices(comet: any) {
   const compoundMarket = populateCompoundMarket();
 
   let [compPrice, wbtcPrice, wethPrice, usdcPrice] = await Promise.all([
-    comet.callStatic.getPrice(compoundMarket.compPriceFeedAddress),
-    comet.callStatic.getPrice(compoundMarket.wbtcPriceFeedAddress),
-    comet.callStatic.getPrice(compoundMarket.wethPriceFeedAddress),
-    comet.callStatic.getPrice(compoundMarket.usdcPriceFeedAddress),
+    comet.callStatic.getPrice(compoundMarket.priceFeeds.COMP),
+    comet.callStatic.getPrice(compoundMarket.priceFeeds.WBTC),
+    comet.callStatic.getPrice(compoundMarket.priceFeeds.WETH),
+    comet.callStatic.getPrice(compoundMarket.priceFeeds.USDC),
   ]);
   wbtcPrice /= Math.pow(10, 8);
 
@@ -293,7 +293,7 @@ export async function compRewardApr(comet: any) {
       ]);
     baseIndexScale = +baseIndexScale;
 
-    const compPriceFeedAddress = compoundMarket.compPriceFeedAddress;
+    const compPriceFeedAddress = compoundMarket.priceFeeds.COMP;
 
     const compPriceInUsd =
       +(await comet.getPrice(compPriceFeedAddress)).toString() /

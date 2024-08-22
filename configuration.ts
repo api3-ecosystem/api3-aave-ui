@@ -121,10 +121,13 @@ export const populateCompoundMarket = () => {
       configurator: "0x6bEf3B20d32E1dce94A1f2dFC2391f90887d4fE0",
       rewards: "0x0A8c044ae869a509AF681c2ba9e0f3561f230e02",
       bulker: "0x77c9Fe5a6721A3bC8DDbD1AE271cef58a1efE9b3",
-      compPriceFeedAddress: "0x302C053a2139Ee9028b500E7da056B6b4169B4Fa",
-      usdcPriceFeedAddress: "0x683Ae71AFB633385e64a7968435210d1aadbe29D",
-      wbtcPriceFeedAddress: "0x5EF17889992f6d9daCEb03db9822AA5b6fDd6713",
-      wethPriceFeedAddress: "0x132e2459498CFfb3f767d508066bf1dF0549D59C",
+      priceFeeds: {
+        COMP: "0x302C053a2139Ee9028b500E7da056B6b4169B4Fa",
+        WBTC: "0x5EF17889992f6d9daCEb03db9822AA5b6fDd6713",
+        WETH: "0x132e2459498CFfb3f767d508066bf1dF0549D59C",
+        ARB: "0xf689D4e1d0B5B7281974389a58D65DE4722f046C",
+        USDC: "0x683Ae71AFB633385e64a7968435210d1aadbe29D",
+      },
       marketAsset: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     };
   }
@@ -143,10 +146,7 @@ export const populateCompoundMarket = () => {
     configurator: _deploymentConfig.configurator,
     rewards: _deploymentConfig.rewards,
     bulker: _deploymentConfig.bulker,
-    compPriceFeedAddress: _deploymentConfig.compPriceFeedAddress,
-    usdcPriceFeedAddress: _deploymentConfig.usdcPriceFeedAddress,
-    wbtcPriceFeedAddress: _deploymentConfig.wbtcPriceFeedAddress,
-    wethPriceFeedAddress: _deploymentConfig.wethPriceFeedAddress,
+    priceFeeds: _deploymentConfig.priceFeeds,
     marketAsset: _deploymentConfig.USDC,
   };
 };
