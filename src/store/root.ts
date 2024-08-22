@@ -9,7 +9,6 @@ import {
 import create from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 
-// import { AnalyticsSlice, createAnalyticsSlice } from './analyticsSlice';
 import { createGhoSlice, GhoSlice } from "./ghoSlice";
 import { createGovernanceSlice, GovernanceSlice } from "./governanceSlice";
 import { createIncentiveSlice, IncentiveSlice } from "./incentiveSlice";
@@ -29,6 +28,8 @@ import { getQueryParameter } from "./utils/queryParams";
 import { createV3MigrationSlice, V3MigrationSlice } from "./v3MigrationSlice";
 import { createWalletDomainsSlice, WalletDomainsSlice } from "./walletDomains";
 import { createWalletSlice, WalletSlice } from "./walletSlice";
+import { CompoundV3Slice, createCompoundSlice } from "./compoundSlice";
+import { populateChainConfigs } from "configuration";
 
 enableMapSet();
 
@@ -40,6 +41,7 @@ export type RootStore = StakeSlice &
   GovernanceSlice &
   V3MigrationSlice &
   GhoSlice &
+  CompoundV3Slice &
   WalletDomainsSlice &
   // AnalyticsSlice &
   TransactionsSlice &
@@ -61,6 +63,7 @@ export const useRootStore = create<RootStore>()(
         // ...createAnalyticsSlice(...args),
         ...createTransactionsSlice(...args),
         ...createLayoutSlice(...args),
+        ...createCompoundSlice(...args),
       };
     }),
   ),
@@ -86,19 +89,50 @@ if (typeof document !== "undefined") {
 }
 
 export const usePoolDataSubscription = createSingletonSubscriber(() => {
+  const config = populateChainConfigs();
+
+  if (config.currentMarket !== "aave") {
+    return new Promise((resolve) => resolve);
+  }
+
   return useRootStore.getState().refreshPoolData();
 }, 60000);
 
 export const usePoolDataV3Subscription = createSingletonSubscriber(() => {
+  const config = populateChainConfigs();
+  if (config.currentMarket !== "aave") {
+    return new Promise((resolve) => resolve);
+  }
+
   return useRootStore.getState().refreshPoolV3Data();
 }, 60000);
 
 export const useIncentiveDataSubscription = createSingletonSubscriber(() => {
+  const config = populateChainConfigs();
+  if (config.currentMarket !== "aave") {
+    return new Promise((resolve) => resolve);
+  }
+
   return useRootStore.getState().refreshIncentiveData();
 }, 60000);
 
 export const useGhoDataSubscription = createSingletonSubscriber(() => {
+  const config = populateChainConfigs();
+  if (config.currentMarket !== "aave") {
+    return new Promise((resolve) => resolve);
+  }
+
   return useRootStore.getState().refreshGhoData();
+}, 60000);
+
+export const useCompoundV3Subscription = createSingletonSubscriber(() => {
+  const config = populateChainConfigs();
+  if (config.currentMarket !== "compound") {
+    return new Promise((resolve) => resolve);
+  }
+
+  //Todo: check if current market is compound then load comp data
+  return useRootStore.getState().refreshCompoundData();
 }, 60000);
 
 let latest: V3FaucetService;

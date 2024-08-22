@@ -14,10 +14,12 @@ import { ModalWrapper } from "../FlowCommons/ModalWrapper";
 import { BorrowModalContent } from "./BorrowModalContent";
 import { GhoBorrowModalContent } from "./GhoBorrowModalContent";
 import { useChainId } from "wagmi";
+import { populateChainConfigs, populateCompoundMarket } from "configuration";
 
 export const BorrowModal = () => {
   const { type, close, args } = useModalContext() as ModalContextType<{
     underlyingAsset: string;
+    name?: string;
   }>;
   const { currentMarket } = useProtocolDataContext();
   const chainId = useChainId();
@@ -28,12 +30,20 @@ export const BorrowModal = () => {
   const handleBorrowUnwrapped = (borrowUnWrapped: boolean) => {
     setBorrowUnWrapped(borrowUnWrapped);
   };
+  const chainConfig = populateChainConfigs();
+  const compoundMarket = populateCompoundMarket();
+  const isCompound = (chainConfig.currentMarket = "compound" ? true : false);
 
+  const modalTitle = isCompound
+    ? args.underlyingAsset === compoundMarket.marketAsset
+      ? "Withdraw"
+      : "Withdraw"
+    : "Borrow";
   return (
     <BasicModal open={type === ModalType.Borrow} setOpen={close}>
       <ModalWrapper
         action="borrow"
-        title={<span>Borrow</span>}
+        title={<span>{modalTitle}</span>}
         underlyingAsset={args.underlyingAsset}
         keepWrappedSymbol={!borrowUnWrapped}
         requiredChainId={chainId}

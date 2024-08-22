@@ -26,36 +26,39 @@ export const useWalletBalances = () => {
   const walletBalances = balances ?? [];
   // process data
   let hasEmptyWallet = true;
-  const aggregatedBalance = walletBalances.reduce((acc, reserve) => {
-    const poolReserve = reserves.find((poolReserve) => {
-      if (reserve.address === API_ETH_MOCK_ADDRESS.toLowerCase()) {
-        return (
-          poolReserve.symbol.toLowerCase() ===
-          currentNetworkConfig.wrappedBaseAssetSymbol?.toLowerCase()
-        );
+  const aggregatedBalance = walletBalances.reduce(
+    (acc, reserve) => {
+      const poolReserve = reserves.find((poolReserve) => {
+        if (reserve.address === API_ETH_MOCK_ADDRESS.toLowerCase()) {
+          return (
+            poolReserve.symbol.toLowerCase() ===
+            currentNetworkConfig.wrappedBaseAssetSymbol?.toLowerCase()
+          );
+        }
+        return poolReserve.underlyingAsset.toLowerCase() === reserve.address;
+      });
+      if (reserve.amount !== "0") hasEmptyWallet = false;
+      if (poolReserve) {
+        acc[reserve.address] = {
+          amount: normalize(reserve.amount, poolReserve.decimals),
+          amountUSD: nativeToUSD({
+            amount: new BigNumber(reserve.amount),
+            currencyDecimals: poolReserve.decimals,
+            priceInMarketReferenceCurrency:
+              poolReserve.priceInMarketReferenceCurrency,
+            marketReferenceCurrencyDecimals:
+              baseCurrencyData.marketReferenceCurrencyDecimals,
+            normalizedMarketReferencePriceInUsd: normalize(
+              baseCurrencyData.marketReferenceCurrencyPriceInUsd,
+              USD_DECIMALS,
+            ),
+          }),
+        };
       }
-      return poolReserve.underlyingAsset.toLowerCase() === reserve.address;
-    });
-    if (reserve.amount !== "0") hasEmptyWallet = false;
-    if (poolReserve) {
-      acc[reserve.address] = {
-        amount: normalize(reserve.amount, poolReserve.decimals),
-        amountUSD: nativeToUSD({
-          amount: new BigNumber(reserve.amount),
-          currencyDecimals: poolReserve.decimals,
-          priceInMarketReferenceCurrency:
-            poolReserve.priceInMarketReferenceCurrency,
-          marketReferenceCurrencyDecimals:
-            baseCurrencyData.marketReferenceCurrencyDecimals,
-          normalizedMarketReferencePriceInUsd: normalize(
-            baseCurrencyData.marketReferenceCurrencyPriceInUsd,
-            USD_DECIMALS
-          ),
-        }),
-      };
-    }
-    return acc;
-  }, {} as { [address: string]: { amount: string; amountUSD: string } });
+      return acc;
+    },
+    {} as { [address: string]: { amount: string; amountUSD: string } },
+  );
   return {
     walletBalances: aggregatedBalance,
     hasEmptyWallet,

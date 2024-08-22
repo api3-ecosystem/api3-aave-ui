@@ -77,6 +77,8 @@ export interface AssetInputProps<T extends Asset = Asset> {
   event?: any;
   selectOptionHeader?: ReactNode;
   selectOption?: (asset: T) => ReactNode;
+  isCompound?: boolean;
+  tokenBalance?: any;
 }
 
 export const AssetInput = <T extends Asset = Asset>({
@@ -97,6 +99,8 @@ export const AssetInput = <T extends Asset = Asset>({
   event,
   selectOptionHeader,
   selectOption,
+  isCompound,
+  tokenBalance,
 }: AssetInputProps<T>) => {
   const theme = useTheme();
 
@@ -119,19 +123,34 @@ export const AssetInput = <T extends Asset = Asset>({
   return (
     <div className="grid gap-4">
       {/* Display asset balance */}
-      {asset.balance && onChange && (
+      {isCompound ? (
         <div className="flex items-center justify-between gap-2">
           {/* Display balance text or default to "Balance" */}
-          {balanceText && balanceText !== "" ? (
-            balanceText
-          ) : (
-            <p className="teaser-voice text-primary">Balance</p>
-          )}
+          <p className="teaser-voice text-primary">Balance</p>
           {/* Display formatted asset balance */}
           <p className="solid-voice">
-            <FormattedNumber value={asset.balance} compact />
+            <FormattedNumber value={tokenBalance} compact />
           </p>
         </div>
+      ) : (
+        asset.balance &&
+        onChange && (
+          <div className="flex items-center justify-between gap-2">
+            {/* Display balance text or default to "Balance" */}
+            {balanceText && balanceText !== "" ? (
+              balanceText
+            ) : (
+              <p className="teaser-voice text-primary">Balance</p>
+            )}
+            {/* Display formatted asset balance */}
+            <p className="solid-voice">
+              <FormattedNumber
+                value={isCompound ? tokenBalance : asset.balance}
+                compact
+              />
+            </p>
+          </div>
+        )
       )}
 
       {/* Input section */}

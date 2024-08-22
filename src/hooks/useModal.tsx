@@ -127,7 +127,7 @@ export const ModalContextProvider: React.FC = ({ children }) => {
   // contains the current modal open state if any
   const [type, setType] = useState<ModalType>();
   // contains arbitrary key-value pairs as a modal context
-  const [args, setArgs] = useState<ModalArgsType>({});
+  const [args, setArgs] = useState<ModalArgsType | any>({});
   const [approvalTxState, setApprovalTxState] = useState<TxStateType>({});
   const [mainTxState, setMainTxState] = useState<TxStateType>({});
   const [gasLimit, setGasLimit] = useState<string>("");
@@ -160,7 +160,7 @@ export const ModalContextProvider: React.FC = ({ children }) => {
           isReserve,
         ) => {
           setType(ModalType.Borrow);
-          setArgs({ underlyingAsset });
+          setArgs({ underlyingAsset, name: name });
         },
         openRepay: (
           underlyingAsset,

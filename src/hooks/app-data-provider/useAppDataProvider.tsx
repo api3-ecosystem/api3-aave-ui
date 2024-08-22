@@ -16,7 +16,6 @@ import BigNumber from "bignumber.js";
 import { formatUnits } from "ethers/lib/utils";
 import React, { useContext } from "react";
 import { EmodeCategory } from "src/helpers/types";
-// import { useWeb3Context } from "src/libs/hooks/useWeb3Context";
 import { useRootStore } from "src/store/root";
 import {
   GHO_SUPPORTED_MARKETS,
@@ -37,6 +36,7 @@ import { useCurrentTimestamp } from "../useCurrentTimestamp";
 import { useProtocolDataContext } from "../useProtocolDataContext";
 import { useAccount } from "wagmi";
 import { useWeb3 } from "../lib/useWeb3";
+import { populateChainConfigs } from "configuration";
 
 /**
  * removes the marketPrefix from a symbol
@@ -85,10 +85,12 @@ export interface AppDataContextType {
   ghoReserveData: FormattedGhoReserveData;
   ghoUserData: FormattedGhoUserData;
   ghoLoadingData: boolean;
+  compoundState: any;
+  marketType: string;
 }
 
 const AppDataContext = React.createContext<AppDataContextType>(
-  {} as AppDataContextType
+  {} as AppDataContextType,
 );
 
 /**
@@ -113,6 +115,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
     formattedPoolReserves,
     userSummary,
     displayGho,
+    compoundState,
   ] = useRootStore((state) => [
     selectCurrentReserves(state),
     selectCurrentBaseCurrencyData(state),
@@ -125,12 +128,13 @@ export const AppDataProvider: React.FC = ({ children }) => {
     selectFormattedReserves(state, currentTimestamp),
     selectUserSummaryAndIncentives(state, currentTimestamp),
     state.displayGho,
+    { assets: state.compoundV3Assets, assetInfo: state.assetInfo },
   ]);
 
   const formattedGhoReserveData: FormattedGhoReserveData = formatGhoReserveData(
     {
       ghoReserveData,
-    }
+    },
   );
   const formattedGhoUserData: FormattedGhoUserData = formatGhoUserData({
     ghoReserveData,
@@ -150,8 +154,8 @@ export const AppDataProvider: React.FC = ({ children }) => {
       marketReferenceCurrencyPriceUSD: Number(
         formatUnits(
           baseCurrencyData.marketReferenceCurrencyPriceInUsd,
-          USD_DECIMALS
-        )
+          USD_DECIMALS,
+        ),
       ),
     });
     user = {
@@ -163,22 +167,22 @@ export const AppDataProvider: React.FC = ({ children }) => {
   const proportions = user.userReservesData.reduce(
     (acc, value) => {
       const reserve = formattedPoolReserves.find(
-        (r) => r.underlyingAsset === value.reserve.underlyingAsset
+        (r) => r.underlyingAsset === value.reserve.underlyingAsset,
       );
 
       if (reserve) {
         if (value.underlyingBalanceUSD !== "0") {
           acc.positiveProportion = acc.positiveProportion.plus(
             new BigNumber(reserve.supplyAPY).multipliedBy(
-              value.underlyingBalanceUSD
-            )
+              value.underlyingBalanceUSD,
+            ),
           );
           if (reserve.aIncentivesData) {
             reserve.aIncentivesData.forEach((incentive) => {
               acc.positiveProportion = acc.positiveProportion.plus(
                 new BigNumber(incentive.incentiveAPR).multipliedBy(
-                  value.underlyingBalanceUSD
-                )
+                  value.underlyingBalanceUSD,
+                ),
               );
             });
           }
@@ -192,34 +196,34 @@ export const AppDataProvider: React.FC = ({ children }) => {
               formattedGhoReserveData.ghoVariableBorrowAPY,
               formattedGhoUserData.userGhoBorrowBalance,
               formattedGhoUserData.userGhoAvailableToBorrowAtDiscount,
-              formattedGhoReserveData.ghoBorrowAPYWithMaxDiscount
+              formattedGhoReserveData.ghoBorrowAPYWithMaxDiscount,
             );
             acc.negativeProportion = acc.negativeProportion.plus(
               new BigNumber(borrowRateAfterDiscount).multipliedBy(
-                formattedGhoUserData.userGhoBorrowBalance
-              )
+                formattedGhoUserData.userGhoBorrowBalance,
+              ),
             );
             if (reserve.vIncentivesData) {
               reserve.vIncentivesData.forEach((incentive) => {
                 acc.positiveProportion = acc.positiveProportion.plus(
                   new BigNumber(incentive.incentiveAPR).multipliedBy(
-                    formattedGhoUserData.userGhoBorrowBalance
-                  )
+                    formattedGhoUserData.userGhoBorrowBalance,
+                  ),
                 );
               });
             }
           } else {
             acc.negativeProportion = acc.negativeProportion.plus(
               new BigNumber(reserve.variableBorrowAPY).multipliedBy(
-                value.variableBorrowsUSD
-              )
+                value.variableBorrowsUSD,
+              ),
             );
             if (reserve.vIncentivesData) {
               reserve.vIncentivesData.forEach((incentive) => {
                 acc.positiveProportion = acc.positiveProportion.plus(
                   new BigNumber(incentive.incentiveAPR).multipliedBy(
-                    value.variableBorrowsUSD
-                  )
+                    value.variableBorrowsUSD,
+                  ),
                 );
               });
             }
@@ -228,15 +232,15 @@ export const AppDataProvider: React.FC = ({ children }) => {
         if (value.stableBorrowsUSD !== "0") {
           acc.negativeProportion = acc.negativeProportion.plus(
             new BigNumber(value.stableBorrowAPY).multipliedBy(
-              value.stableBorrowsUSD
-            )
+              value.stableBorrowsUSD,
+            ),
           );
           if (reserve.sIncentivesData) {
             reserve.sIncentivesData.forEach((incentive) => {
               acc.positiveProportion = acc.positiveProportion.plus(
                 new BigNumber(incentive.incentiveAPR).multipliedBy(
-                  value.stableBorrowsUSD
-                )
+                  value.stableBorrowsUSD,
+                ),
               );
             });
           }
@@ -250,12 +254,15 @@ export const AppDataProvider: React.FC = ({ children }) => {
     {
       positiveProportion: new BigNumber(0),
       negativeProportion: new BigNumber(0),
-    }
+    },
   );
 
   const isUserHasDeposits = user.userReservesData.some(
-    (userReserve) => userReserve.scaledATokenBalance !== "0"
+    (userReserve) => userReserve.scaledATokenBalance !== "0",
   );
+
+  const currentChainConfig = populateChainConfigs();
+  const marketType = currentChainConfig.currrentMarket || "aave";
 
   const earnedAPY = proportions.positiveProportion
     .dividedBy(user.totalLiquidityUSD)
@@ -285,7 +292,7 @@ export const AppDataProvider: React.FC = ({ children }) => {
           userEmodeCategoryId,
           isInEmode: userEmodeCategoryId !== 0,
           userReservesData: user.userReservesData.sort((a, b) =>
-            reserveSortFn(a.reserve, b.reserve)
+            reserveSortFn(a.reserve, b.reserve),
           ),
           earnedAPY,
           debtAPY,
@@ -304,11 +311,13 @@ export const AppDataProvider: React.FC = ({ children }) => {
           ...formattedGhoReserveData,
           aaveFacilitatorRemainingCapacity: Math.max(
             formattedGhoReserveData.aaveFacilitatorRemainingCapacity - 0.000001,
-            0
+            0,
           ),
         },
         ghoUserData: formattedGhoUserData,
         ghoLoadingData: !ghoReserveDataFetched,
+        compoundState: compoundState,
+        marketType,
       }}
     >
       {children}

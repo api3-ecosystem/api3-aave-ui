@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMediaQuery, useTheme } from "@mui/material";
-
-import marketDetails from "../../data/market-details.json";
 
 import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvider";
 import { valueToBigNumber } from "@aave/math-utils";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import MarketAssetListContainer from "./MarketAssetListContainer";
+import { populateChainConfigs } from "configuration";
+import MarketAssetListContainerComp from "./compound/MarketAssetListContainerComp";
+
+import CompoundDashboard from "./CompoundDashboard";
 
 export default function Markets() {
   const { reserves, loading } = useAppDataContext();
@@ -30,54 +32,64 @@ export default function Markets() {
   const valueTypographyVariant = downToSM ? "main16" : "main21";
   const symbolsVariant = downToSM ? "secondary16" : "secondary21";
 
+  const currenChainConfig = populateChainConfigs();
+
   return (
     <>
-      <section>
-        <div className="inner-column grid">
-          <h1 className="loud-voice gradient-text mb-4 justify-self-center text-center">
-            Markets
-          </h1>
-          <div className="summary-cards">
-            <div className="summary-card">
-              <h3 className="teaser-voice">Total market size</h3>
-              <p className="attention-voice">
-                <FormattedNumber
-                  value={aggregatedStats.totalLiquidity.toString()}
-                  symbol="USD"
-                />
-              </p>
-            </div>
+      {currenChainConfig.currentMarket === "compound" ? (
+        <CompoundDashboard />
+      ) : (
+        <section>
+          <div className="inner-column grid">
+            <h1 className="loud-voice gradient-text mb-4 justify-self-center text-center">
+              Markets
+            </h1>
+            <div className="summary-cards">
+              <div className="summary-card">
+                <h3 className="teaser-voice">Total market size</h3>
+                <p className="attention-voice">
+                  <FormattedNumber
+                    value={aggregatedStats.totalLiquidity.toString()}
+                    symbol="USD"
+                  />
+                </p>
+              </div>
 
-            <div className="summary-card">
-              <h3 className="teaser-voice">Total Supplied</h3>
-              <p className="attention-voice ">
-                <FormattedNumber
-                  value={aggregatedStats.totalLiquidity
-                    .minus(aggregatedStats.totalDebt)
-                    .toString()}
-                  symbol="USD"
-                  visibleDecimals={2}
-                />
-              </p>
-            </div>
+              <div className="summary-card">
+                <h3 className="teaser-voice">Total Supplied</h3>
+                <p className="attention-voice ">
+                  <FormattedNumber
+                    value={aggregatedStats.totalLiquidity
+                      .minus(aggregatedStats.totalDebt)
+                      .toString()}
+                    symbol="USD"
+                    visibleDecimals={2}
+                  />
+                </p>
+              </div>
 
-            <div className="summary-card">
-              <h3 className="teaser-voice">Total Borrowed</h3>
-              <p className="attention-voice ">
-                <FormattedNumber
-                  value={aggregatedStats.totalDebt.toString()}
-                  symbol="USD"
-                  visibleDecimals={2}
-                />
-              </p>
+              <div className="summary-card">
+                <h3 className="teaser-voice">Total Borrowed</h3>
+                <p className="attention-voice ">
+                  <FormattedNumber
+                    value={aggregatedStats.totalDebt.toString()}
+                    symbol="USD"
+                    visibleDecimals={2}
+                  />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <section className="">
+      <section>
         <div className="inner-column wide">
-          <MarketAssetListContainer />
+          {currenChainConfig.currentMarket === "compound" ? (
+            <MarketAssetListContainerComp />
+          ) : (
+            <MarketAssetListContainer />
+          )}
         </div>
       </section>
     </>

@@ -39,7 +39,13 @@ import {
 // } from "contract-helpers/dist/esm/v3-pool-contract/lendingPoolTypes";
 import { SignatureLike } from "@ethersproject/bytes";
 import dayjs from "dayjs";
-import { BigNumber, PopulatedTransaction, Signature, utils } from "ethers";
+import {
+  BigNumber,
+  Contract,
+  PopulatedTransaction,
+  Signature,
+  utils,
+} from "ethers";
 import { splitSignature } from "ethers/lib/utils";
 import { produce } from "immer";
 // import { ClaimRewardsActionsProps } from "src/components/transactions/ClaimRewards/ClaimRewardsActions";
@@ -57,6 +63,12 @@ import {
   selectFormattedReserves,
 } from "./poolSelectors";
 import { RootStore } from "./root";
+import { erc20ABI } from "wagmi";
+import {
+  getTokenAprovalAmount,
+  getWithdrawTransactionData,
+} from "src/helpers/compoundHelpers";
+import { populateChainConfigs, populateCompoundMarket } from "configuration";
 
 // TODO: what is the better name for this type?
 export type PoolReserve = {
@@ -364,6 +376,27 @@ export const createPoolSlice: StateCreator<
     getApprovedAmount: async (args: { token: string }) => {
       const poolBundle = getCorrectPoolBundle();
       const user = get().account;
+      const compoundMarket = populateCompoundMarket();
+      const chainConfig = populateChainConfigs();
+      // check approval amount for compound
+      const isCompound =
+        chainConfig.currentMarket === "compound" ? true : false;
+      if (isCompound) {
+        const allowance = await getTokenAprovalAmount(
+          user,
+          compoundMarket.comet,
+          args.token,
+          get().jsonRpcProvider(),
+        );
+
+        return {
+          amount: allowance.toString(),
+          spender: compoundMarket.comet,
+          token: args.token,
+          user: user,
+        };
+      }
+
       if (poolBundle instanceof PoolBundle) {
         return poolBundle.supplyTxBuilder.getApprovedAmount({
           user,

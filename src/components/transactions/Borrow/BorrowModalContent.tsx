@@ -6,7 +6,7 @@ import {
 } from "@aave/math-utils";
 // import { Trans } from '@lingui/macro';
 import { Typography } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { APYTypeTooltip } from "src/components/infoTooltips/APYTypeTooltip";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import { Row } from "src/components/primitives/Row";
@@ -35,6 +35,7 @@ import { BorrowActions } from "./BorrowActions";
 import { BorrowAmountWarning } from "./BorrowAmountWarning";
 import { ParameterChangewarning } from "./ParameterChangewarning";
 import { ERC20TokenType } from "src/hooks/lib/Web3Provider";
+import { populateChainConfigs } from "configuration";
 
 export enum ErrorType {
   STABLE_RATE_NOT_ENABLED,
@@ -114,7 +115,8 @@ export const BorrowModalContent = ({
   setUnwrap: (unwrap: boolean) => void;
 }) => {
   const { mainTxState: borrowTxState, gasLimit, txError } = useModalContext();
-  const { user, marketReferencePriceInUsd } = useAppDataContext();
+  const { user, marketReferencePriceInUsd, compoundState } =
+    useAppDataContext();
   const { currentNetworkConfig } = useProtocolDataContext();
   const { borrowCap } = useAssetCaps();
 
@@ -124,12 +126,40 @@ export const BorrowModalContent = ({
   const [amount, setAmount] = useState("");
   const [riskCheckboxAccepted, setRiskCheckboxAccepted] = useState(false);
 
-  // amount calculations
-  const maxAmountToBorrow = getMaxAmountAvailableToBorrow(
+  const compoundConfig = populateChainConfigs();
+  const isCompound = compoundConfig.currentMarket === "compound";
+
+  console.log("withdraw asset ", {
     poolReserve,
-    user,
-    interestRateMode,
-  );
+    userReserve,
+    symbol,
+    underlyingAsset,
+    compoundState,
+  });
+  const compoundSupplied = useMemo(() => {
+    if (!compoundState?.assets) {
+      return {};
+    }
+
+    if (compoundState?.assetInfo?.baseInfo?.address === underlyingAsset) {
+      //: todo fix display usdc supplied  or usdc borrow capacity
+
+      // return compoundState?.assetInfo?.baseInfo?.suppliedFormatted;
+      return compoundState?.assetInfo?.baseInfo?.borrowCapacityBase;
+    }
+
+    const asset = compoundState?.assets?.find(
+      (asset: any) => asset?.asset?.address === underlyingAsset,
+    )?.asset?.supplied;
+    return asset;
+
+    // return compoundState?.assetInfo?.baseInfo?.suppliedFormatted;
+  }, [compoundState, underlyingAsset]);
+
+  // amount calculations
+  const maxAmountToBorrow = isCompound
+    ? compoundSupplied
+    : getMaxAmountAvailableToBorrow(poolReserve, user, interestRateMode);
 
   // We set this in a useEffect, so it doesn't constantly change when
   // max amount selected
@@ -256,7 +286,7 @@ export const BorrowModalContent = ({
     <>
       {borrowCap.determineWarningDisplay({ borrowCap })}
 
-      {poolReserve.stableBorrowRateEnabled && (
+      {poolReserve.stableBorrowRateEnabled && !isCompound && (
         <BorrowModeSwitch
           interestRateMode={interestRateMode}
           setInterestRateMode={setInterestRateMode}

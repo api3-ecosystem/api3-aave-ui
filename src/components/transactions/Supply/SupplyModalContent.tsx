@@ -4,18 +4,15 @@ import {
   USD_DECIMALS,
   valueToBigNumber,
 } from "@aave/math-utils";
-// import { Trans } from '@lingui/macro';
 import BigNumber from "bignumber.js";
 import React, { useMemo, useState } from "react";
 import { Warning } from "src/components/primitives/Warning";
-// import { AMPLWarning } from 'src/components/Warnings/AMPLWarning';
 import { useAssetCaps } from "src/hooks/useAssetCaps";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
-// import { ERC20TokenType } from 'src/libs/web3-data-provider/Web3Provider';
+
 import { useRootStore } from "src/store/root";
 import { getMaxAmountAvailableToSupply } from "src/utils/getMaxAmountAvailableToSupply";
-import { isFeatureEnabled } from "src/utils/marketsAndNetworksConfig";
 import { GENERAL } from "src/utils/mixPanelEvents";
 import { roundToTokenDecimals } from "src/utils/utils";
 
@@ -33,11 +30,9 @@ import {
   TxModalDetails,
 } from "../FlowCommons/TxModalDetails";
 import { getAssetCollateralType } from "../utils";
-// import { AAVEWarning } from '../Warnings/AAVEWarning';
-// import { IsolationModeWarning } from '../Warnings/IsolationModeWarning';
-// import { SNXWarning } from '../Warnings/SNXWarning';
 import { SupplyActions } from "./SupplyActions";
 import { ERC20TokenType } from "src/hooks/lib/Web3Provider";
+import { populateChainConfigs } from "configuration";
 
 export enum ErrorType {
   CAP_REACHED,
@@ -51,7 +46,8 @@ export const SupplyModalContent = ({
   nativeBalance,
   tokenBalance,
 }: ModalWrapperProps) => {
-  const { marketReferencePriceInUsd, user } = useAppDataContext();
+  const { marketReferencePriceInUsd, user, compoundState } =
+    useAppDataContext();
   const { currentMarketData, currentNetworkConfig } = useProtocolDataContext();
   const { mainTxState: supplyTxState, gasLimit, txError } = useModalContext();
   const { supplyCap: supplyCapUsage, debtCeiling: debtCeilingUsage } =
@@ -59,6 +55,11 @@ export const SupplyModalContent = ({
   const minRemainingBaseTokenBalance = useRootStore(
     (state) => state.poolComputed.minRemainingBaseTokenBalance,
   );
+  const compoundMarket = populateChainConfigs();
+  const isCompound = compoundMarket.currentMarket === "compound";
+  const compSupplyAPY = useMemo(() => {
+    return compoundState?.assetInfo?.supplyAPR;
+  }, [compoundState]);
 
   // states
   const [amount, setAmount] = useState("");
@@ -67,7 +68,7 @@ export const SupplyModalContent = ({
 
   const walletBalance = supplyUnWrapped ? nativeBalance : tokenBalance;
 
-  const supplyApy = poolReserve.supplyAPY;
+  const supplyApy = poolReserve?.supplyAPY;
   const {
     supplyCap,
     totalLiquidity,
@@ -303,6 +304,8 @@ export const SupplyModalContent = ({
         maxValue={assetInputMaxValue}
         balanceText={assetInputBalanceText}
         event={assetInputEvent}
+        isCompound={isCompound}
+        tokenBalance={tokenBalance}
       />
 
       {/* Transaction Modal Details */}
@@ -312,20 +315,26 @@ export const SupplyModalContent = ({
         disabled={Number(amount) === 0}
       >
         {/* Supply APY */}
-        <DetailsNumberLine
-          description={<p className="teaser-voice">Supply APY</p>}
-          value={supplyApy}
-          percent
-        />
+        {!isCompound && (
+          <DetailsNumberLine
+            description={<p className="teaser-voice">Supply APY</p>}
+            value={isCompound ? compSupplyAPY : supplyApy}
+            percent
+          />
+        )}
 
         {/* Incentives Line */}
-        <DetailsIncentivesLine
-          incentives={poolReserve.aIncentivesData}
-          symbol={poolReserve.symbol}
-        />
+        {!isCompound && (
+          <DetailsIncentivesLine
+            incentives={poolReserve.aIncentivesData}
+            symbol={poolReserve.symbol}
+          />
+        )}
 
         {/* Collateral Line */}
-        <DetailsCollateralLine collateralType={collateralType} />
+        {!isCompound && (
+          <DetailsCollateralLine collateralType={collateralType} />
+        )}
 
         {/* Health Factor Line */}
         <DetailsHFLine

@@ -20,6 +20,9 @@ import { QueryKeys } from "src/ui-config/queries";
 import { TxActionsWrapper } from "../TxActionsWrapper";
 import { APPROVE_DELEGATION_GAS_LIMIT, checkRequiresApproval } from "../utils";
 import { useWeb3Context } from "src/hooks/lib/hooks/useWeb3Context";
+import { populateChainConfigs, populateCompoundMarket } from "configuration";
+import { getWithdrawTransactionData } from "src/helpers/compoundHelpers";
+import { useEthersSigner } from "src/hooks/lib/ethers";
 
 export interface BorrowActionsProps extends BoxProps {
   poolReserve: ComputedReserveData;
@@ -74,6 +77,11 @@ export const BorrowActions = ({
     ApproveDelegationType | undefined
   >();
 
+  const compoundMarket = populateCompoundMarket();
+  const compoundConfig = populateChainConfigs();
+  const isCompound = compoundConfig.currentMarket === "compound";
+  const signer = useEthersSigner();
+
   const approval = async () => {
     try {
       if (requiresApproval && approvedAmount) {
@@ -87,7 +95,7 @@ export const BorrowActions = ({
         });
         setApprovalTxState({ ...approvalTxState, loading: true });
         approveDelegationTxData = await estimateGasLimit(
-          approveDelegationTxData
+          approveDelegationTxData,
         );
         const response = await sendTx(approveDelegationTxData);
         await response.wait(1);
@@ -102,7 +110,7 @@ export const BorrowActions = ({
       const parsedError = getErrorTextFromError(
         error,
         TxAction.GAS_ESTIMATION,
-        false
+        false,
       );
       setTxError(parsedError);
       setApprovalTxState({
@@ -115,15 +123,28 @@ export const BorrowActions = ({
   const action = async () => {
     try {
       setMainTxState({ ...mainTxState, loading: true });
-      let borrowTxData = borrow({
-        amount: parseUnits(amountToBorrow, poolReserve.decimals).toString(),
-        reserve: poolAddress,
-        interestRateMode,
-        debtTokenAddress:
-          interestRateMode === InterestRate.Variable
-            ? poolReserve.variableDebtTokenAddress
-            : poolReserve.stableDebtTokenAddress,
-      });
+
+      let borrowTxData;
+
+      if (isCompound) {
+        borrowTxData = await getWithdrawTransactionData(
+          compoundMarket.comet,
+          poolAddress,
+          parseUnits(amountToBorrow, poolReserve.decimals).toString(),
+          signer,
+        );
+      } else {
+        borrowTxData = borrow({
+          amount: parseUnits(amountToBorrow, poolReserve.decimals).toString(),
+          reserve: poolAddress,
+          interestRateMode,
+          debtTokenAddress:
+            interestRateMode === InterestRate.Variable
+              ? poolReserve.variableDebtTokenAddress
+              : poolReserve.stableDebtTokenAddress,
+        });
+      }
+
       borrowTxData = await estimateGasLimit(borrowTxData);
 
       const response = await sendTx(borrowTxData);
@@ -151,7 +172,7 @@ export const BorrowActions = ({
       const parsedError = getErrorTextFromError(
         error,
         TxAction.GAS_ESTIMATION,
-        false
+        false,
       );
       setTxError(parsedError);
       setMainTxState({
@@ -206,7 +227,7 @@ export const BorrowActions = ({
       poolReserve.variableDebtTokenAddress,
       setApprovalTxState,
       setLoadingTxns,
-    ]
+    ],
   );
 
   // Run on first load of reserve to determine execution path
@@ -218,13 +239,15 @@ export const BorrowActions = ({
   useEffect(() => {
     let borrowGasLimit = 0;
     borrowGasLimit = Number(
-      gasLimitRecommendations[ProtocolAction.borrow].recommended
+      gasLimitRecommendations[ProtocolAction.borrow].recommended,
     );
     if (requiresApproval && !approvalTxState.success) {
       borrowGasLimit += Number(APPROVE_DELEGATION_GAS_LIMIT);
     }
     setGasLimit(borrowGasLimit.toString());
   }, [requiresApproval, approvalTxState, setGasLimit]);
+
+  const modalTitle = isCompound ? "Withdraw" : "Borrow";
 
   return (
     <TxActionsWrapper
@@ -235,8 +258,16 @@ export const BorrowActions = ({
       amount={amountToBorrow}
       isWrongNetwork={isWrongNetwork}
       handleAction={action}
-      actionText={<div>Borrow {symbol}</div>}
-      actionInProgressText={<div>Borrowing {symbol}</div>}
+      actionText={
+        <div>
+          {modalTitle} {symbol}
+        </div>
+      }
+      actionInProgressText={
+        <div>
+          {isCompound ? "Tx Pending..." : "Borrowing"} {symbol}
+        </div>
+      }
       handleApproval={() => approval()}
       requiresApproval={requiresApproval}
       preparingTransactions={loadingTxns}

@@ -2,7 +2,6 @@ import { API_ETH_MOCK_ADDRESS } from "contract-helpers";
 import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Fragment, useState } from "react";
 
-import { AssetCapsProvider } from "src/hooks/useAssetCaps";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { fetchIconSymbolAndName } from "src/ui-config/reservePatches";
 import { GENERAL } from "src/utils/mixPanelEvents";

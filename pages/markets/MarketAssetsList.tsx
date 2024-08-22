@@ -1,12 +1,8 @@
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { ComputedReserveData } from "src/hooks/app-data-provider/useAppDataProvider";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
-import Pane from "components/pane";
-import { Box, Grid, Typography } from "@mui/material";
-import { populateAssetIcon } from "configuration";
 import SymbolIcon from "src/components/SymbolIcon";
 
 type MarketAssetsListProps = {

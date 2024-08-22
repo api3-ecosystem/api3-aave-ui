@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import {
+  useCompoundV3Subscription,
   useGhoDataSubscription,
   useIncentiveDataSubscription,
   // useGhoDataSubscription,
@@ -10,12 +11,13 @@ import {
 interface BackgroundDataProviderContextType {
   refetchGhoData: () => Promise<void>;
   refetchIncentiveData?: () => Promise<void>;
+  refetchCompoundData?: () => Promise<void>;
   refetchPoolData?: () => Promise<void> | Promise<void[]>;
 }
 
 const BackgroundDataProviderContext =
   React.createContext<BackgroundDataProviderContextType>(
-    {} as BackgroundDataProviderContextType
+    {} as BackgroundDataProviderContextType,
   );
 
 /**
@@ -29,9 +31,15 @@ export const BackgroundDataProvider: React.FC = ({ children }) => {
   const refetchPoolData = usePoolDataSubscription();
   const refetchIncentiveData: any = useIncentiveDataSubscription();
   const refetchGhoData: any = useGhoDataSubscription();
+  const refetchCompoundData: any = useCompoundV3Subscription();
   return (
     <BackgroundDataProviderContext.Provider
-      value={{ refetchIncentiveData, refetchPoolData, refetchGhoData }}
+      value={{
+        refetchIncentiveData,
+        refetchPoolData,
+        refetchGhoData,
+        refetchCompoundData,
+      }}
     >
       {children}
     </BackgroundDataProviderContext.Provider>

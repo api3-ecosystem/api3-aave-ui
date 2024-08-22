@@ -1,8 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import ConnectWallet from "./ConnectWallet";
+import { populateChainConfigs } from "configuration";
 
 export default function Header() {
+  const currenChainConfig = populateChainConfigs();
   return (
     <header>
       <div className="inner-column">
@@ -12,11 +14,13 @@ export default function Header() {
           </picture>
 
           <ul className="site-nav">
-            <li>
-              <Link className="text" href="/dashboard">
-                Dashboard
-              </Link>
-            </li>
+            {currenChainConfig.currentMarket !== "compound" && (
+              <li>
+                <Link className="text" href="/dashboard">
+                  Dashboard
+                </Link>
+              </li>
+            )}
 
             <li>
               <Link className="text" href="/markets">

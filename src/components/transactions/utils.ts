@@ -14,7 +14,7 @@ export enum ErrorType {
 
 export const useFlashloan = (
   healthFactor: string,
-  hfEffectOfFromAmount: string
+  hfEffectOfFromAmount: string,
 ) => {
   return (
     healthFactor !== "-1" &&
@@ -49,7 +49,7 @@ export const checkRequiresApproval = ({
 };
 
 export const zeroLTVBlockingWithdraw = (
-  user: ExtendedFormattedUser
+  user: ExtendedFormattedUser,
 ): string[] => {
   const zeroLTVBlockingWithdraw: string[] = [];
   user.userReservesData.forEach((userReserve) => {
@@ -69,11 +69,11 @@ export const getAssetCollateralType = (
   userReserve: ComputedUserReserveData,
   userTotalCollateralUSD: string,
   userIsInIsolationMode: boolean,
-  debtCeilingIsMaxed: boolean
+  debtCeilingIsMaxed: boolean,
 ) => {
-  const poolReserve = userReserve.reserve;
+  const poolReserve = userReserve?.reserve;
 
-  if (!poolReserve.usageAsCollateralEnabled) {
+  if (!poolReserve?.usageAsCollateralEnabled) {
     return CollateralType.UNAVAILABLE;
   }
 
@@ -82,12 +82,12 @@ export const getAssetCollateralType = (
     userReserve && userReserve.scaledATokenBalance !== "0";
   const userHasCollateral = userTotalCollateralUSD !== "0";
 
-  if (poolReserve.isIsolated) {
+  if (poolReserve?.isIsolated) {
     if (debtCeilingIsMaxed) {
       collateralType = CollateralType.UNAVAILABLE;
     } else if (userIsInIsolationMode) {
       if (userHasSuppliedReserve) {
-        collateralType = userReserve.usageAsCollateralEnabledOnUser
+        collateralType = userReserve?.usageAsCollateralEnabledOnUser
           ? CollateralType.ISOLATED_ENABLED
           : CollateralType.DISABLED;
       } else {
@@ -107,7 +107,7 @@ export const getAssetCollateralType = (
       collateralType = CollateralType.UNAVAILABLE_DUE_TO_ISOLATION;
     } else {
       if (userHasSuppliedReserve) {
-        collateralType = userReserve.usageAsCollateralEnabledOnUser
+        collateralType = userReserve?.usageAsCollateralEnabledOnUser
           ? CollateralType.ENABLED
           : CollateralType.DISABLED;
       } else {

@@ -21,6 +21,12 @@ import { QueryKeys } from "src/ui-config/queries";
 import { TxActionsWrapper } from "../TxActionsWrapper";
 import { APPROVAL_GAS_LIMIT, checkRequiresApproval } from "../utils";
 import { queryClient } from "pages/_app";
+import { useEthersSigner } from "src/hooks/lib/ethers";
+import { populateChainConfigs, populateCompoundMarket } from "configuration";
+import {
+  getApprovalTransactionData,
+  getSupplyTransactionData,
+} from "src/helpers/compoundHelpers";
 
 export interface SupplyActionProps extends BoxProps {
   amountToSupply: string;
@@ -93,6 +99,12 @@ export const SupplyActions = ({
     SignedParams | undefined
   >();
 
+  const signer = useEthersSigner();
+  const currChainConfig = populateChainConfigs();
+  const compoundMarket = populateCompoundMarket();
+  const isCompound =
+    currChainConfig.currentMarket === "compound" ? true : false;
+
   // callback to fetch approved amount and determine execution path on dependency updates
   const fetchApprovedAmount = useCallback(
     async (forceApprovalCheck?: boolean) => {
@@ -125,7 +137,7 @@ export const SupplyActions = ({
       amountToSupply,
       signatureParams,
       setApprovalTxState,
-    ]
+    ],
   );
 
   // Run on first load to decide execution path
@@ -138,11 +150,11 @@ export const SupplyActions = ({
     let supplyGasLimit = 0;
     if (usePermit) {
       supplyGasLimit = Number(
-        gasLimitRecommendations[ProtocolAction.supplyWithPermit].recommended
+        gasLimitRecommendations[ProtocolAction.supplyWithPermit].recommended,
       );
     } else {
       supplyGasLimit = Number(
-        gasLimitRecommendations[ProtocolAction.supply].recommended
+        gasLimitRecommendations[ProtocolAction.supply].recommended,
       );
       if (requiresApproval && !approvalTxState.success) {
         supplyGasLimit += Number(APPROVAL_GAS_LIMIT);
@@ -182,9 +194,20 @@ export const SupplyActions = ({
             success: true,
           });
         } else {
-          console.log("approval starting");
-          let approveTxData = generateApproval(approvedAmount);
-          console.log("approval trx data ", approveTxData);
+          let approveTxData;
+          if (isCompound) {
+            const tokenAddress = poolAddress;
+            const spender = compoundMarket.comet;
+            approveTxData = await getApprovalTransactionData(
+              tokenAddress,
+              spender,
+              parseUnits(amountToSupply, decimals).toString(),
+              signer,
+            );
+          } else {
+            approveTxData = generateApproval(approvedAmount);
+          }
+
           setApprovalTxState({ ...approvalTxState, loading: true });
           approveTxData = await estimateGasLimit(approveTxData);
           const response = await sendTx(approveTxData);
@@ -209,7 +232,7 @@ export const SupplyActions = ({
       const parsedError = getErrorTextFromError(
         error,
         TxAction.GAS_ESTIMATION,
-        false
+        false,
       );
       setTxError(parsedError);
       setApprovalTxState({
@@ -237,29 +260,37 @@ export const SupplyActions = ({
           deadline: signatureParams.deadline,
         });
 
-        console.log("trx test: supply ", signedSupplyWithPermitTxData);
-
         signedSupplyWithPermitTxData = await estimateGasLimit(
-          signedSupplyWithPermitTxData
+          signedSupplyWithPermitTxData,
         );
         response = await sendTx(signedSupplyWithPermitTxData);
 
         await response.wait(1);
       } else {
         action = ProtocolAction.supply;
-        let supplyTxData = supply({
-          amount: parseUnits(amountToSupply, decimals).toString(),
-          reserve: poolAddress,
-        });
-        console.log("trx test: supply -->supplyTxData", { supplyTxData });
+
+        let supplyTxData;
+
+        if (isCompound) {
+          supplyTxData = await getSupplyTransactionData(
+            compoundMarket.comet,
+            poolAddress,
+            parseUnits(amountToSupply, decimals).toString(),
+            signer,
+          );
+        } else {
+          supplyTxData = supply({
+            amount: parseUnits(amountToSupply, decimals).toString(),
+            reserve: poolAddress,
+          });
+        }
+
         supplyTxData = await estimateGasLimit(supplyTxData);
         // console.log('trx test: supply -->estimateGasLimit', { supplyTxData });
         response = await sendTx(supplyTxData);
 
         await response.wait(1);
       }
-
-      console.log("trx test: supply -->success", { response });
 
       setMainTxState({
         txHash: response.hash,
@@ -284,7 +315,7 @@ export const SupplyActions = ({
       const parsedError = getErrorTextFromError(
         error,
         TxAction.GAS_ESTIMATION,
-        false
+        false,
       );
       setTxError(parsedError);
       setMainTxState({

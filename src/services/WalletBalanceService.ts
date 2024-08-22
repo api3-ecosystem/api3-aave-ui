@@ -30,7 +30,7 @@ export class WalletBalanceService implements Hashable {
   constructor(
     provider: Provider,
     walletBalanceProviderAddress: string,
-    public readonly chainId: number
+    public readonly chainId: number,
   ) {
     if (!walletBalanceProviderAddress) {
       return;
@@ -50,7 +50,7 @@ export class WalletBalanceService implements Hashable {
         governanceConfig.aaveTokenAddress,
         governanceConfig.aAaveTokenAddress,
         governanceConfig.stkAaveTokenAddress,
-      ]
+      ],
     );
     return {
       aave: normalize(balances[0].toString(), 18),
@@ -63,10 +63,13 @@ export class WalletBalanceService implements Hashable {
     user,
     lendingPoolAddressProvider,
   }: GetPoolWalletBalances): Promise<UserPoolTokensBalances[]> {
+    if (!lendingPoolAddressProvider || !user) {
+      return [];
+    }
     const { 0: tokenAddresses, 1: balances } =
       await this.walletBalanceService.getUserWalletBalancesForLendingPoolProvider(
         user,
-        lendingPoolAddressProvider
+        lendingPoolAddressProvider,
       );
     const mappedBalances = tokenAddresses.map((address, ix) => ({
       address: address.toLowerCase(),

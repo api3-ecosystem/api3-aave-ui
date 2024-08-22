@@ -101,7 +101,9 @@ export function FormattedNumber({
   compactThreshold,
   ...rest
 }: FormattedNumberProps) {
-  const number = percent ? Number(value) * 100 : Number(value);
+  const number = percent
+    ? Number(!value ? 0 : value) * 100
+    : Number(!value ? 0 : value);
 
   let decimals: number = visibleDecimals ?? 3;
   if (number === 0) {

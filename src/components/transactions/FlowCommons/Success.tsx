@@ -16,6 +16,7 @@ import { Base64Token, TokenIcon } from "src/components/primitives/TokenIcon";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import LinkIcon from "@mui/icons-material/Link";
+import { populateChainConfigs } from "configuration";
 
 export type SuccessTxViewProps = {
   txHash?: string;
@@ -51,6 +52,9 @@ export const TxSuccessView = ({
   const { currentNetworkConfig } = useProtocolDataContext();
   const [base64, setBase64] = useState("");
   const theme = useTheme();
+
+  const compoundConfig = populateChainConfigs();
+  const isCompound = compoundConfig.currentMarket === "compound";
 
   return (
     <>
@@ -94,7 +98,7 @@ export const TxSuccessView = ({
             textAlign: "center",
           }}
         >
-          {action && amount && symbol && (
+          {action && amount && symbol && !isCompound && (
             <Typography>
               <div>
                 You {action}{" "}
