@@ -36,6 +36,7 @@ export interface SupplyActionProps extends BoxProps {
   symbol: string;
   blocked: boolean;
   decimals: number;
+  modalTitle?: string;
 }
 
 interface SignedParams {
@@ -52,6 +53,7 @@ export const SupplyActions = ({
   symbol,
   blocked,
   decimals,
+  modalTitle,
   ...props
 }: SupplyActionProps) => {
   const [
@@ -335,7 +337,11 @@ export const SupplyActions = ({
       amount={amountToSupply}
       symbol={symbol}
       preparingTransactions={loadingTxns}
-      actionText={<div>Supply {symbol}</div>}
+      actionText={
+        <div>
+          {modalTitle} {symbol}
+        </div>
+      }
       actionInProgressText={<div>Supplying {symbol}</div>}
       handleApproval={() => approval()}
       handleAction={action}

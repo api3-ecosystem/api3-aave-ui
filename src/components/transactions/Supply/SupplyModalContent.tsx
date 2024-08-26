@@ -45,6 +45,7 @@ export const SupplyModalContent = ({
   isWrongNetwork,
   nativeBalance,
   tokenBalance,
+  modalTitle,
 }: ModalWrapperProps) => {
   const { marketReferencePriceInUsd, user, compoundState } =
     useAppDataContext();
@@ -66,7 +67,29 @@ export const SupplyModalContent = ({
   const supplyUnWrapped =
     underlyingAsset.toLowerCase() === API_ETH_MOCK_ADDRESS.toLowerCase();
 
-  const walletBalance = supplyUnWrapped ? nativeBalance : tokenBalance;
+  console.log("supply modal ", { tokenBalance });
+
+  const isBaseBorrowed = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.borrowedInBase) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.borrowedInBase > 0
+      ? true
+      : false;
+  }, [compoundState]);
+
+  const baseBorrowed = useMemo(() => {
+    return compoundState?.assetInfo?.baseInfo?.borrowedInBase;
+  }, [compoundState]);
+
+  const currBal = isCompound
+    ? isBaseBorrowed
+      ? baseBorrowed
+      : tokenBalance
+    : tokenBalance;
+
+  const walletBalance = supplyUnWrapped ? nativeBalance : currBal;
 
   const supplyApy = poolReserve?.supplyAPY;
   const {
@@ -305,7 +328,7 @@ export const SupplyModalContent = ({
         balanceText={assetInputBalanceText}
         event={assetInputEvent}
         isCompound={isCompound}
-        tokenBalance={tokenBalance}
+        tokenBalance={currBal}
       />
 
       {/* Transaction Modal Details */}
@@ -348,7 +371,7 @@ export const SupplyModalContent = ({
       {txError && <GasEstimationError txError={txError} />}
 
       {/* Supply Actions */}
-      <SupplyActions {...supplyActionsProps} />
+      <SupplyActions {...supplyActionsProps} modalTitle={modalTitle} />
     </>
   );
 };

@@ -136,6 +136,38 @@ export const BorrowModalContent = ({
     underlyingAsset,
     compoundState,
   });
+
+  const isBaseSupplied = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.suppliedFormatted) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+      ? true
+      : false;
+  }, [compoundState]);
+
+  // const isBorrowCapacityAvailable = useMemo(() => {
+  //   if (!compoundState?.assetInfo?.baseInfo?.borrowCapacityBase) {
+  //     return false;
+  //   }
+
+  //   return compoundState?.assetInfo?.baseInfo?.borrowCapacityBase > 0
+  //     ? true
+  //     : false;
+  // }, [compoundState]);
+
+  // const isBaseBorrowed = useMemo(() => {
+  //   if (!compoundState?.assetInfo?.baseInfo?.borrowedInBase) {
+  //     return false;
+  //   }
+
+  //   return compoundState?.assetInfo?.baseInfo?.borrowedInBase > 0
+  //     ? true
+  //     : false;
+  // }, [compoundState]);
+
+  // supplied usdc amount or usdc borrow capacity
   const compoundSupplied = useMemo(() => {
     if (!compoundState?.assets) {
       return {};
@@ -144,7 +176,10 @@ export const BorrowModalContent = ({
     if (compoundState?.assetInfo?.baseInfo?.address === underlyingAsset) {
       //: todo fix display usdc supplied  or usdc borrow capacity
 
-      // return compoundState?.assetInfo?.baseInfo?.suppliedFormatted;
+      if (isBaseSupplied) {
+        return compoundState?.assetInfo?.baseInfo?.suppliedFormatted;
+      }
+
       return compoundState?.assetInfo?.baseInfo?.borrowCapacityBase;
     }
 
@@ -154,7 +189,7 @@ export const BorrowModalContent = ({
     return asset;
 
     // return compoundState?.assetInfo?.baseInfo?.suppliedFormatted;
-  }, [compoundState, underlyingAsset]);
+  }, [compoundState, underlyingAsset, isBaseSupplied]);
 
   // amount calculations
   const maxAmountToBorrow = isCompound

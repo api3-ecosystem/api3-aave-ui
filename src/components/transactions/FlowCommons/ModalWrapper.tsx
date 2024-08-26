@@ -30,6 +30,7 @@ export interface ModalWrapperProps {
   nativeBalance: string;
   isWrongNetwork: boolean;
   action?: string;
+  modalTitle?: string;
 }
 
 export const ModalWrapper: React.FC<{

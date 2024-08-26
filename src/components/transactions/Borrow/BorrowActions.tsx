@@ -9,9 +9,12 @@ import {
 import { BoxProps } from "@mui/material";
 import { parseUnits } from "ethers/lib/utils";
 import { queryClient } from "pages/_app";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useBackgroundDataProvider } from "src/hooks/app-data-provider/BackgroundDataProvider";
-import { ComputedReserveData } from "src/hooks/app-data-provider/useAppDataProvider";
+import {
+  ComputedReserveData,
+  useAppDataContext,
+} from "src/hooks/app-data-provider/useAppDataProvider";
 import { useModalContext } from "src/hooks/useModal";
 import { useRootStore } from "src/store/root";
 import { getErrorTextFromError, TxAction } from "src/ui-config/errorMapping";
@@ -32,6 +35,7 @@ export interface BorrowActionsProps extends BoxProps {
   isWrongNetwork: boolean;
   symbol: string;
   blocked: boolean;
+  isMax?: boolean;
 }
 
 export const BorrowActions = ({
@@ -247,7 +251,34 @@ export const BorrowActions = ({
     setGasLimit(borrowGasLimit.toString());
   }, [requiresApproval, approvalTxState, setGasLimit]);
 
-  const modalTitle = isCompound ? "Withdraw" : "Borrow";
+  // const modalTitle = isCompound ? "Withdraw" : "Borrow";
+  const { compoundState } = useAppDataContext();
+
+  const isBaseSupplied = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.suppliedFormatted) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+      ? true
+      : false;
+  }, [compoundState]);
+
+  const isBorrowCapacityAvailable = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.borrowCapacityBase) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.borrowCapacityBase > 0
+      ? true
+      : false;
+  }, [compoundState]);
+
+  const modalTitle = isCompound
+    ? poolAddress === compoundMarket.marketAsset && !isBaseSupplied
+      ? "Borrow"
+      : "Withdraw"
+    : "Borrow";
 
   return (
     <TxActionsWrapper

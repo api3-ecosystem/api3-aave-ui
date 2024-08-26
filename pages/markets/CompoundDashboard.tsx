@@ -26,13 +26,35 @@ export default function CompoundDashboard() {
     openBorrow(usdc, currentMarket, "USDC", "reserve", true);
   };
 
-  const isCollateralSupplied = useMemo(() => {
-    return false;
-  }, []);
+  const isBaseSupplied = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.suppliedFormatted) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+      ? true
+      : false;
+  }, [compoundState]);
+
+  const isBorrowCapacityAvailable = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.borrowCapacityBase) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.borrowCapacityBase > 0
+      ? true
+      : false;
+  }, [compoundState]);
 
   const isBaseBorrowed = useMemo(() => {
-    return false;
-  }, []);
+    if (!compoundState?.assetInfo?.baseInfo?.borrowedInBase) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.borrowedInBase > 0
+      ? true
+      : false;
+  }, [compoundState]);
 
   return (
     <section>
@@ -47,12 +69,14 @@ export default function CompoundDashboard() {
           <div className="ml-5 min-w-max">
             <button
               onClick={onSupplyClicked}
-              disabled={isCollateralSupplied && !isBaseBorrowed ? true : false}
+              disabled={
+                isBorrowCapacityAvailable && !isBaseSupplied && !isBaseBorrowed
+              }
               // disabled={disable}
               data-cy="supplybutton"
               className="button whisper-voice mr-2"
             >
-              {isCollateralSupplied ? "Repay USDC" : "Supply USDC"}
+              {isBaseSupplied ? "Supply USDC" : "Repay USDC"}
             </button>
             <button
               onClick={onBorrowClicked}
@@ -60,7 +84,7 @@ export default function CompoundDashboard() {
               data-cy="supplybutton"
               className="button whisper-voice"
             >
-              {isCollateralSupplied ? "Borrow USDC" : "Withdraw USDC"}
+              {isBaseSupplied ? "Withdraw USDC" : "Borrow USDC"}
             </button>
           </div>
         </div>
@@ -108,10 +132,16 @@ export default function CompoundDashboard() {
             </p>
           </div>
           <div className="summary-card">
-            <h3 className="teaser-voice">USDC Supplied</h3>
+            <h3 className="teaser-voice">
+              {isBaseSupplied ? "USDC Supplied" : "USDC Borrowed"}
+            </h3>
             <p className="attention-voice ">
               <FormattedNumber
-                value={compoundState?.assetInfo?.baseInfo?.suppliedFormatted}
+                value={
+                  isBaseSupplied
+                    ? compoundState?.assetInfo?.baseInfo?.suppliedFormatted
+                    : compoundState?.assetInfo?.baseInfo?.borrowedInBase
+                }
                 symbol="USDC"
                 visibleDecimals={2}
               />

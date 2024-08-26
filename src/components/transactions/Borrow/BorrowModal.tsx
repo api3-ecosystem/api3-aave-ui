@@ -1,6 +1,6 @@
 import { PERMISSION } from "contract-helpers";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ModalContextType,
   ModalType,
@@ -15,6 +15,7 @@ import { BorrowModalContent } from "./BorrowModalContent";
 import { GhoBorrowModalContent } from "./GhoBorrowModalContent";
 import { useChainId } from "wagmi";
 import { populateChainConfigs, populateCompoundMarket } from "configuration";
+import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvider";
 
 export const BorrowModal = () => {
   const { type, close, args } = useModalContext() as ModalContextType<{
@@ -23,6 +24,7 @@ export const BorrowModal = () => {
   }>;
   const { currentMarket } = useProtocolDataContext();
   const chainId = useChainId();
+  const { compoundState } = useAppDataContext();
 
   const [borrowUnWrapped, setBorrowUnWrapped] = useState(true);
   const [displayGho] = useRootStore((store) => [store.displayGho]);
@@ -32,11 +34,23 @@ export const BorrowModal = () => {
   };
   const chainConfig = populateChainConfigs();
   const compoundMarket = populateCompoundMarket();
-  const isCompound = (chainConfig.currentMarket = "compound" ? true : false);
+  const isCompound = chainConfig.currentMarket === "compound" ? true : false;
+
+  const isBaseSupplied = useMemo(() => {
+    if (!compoundState?.assetInfo?.baseInfo?.suppliedFormatted) {
+      return false;
+    }
+
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+      ? true
+      : false;
+  }, [compoundState]);
 
   const modalTitle = isCompound
     ? args.underlyingAsset === compoundMarket.marketAsset
-      ? "Withdraw"
+      ? isBaseSupplied
+        ? "Withdraw"
+        : "Borrow"
       : "Withdraw"
     : "Borrow";
   return (
