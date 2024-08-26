@@ -69,14 +69,12 @@ export default function CompoundDashboard() {
           <div className="ml-5 min-w-max">
             <button
               onClick={onSupplyClicked}
-              disabled={
-                isBorrowCapacityAvailable && !isBaseSupplied && !isBaseBorrowed
-              }
+              disabled={false}
               // disabled={disable}
               data-cy="supplybutton"
               className="button whisper-voice mr-2"
             >
-              {isBaseSupplied ? "Supply USDC" : "Repay USDC"}
+              {isBaseBorrowed ? "Repay USDC" : "Supply USDC"}
             </button>
             <button
               onClick={onBorrowClicked}

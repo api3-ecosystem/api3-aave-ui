@@ -142,7 +142,7 @@ export const BorrowModalContent = ({
       return false;
     }
 
-    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0.0001
       ? true
       : false;
   }, [compoundState]);

@@ -259,7 +259,7 @@ export const BorrowActions = ({
       return false;
     }
 
-    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0
+    return compoundState?.assetInfo?.baseInfo?.suppliedFormatted > 0.001
       ? true
       : false;
   }, [compoundState]);
