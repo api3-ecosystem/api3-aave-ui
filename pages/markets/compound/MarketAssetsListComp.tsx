@@ -6,6 +6,8 @@ import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
 import { formatUnits } from "viem";
 import { useModalContext } from "src/hooks/useModal";
 import { populateCompoundMarket } from "configuration";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 type MarketAssetsListProps = {
   reserves: ComputedReserveData[];
@@ -16,8 +18,15 @@ function MarketItem({ reserve }: any) {
   const { openSupply, openBorrow } = useModalContext();
   const { currentMarket, currentNetworkConfig } = useProtocolDataContext();
   const compoundMarket = populateCompoundMarket();
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
 
   const onSupplyClicked = () => {
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
+
     openSupply(
       reserve?.asset?.address,
       currentMarket,
@@ -28,6 +37,11 @@ function MarketItem({ reserve }: any) {
   };
 
   const onBorrowClicked = () => {
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
+
     openBorrow(
       reserve?.asset?.address,
       currentMarket,

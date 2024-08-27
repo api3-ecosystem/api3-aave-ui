@@ -101,7 +101,6 @@ const AppDataContext = React.createContext<AppDataContextType>(
 export const AppDataProvider: React.FC = ({ children }) => {
   const currentTimestamp = useCurrentTimestamp(5);
   const { address: currentAccount } = useWeb3();
-  console.log("current account AppDataProvider", currentAccount);
   const { currentMarket } = useProtocolDataContext();
   const [
     reserves,

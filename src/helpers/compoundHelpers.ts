@@ -147,12 +147,17 @@ export async function getTokenAprovalAmount(
   tokenAddresses: string,
   provider: any,
 ) {
-  const erc20Contract = new Contract(tokenAddresses, erc20ABI, provider);
-  const [allowance, decimals] = await Promise.all([
-    erc20Contract.allowance(account, spender),
-    erc20Contract.decimals(),
-  ]);
-  return formatUnits(allowance.toString(), decimals);
+  try {
+    const erc20Contract = new Contract(tokenAddresses, erc20ABI, provider);
+    const [allowance, decimals] = await Promise.all([
+      erc20Contract.allowance(account, spender),
+      erc20Contract.decimals(),
+    ]);
+    return formatUnits(allowance.toString(), decimals);
+  } catch (error) {
+    console.log("getTokenApproval amount ", error);
+    return 0;
+  }
 }
 
 export async function getApprovalTransactionData(
@@ -170,7 +175,7 @@ export async function getApprovalTransactionData(
   } catch (error) {
     console.log("compound getApprovalTransactionData error ", error);
 
-    return error;
+    return {};
   }
 }
 
@@ -221,29 +226,34 @@ export async function getTokenInfo(
   const erc20Contract = new Contract(address, erc20ABI, provider);
   const comet = new Contract(compoundMarket.comet, cometABI, provider);
 
-  const [name, symbol, decimals, balance, supplied] = await Promise.all([
-    erc20Contract.name(),
-    erc20Contract.symbol(),
-    erc20Contract.decimals(),
-    erc20Contract.balanceOf(account),
-    address === compoundMarket.USDC
-      ? comet.userBasic(account)
-      : comet.userCollateral(account, address),
-  ]);
-  // console.log("info test ", { name, symbol, decimals, balance, supplied });
-
-  return {
-    name,
-    symbol,
-    decimals,
-    address,
-    balance: balance.toString(),
-    formatBalance: formatUnits(balance.toString(), decimals),
-    supplied:
+  try {
+    const [name, symbol, decimals, balance, supplied] = await Promise.all([
+      erc20Contract.name(),
+      erc20Contract.symbol(),
+      erc20Contract.decimals(),
+      erc20Contract.balanceOf(account),
       address === compoundMarket.USDC
-        ? formatUnits(supplied?.principal?.toString(), decimals)
-        : formatUnits(supplied?.balance?.toString(), decimals),
-  };
+        ? comet.userBasic(account)
+        : comet.userCollateral(account, address),
+    ]);
+    // console.log("info test ", { name, symbol, decimals, balance, supplied });
+
+    return {
+      name,
+      symbol,
+      decimals,
+      address,
+      balance: balance.toString(),
+      formatBalance: formatUnits(balance.toString(), decimals),
+      supplied:
+        address === compoundMarket.USDC
+          ? formatUnits(supplied?.principal?.toString(), decimals)
+          : formatUnits(supplied?.balance?.toString(), decimals),
+    };
+  } catch (error) {
+    console.log("getTokenInfo error ", error);
+    return {};
+  }
 }
 
 export async function getSupplyAPR(comet: any) {

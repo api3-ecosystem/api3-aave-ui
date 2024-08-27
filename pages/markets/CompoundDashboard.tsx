@@ -1,3 +1,4 @@
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { populateCompoundMarket } from "configuration";
 import React, { useEffect, useMemo } from "react";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
@@ -6,21 +7,33 @@ import { getLiquidationRisk } from "src/helpers/compoundHelpers";
 import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvider";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
+import { useAccount, useConnect } from "wagmi";
 
 export default function CompoundDashboard() {
   const { openSupply, openBorrow, openWithdraw } = useModalContext();
 
   const compoundMarket = populateCompoundMarket();
-  const { currentMarket, currentNetworkConfig } = useProtocolDataContext();
-  const { compoundState, user } = useAppDataContext();
+  const { currentMarket } = useProtocolDataContext();
+  const { compoundState } = useAppDataContext();
+  const { isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
 
   const onSupplyClicked = () => {
     const usdc = compoundMarket.marketAsset;
 
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
     openSupply(usdc, currentMarket, "USDC", "reserve", true);
   };
 
   const onBorrowClicked = () => {
+    if (!isConnected) {
+      openConnectModal?.();
+      return;
+    }
+
     // withdraw usdc
     const usdc = compoundMarket.marketAsset;
     openBorrow(usdc, currentMarket, "USDC", "reserve", true);
