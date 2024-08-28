@@ -1,221 +1,8 @@
 {
   "currentMarket": "compound",
-  "aave": {
-    "config": {
-      "assets": [
-        {
-          "assetName": "Wrapped Bitcoin",
-          "assetSymbol": "WBTC",
-          "pairName": "WBTC/USDC",
-          "proxyAddress": "0x73AB44615772a0d31dB48A87d7F4F81a3601BceB"
-        },
-        {
-          "assetName": "Mock API3",
-          "assetSymbol": "API3",
-          "pairName": "API3/USDC",
-          "proxyAddress": "0x97A076AB5C96FA28E6Cc4929AdBF1e75D6A9cb72"
-        },
-        {
-          "assetName": "Mock Arb",
-          "assetSymbol": "ARB",
-          "pairName": "ARB/USDC",
-          "proxyAddress": "0x10D9b183FCcFDA464e9fbfC2D373A70f6AA3B1Fe"
-        },
-        {
-          "assetName": "Mock Matic",
-          "assetSymbol": "MATIC",
-          "pairName": "MATIC/USDC",
-          "proxyAddress": "0x0560DD0c967750d1e2152d3B4EEf7F16E80F9ba8"
-        }
-      ],
-      "EthUsdProxyAddress": "0xa47Fd122b11CdD7aad7c3e8B740FB91D83Ce43D1",
-      "UsdcUsdProxyAddress": "0xa790a882bB695D0286C391C0935a05c347290bdB",
-      "network": {
-        "chainId": 421614,
-        "name": "Arbitrum Sepolia",
-        "rpc": "https://intensive-fragrant-forest.arbitrum-sepolia.quiknode.pro/a048826a2ae0887e58d6397151328bce09fe7f30/",
-        "nativeCurrency": {
-          "name": "Ether",
-          "symbol": "ETH",
-          "wrapped": "WETH",
-          "decimals": 18
-        },
-        "explorerLink": "https://sepolia.arbiscan.io"
-      }
-    },
-    "deployed-contracts": {
-      "LendingPoolAddressesProviderRegistry": {
-        "custom": {
-          "address": "0xd0420971deE91e4e56392F9c13d504AF74426DDE",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "LendingPoolAddressesProvider": {
-        "custom": {
-          "address": "0x07E8Be3643A4CAbF17a06bA28057DaC550Be4DaB",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "ReserveLogic": {
-        "custom": {
-          "address": "0x3F2eA0452C01d793f2551809Fa1668Fa7507202c",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "GenericLogic": {
-        "custom": {
-          "address": "0x88B64AD30498F87EF0428ACb62eB2336ed9ad8A5",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "ValidationLogic": {
-        "custom": {
-          "address": "0x0ed7bBd2442e045d07D2BF14cBBa9f951f622b5b",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "LendingPoolImpl": {
-        "custom": {
-          "address": "0x3355791DeeC854a96dA2e962E63417757D212394"
-        }
-      },
-      "LendingPool": {
-        "custom": {
-          "address": "0x2eC72aE78aa2443a7BF8fA3252919a8727266CaD"
-        }
-      },
-      "LendingPoolConfiguratorImpl": {
-        "custom": {
-          "address": "0x84F88D0E1B8F2C7715168CCFCa4Ca651113397ca"
-        }
-      },
-      "LendingPoolConfigurator": {
-        "custom": {
-          "address": "0x2b9964eDb3b9518684194039e81B2f78Ff463334"
-        }
-      },
-      "StableAndVariableTokensHelper": {
-        "custom": {
-          "address": "0x3823718e112168F07963fB575beE9A66522B655f",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "ATokensAndRatesHelper": {
-        "custom": {
-          "address": "0xd31a0F46AA3F2797e69B0a0b0C2d88780Cb4CA94",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "AToken": {
-        "custom": {
-          "address": "0x07e26CA09F8FeA6714A7E64ED3515aef2130cC30",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "DelegationAwareAToken": {
-        "custom": {
-          "address": "0x9CDBfE1d1B575113609E212F3777fF2A213F2A27",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "StableDebtToken": {
-        "custom": {
-          "address": "0xDBd62Bbe3635261A236BaAaCa6Ac0a840F298B00",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "VariableDebtToken": {
-        "custom": {
-          "address": "0xB4a1646D0c872B020a656723DD13612c7e776108",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "AaveOracle": {
-        "custom": {
-          "address": "0x02E723aDaF02475AF2BACDa923D35706b4c90D69",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "LendingRateOracle": {
-        "custom": {
-          "address": "0x1713EA8A38451abCa5D7A7AB9bd0c18BF97e308d",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "AaveProtocolDataProvider": {
-        "custom": {
-          "address": "0x7670AE89328D37fE17aD2EBaE6C51e6279B63b98",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "WETHMocked": {
-        "custom": {
-          "address": "0x347ae989F185be56C2f83FD9e1FED9AAB8278717",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "WETHGateway": {
-        "custom": {
-          "address": "0x532D1953B697cfed8fE11fBb83f349B2849313e4",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "DefaultReserveInterestRateStrategy": {
-        "custom": {
-          "address": "0xC8500f1A1F58Fe196682E9111Dd174AbF77E0A82",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "rateStrategyStableThree": {
-        "custom": {
-          "address": "0x1be59DB1c24150F5c572BF242D03A93cFC96e342"
-        }
-      },
-      "rateStrategyWETH": {
-        "custom": {
-          "address": "0x7140b2c9a6c5C24207cb811DD4B5aBA8De194702"
-        }
-      },
-      "rateStrategyVolatileTwo": {
-        "custom": {
-          "address": "0xC8500f1A1F58Fe196682E9111Dd174AbF77E0A82"
-        }
-      },
-      "LendingPoolCollateralManagerImpl": {
-        "custom": {
-          "address": "0xde6E48295C73E432774e8133c39f9e7C8A937479"
-        }
-      },
-      "LendingPoolCollateralManager": {
-        "custom": {
-          "address": "0xde6E48295C73E432774e8133c39f9e7C8A937479",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "WalletBalanceProvider": {
-        "custom": {
-          "address": "0xdaF92e3b1a93e0B70Ffd2710013F3D889155af37",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "UiPoolDataProvider": {
-        "custom": {
-          "address": "0x925eFE8Bd5b492Fe843e824b098958419ec37b62",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      },
-      "UiIncentiveDataProviderV2V3": {
-        "custom": {
-          "address": "0x97AC14EF3C5792658640d5680A85673BE25BD3F8",
-          "deployer": "0xF23f8f87c5654d31c7Ed8d11C448cC2B2A6fC58E"
-        }
-      }
-    }
-  },
   "compound": {
     "config": {
-      "baseToken": "",
-      "rewardToken": "",
+      "baseToken": "0x149e2e6348A7641373C4288fc6065446c99e87F2",
       "network": {
         "chainId": 11155111,
         "name": "ETH Sepolia",
@@ -230,28 +17,33 @@
       }
     },
     "deployed-contracts": {
-      "fauceteer": "0x1591D0b23174d874eA3c00A401Ed40B8f6f406e4",
-      "timelock": "0x529b627C260812b29f6a282345E5B140f1f7A927",
-      "COMP": "0xa00C08439595a685b3696CB322F3FAAdbd4F4eD0",
-      "governor:implementation": "0x8c7fba1C054bAE7745feC3ee8E2486deA78d57A7",
-      "governor": "0x4D87F098a261FE0537Da0bCfE2D9c74a05F94F56",
-      "WBTC": "0x87ea1Ba65F51b96Cc5aebE8cf3Ef6377F3E48ef7",
-      "WETH": "0x8F7863D888752cb312385433f9caeA921217B7A9",
-      "USDC": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-      "cometAdmin": "0x2fBe3d5Cba1A43804c1365db89ba76397673A76b",
-      "comet:implementation:implementation": "0x472A828d413caac050b39E05CC3E23713d694F50",
-      "cometFactory": "0x5D777A696CC1853a431C8D6A6a6e173304C6DaC4",
-      "comet:implementation": "0x17B92aD13924C377Af1915d60Fb35bF3DDe77ed1",
-      "comet": "0xf1321d893722b66680Ebb2CA56Ea0549A6557e74",
-      "configurator:implementation": "0xF13f86a8100BCBA5C1b1EAa21e3A8847fD3d89A1",
-      "configurator": "0x6bEf3B20d32E1dce94A1f2dFC2391f90887d4fE0",
-      "rewards": "0x0A8c044ae869a509AF681c2ba9e0f3561f230e02",
-      "bulker": "0x77c9Fe5a6721A3bC8DDbD1AE271cef58a1efE9b3",
+      "comet": "0x606720e0109Da235c31CE7eF60ab2B6a2C7c4d65",
+      "comet:implementation": "0xc20D7de5D219776388313bb0B0Cd98990b7ee4C1",
+      "comet:implementation:implementation": "0x087DF2F83b5AD3E5b1c611D015385b47688d9B80",
+      "USDC": "0x149e2e6348A7641373C4288fc6065446c99e87F2",
+      "USDC:priceFeed": "0xB16d6e5b8FA4F7D30C80625f00fA7cc03C15D093",
+      "COMP": "0x748293ed983964255E68ffc54b60fc09C7A53D70",
+      "WBTC": "0xc311e1B80702477831dac8c42D62757cf0E5D94e",
+      "WETH": "0x896B2aD8DfB1719E239E075C0C271E5547b23Cbd",
+      "COMP:priceFeed": "0x647543D606C03fF5e2B0EaB90cABc154d8799c66",
+      "WBTC:priceFeed": "0x46D41173310c8DE12f478C6151626A316AfE7de3",
+      "WETH:priceFeed": "0x4381865577687d8b61bbC8369Fe8BfA1bb6B3D54",
+      "cometAdmin": "0x81b11367C34B7bE3603CB13b2dfBF6bDE85186c0",
+      "timelock": "0x2b1062cc72Bdb50c9aF60dB4EA49377b0C00831e",
+      "governor": "0xa15259712Dd58D80f6aadB22189a2624Ee05C09F",
+      "governor:implementation": "0x3CAA666514d17D22Ae2fC169e879B636400fB7d6",
+      "configurator": "0x639e76Fe741174F0b465bf745999a39F4DA3CaBC",
+      "configurator:implementation": "0x2E39530015E8Cf8E4AdE4EE7993BE1A39cfD2B9e",
+      "configuratorAdmin": "0x81b11367C34B7bE3603CB13b2dfBF6bDE85186c0",
+      "cometFactory": "0xD802E2565b37A06F981b112595240Ee00E1A7a41",
+      "rewards": "0x84554b6EDa9EA2e33b1E615850f842Fc72b1049d",
+      "fauceteer": "0x8E1AD0BE8314FEE7054b51d3c684f17cc57720aD",
+      "bulker": "0x26eb67f98d02B9B4FA5A53cB77976079A0712598",
       "priceFeeds": {
-        "USDC": "0x683Ae71AFB633385e64a7968435210d1aadbe29D",
-        "WBTC": "0x5EF17889992f6d9daCEb03db9822AA5b6fDd6713",
-        "COMP": "0x302C053a2139Ee9028b500E7da056B6b4169B4Fa",
-        "WETH": "0x132e2459498CFfb3f767d508066bf1dF0549D59C"
+        "COMP": "0x647543D606C03fF5e2B0EaB90cABc154d8799c66",
+        "WBTC": "0x46D41173310c8DE12f478C6151626A316AfE7de3",
+        "WETH": "0x4381865577687d8b61bbC8369Fe8BfA1bb6B3D54",
+        "USDC": "0xB16d6e5b8FA4F7D30C80625f00fA7cc03C15D093"
       }
     }
   }

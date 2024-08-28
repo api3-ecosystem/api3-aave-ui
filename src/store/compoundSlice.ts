@@ -14,6 +14,7 @@ import {
   getBaseAssetSupply,
   getBorrowAPR,
   getBorrowCapacity,
+  getLiquidationRisk,
   getPrices,
   getSupplyAPR,
   getTokenInfo,
@@ -167,6 +168,11 @@ export const createCompoundSlice: StateCreator<
       });
 
       console.log("comet data ", { formattedAssets });
+      // calculate liquidation risk
+      const liquidationRisk = getLiquidationRisk(
+        formattedAssets,
+        borrowInfo?.borrowedInBase,
+      );
 
       // calculate aprs
 
@@ -176,6 +182,7 @@ export const createCompoundSlice: StateCreator<
           supplyAPR,
           borrowAPR,
           totalReserves,
+          liquidationRisk,
           baseInfo: {
             ...usdcInfo,
             suppliedFormatted: formatUnits(

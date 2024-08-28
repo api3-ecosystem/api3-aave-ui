@@ -3,7 +3,6 @@ import { populateCompoundMarket } from "configuration";
 import React, { useEffect, useMemo } from "react";
 import { FormattedNumber } from "src/components/primitives/FormattedNumber";
 import SymbolIcon from "src/components/SymbolIcon";
-import { getLiquidationRisk } from "src/helpers/compoundHelpers";
 import { useAppDataContext } from "src/hooks/app-data-provider/useAppDataProvider";
 import { useModalContext } from "src/hooks/useModal";
 import { useProtocolDataContext } from "src/hooks/useProtocolDataContext";
@@ -162,11 +161,7 @@ export default function CompoundDashboard() {
             <h3 className="teaser-voice">Liquidation Risk </h3>
             <p className="attention-voice ">
               <FormattedNumber
-                value={getLiquidationRisk(
-                  compoundState?.assetInfo?.baseInfo?.borrowCapacityBase,
-                  compoundState?.assetInfo?.baseInfo?.borrowedInBase,
-                )}
-                symbol="%"
+                value={compoundState?.assetInfo?.liquidationRisk}
                 visibleDecimals={2}
               />
             </p>

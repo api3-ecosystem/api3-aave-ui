@@ -344,11 +344,42 @@ export async function compRewardApr(comet: any) {
   }
 }
 
-export const getLiquidationRisk = (capacity: string, borrowed: string) => {
-  if (!capacity || Number(capacity) === 0) {
+function normalizeValue(value: number, minValue: number, maxValue: number) {
+  if (minValue === maxValue) {
+    console.log("Min and Max values cannot be the same.");
     return 0;
   }
 
-  const liquidationRiskPercent = (Number(borrowed) / Number(capacity)) * 100;
-  return liquidationRiskPercent;
+  const normalizedValue = (value - minValue) / (maxValue - minValue);
+  return normalizedValue;
+}
+
+export const getLiquidationRisk = (
+  collaterals: any[],
+  borrowed: string,
+): number => {
+  if (collaterals.length === 0) {
+    return 0;
+  }
+
+  const collateralUsdValues = collaterals.map((collateral: any) => {
+    return (
+      (collateral?.asset?.supplied *
+        collateral?.asset?.price *
+        Number(formatUnits(collateral?.borrowCollateralFactor, 16))) /
+      100
+    );
+  });
+  const totalBororwCapacity = collateralUsdValues.reduce(
+    (sum, curr) => sum + curr,
+    0,
+  );
+
+  if (!totalBororwCapacity || totalBororwCapacity <= 0) {
+    return 0;
+  }
+
+  const liquidationRiskPercent = Number(borrowed) / totalBororwCapacity;
+
+  return normalizeValue(liquidationRiskPercent, 0, 1);
 };
