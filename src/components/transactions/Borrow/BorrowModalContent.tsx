@@ -345,6 +345,7 @@ export const BorrowModalContent = ({
         capType={CapType.borrowCap}
         isMaxSelected={isMaxSelected}
         maxValue={maxAmountToBorrow}
+        isCompound={isCompound}
         balanceText={<div>Available</div>}
         event={{
           eventName: GENERAL.MAX_INPUT_SELECTION,

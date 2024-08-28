@@ -318,25 +318,27 @@ export const AssetInput = <T extends Asset = Asset>({
         </Box>
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="teaser-voice">value</p>
-        {/* Display USD value */}
-        {loading ? (
-          <Box sx={{ flex: 1 }} />
-        ) : (
-          <p className="solid-voice">
-            <FormattedNumber
-              value={isNaN(Number(usdValue)) ? 0 : Number(usdValue)}
-              compact
-              symbol="USD"
-              variant="secondary12"
-              color="text.muted"
-              symbolsColor="text.muted"
-              flexGrow={1}
-            />
-          </p>
-        )}
-      </div>
+      {!isCompound && (
+        <div className="flex items-center justify-between">
+          <p className="teaser-voice">value</p>
+          {/* Display USD value */}
+          {loading ? (
+            <Box sx={{ flex: 1 }} />
+          ) : (
+            <p className="solid-voice">
+              <FormattedNumber
+                value={isNaN(Number(usdValue)) ? 0 : Number(usdValue)}
+                compact
+                symbol="USD"
+                variant="secondary12"
+                color="text.muted"
+                symbolsColor="text.muted"
+                flexGrow={1}
+              />
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
